@@ -426,6 +426,15 @@ a {
     transform: translateY(-1px);
 }
 
+/* Ensure Maps tab gets same hover effect */
+.desktop-header a[href*="maps.google.com"]:hover,
+.desktop-header a[href*="maps"]:hover {
+    color: #202124 !important;
+    background-color: rgba(60, 64, 67, 0.08) !important;
+    border-radius: 8px !important;
+    transform: translateY(-1px) !important;
+}
+
 /* Add subtle bottom border animation on hover */
 .desktop-header a:hover::after {
     content: '';
@@ -438,6 +447,22 @@ a {
     background-color: #dadce0;
     border-radius: 1px;
     animation: borderSlideIn 0.2s ease-out;
+}
+
+/* Ensure Maps tab also gets the hover border effect */
+.desktop-header a[href*="maps.google.com"]:hover::after,
+.desktop-header a[href*="maps"]:hover::after {
+    content: '' !important;
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 80% !important;
+    height: 2px !important;
+    background-color: #dadce0 !important;
+    border-radius: 1px !important;
+    animation: borderSlideIn 0.2s ease-out !important;
+    display: block !important;
 }
 
 @keyframes borderSlideIn {
