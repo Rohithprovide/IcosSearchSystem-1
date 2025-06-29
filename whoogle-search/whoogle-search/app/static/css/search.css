@@ -88,13 +88,13 @@ audio {
 div[style*="max-width"],
 div[style*="width"],
 div[style*="590px"] {
-    max-width: 900px !important;
+    max-width: 660px !important;
     width: auto !important;
 }
 
 /* Target specific search result containers */
 .g, .tF2Cxc, .MjjYud, .hlcw0c, .IsZvec {
-    max-width: 900px !important;
+    max-width: 650px !important;
     width: 100% !important;
 }
 
@@ -102,7 +102,7 @@ div[style*="590px"] {
 [style*="590px"],
 [style*="max-width: 590px"],
 [style*="max-width:590px"] {
-    max-width: 900px !important;
+    max-width: 650px !important;
     width: auto !important;
 }
 
@@ -111,7 +111,7 @@ div[style*="590px"] {
 #main div,
 .main > div,
 .main div {
-    max-width: 900px !important;
+    max-width: 650px !important;
     width: auto !important;
 }
 
@@ -121,19 +121,16 @@ div[style*="590px"] {
 #search .MjjYud,
 #search > div,
 #search div {
-    max-width: 900px !important;
+    max-width: 650px !important;
     width: 100% !important;
 }
 
-/* Force override all max-width constraints */
-* {
-    max-width: none !important;
-}
+
 
 /* But keep specific containers within reasonable bounds */
 .g, .tF2Cxc, .MjjYud, .hlcw0c, .IsZvec,
 #main, #search, .main, .search {
-    max-width: 900px !important;
+    max-width: 650px !important;
 }
 
 @media (min-width: 801px) {
@@ -143,12 +140,12 @@ div[style*="590px"] {
     
     /* Expand search results area on larger screens */
     .g, .tF2Cxc, .MjjYud, .hlcw0c, .IsZvec {
-        max-width: 1000px !important;
+        max-width: 700px !important;
     }
     
     div[style*="max-width"],
     div[style*="width"] {
-        max-width: 1000px !important;
+        max-width: 700px !important;
     }
 }
 
