@@ -14,13 +14,11 @@
 /* Specifically target Maps links and remove any content or icons */
 a[href*="maps.google.com"] {
     background-image: none !important;
-    background: none !important;
     text-indent: 0 !important;
     position: relative !important;
 }
 
-a[href*="maps.google.com"]::before,
-a[href*="maps.google.com"]::after {
+a[href*="maps.google.com"]::before {
     display: none !important;
     content: "" !important;
     background: none !important;
@@ -38,13 +36,12 @@ a[href*="maps.google.com"]::after {
     background: none !important;
 }
 
-/* Remove background images from all navigation elements */
+/* Remove background images from all navigation elements but preserve hover backgrounds */
 .desktop-header a,
 .desktop-header span,
 .mobile-header a,
 .mobile-header span {
     background-image: none !important;
-    background: none !important;
 }
 
 /* Hide any Google icon fonts or symbols */
