@@ -86,16 +86,23 @@ audio {
 
 
 
-/* Slightly increase search result width without affecting header */
-div[style*="590px"],
-div[style*="max-width: 590px"],
-div[style*="max-width:590px"] {
-    max-width: 650px !important;
+/* Increase search result width significantly without affecting header */
+body div[style*="590px"],
+body div[style*="max-width: 590px"],
+body div[style*="max-width:590px"],
+body div[style*="max-width"] {
+    max-width: 750px !important;
     width: auto !important;
 }
 
-.g, .tF2Cxc, .MjjYud, .hlcw0c, .IsZvec {
-    max-width: 650px !important;
+body .g, body .tF2Cxc, body .MjjYud, body .hlcw0c, body .IsZvec {
+    max-width: 750px !important;
+}
+
+/* Target main search containers */
+body #main > div,
+body #search > div {
+    max-width: 750px !important;
 }
 
 @media (min-width: 801px) {
@@ -103,15 +110,21 @@ div[style*="max-width:590px"] {
         min-width: 736px !important;
     }
     
-    /* Slightly wider on larger screens */
-    div[style*="590px"],
-    div[style*="max-width: 590px"],
-    div[style*="max-width:590px"] {
-        max-width: 680px !important;
+    /* Even wider on larger screens */
+    body div[style*="590px"],
+    body div[style*="max-width: 590px"],
+    body div[style*="max-width:590px"],
+    body div[style*="max-width"] {
+        max-width: 800px !important;
     }
     
-    .g, .tF2Cxc, .MjjYud, .hlcw0c, .IsZvec {
-        max-width: 680px !important;
+    body .g, body .tF2Cxc, body .MjjYud, body .hlcw0c, body .IsZvec {
+        max-width: 800px !important;
+    }
+    
+    body #main > div,
+    body #search > div {
+        max-width: 800px !important;
     }
 }
 

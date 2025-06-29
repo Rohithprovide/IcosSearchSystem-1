@@ -240,6 +240,49 @@
         }
     </style>
     
+    <script>
+        // Force override search result widths with JavaScript
+        function expandSearchResults() {
+            // Find all elements with inline max-width styles
+            const allDivs = document.querySelectorAll('div[style*="max-width"]');
+            allDivs.forEach(div => {
+                const currentStyle = div.getAttribute('style');
+                if (currentStyle && currentStyle.includes('590px')) {
+                    div.style.maxWidth = '750px';
+                    div.style.width = 'auto';
+                }
+            });
+            
+            // Target known search result classes
+            const searchClasses = ['.g', '.tF2Cxc', '.MjjYud', '.hlcw0c', '.IsZvec'];
+            searchClasses.forEach(className => {
+                const elements = document.querySelectorAll(className);
+                elements.forEach(el => {
+                    el.style.maxWidth = '750px';
+                    el.style.width = '100%';
+                });
+            });
+        }
+        
+        // Run immediately
+        expandSearchResults();
+        
+        // Run when DOM is loaded
+        document.addEventListener('DOMContentLoaded', expandSearchResults);
+        
+        // Run after a delay to catch any async content
+        setTimeout(expandSearchResults, 100);
+        setTimeout(expandSearchResults, 500);
+        
+        // Watch for changes
+        const observer = new MutationObserver(expandSearchResults);
+        observer.observe(document.body, { 
+            childList: true, 
+            subtree: true, 
+            attributes: true, 
+            attributeFilter: ['style'] 
+        });
+    </script>
 
     {% if config.theme %}
         {% if config.theme == 'system' %}
