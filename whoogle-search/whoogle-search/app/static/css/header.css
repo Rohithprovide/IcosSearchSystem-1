@@ -414,6 +414,41 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: all 0.2s ease-in-out;
+    position: relative;
+}
+
+/* Hover effects for navigation tabs */
+.desktop-header a:hover {
+    color: #202124;
+    background-color: rgba(60, 64, 67, 0.08);
+    border-radius: 8px;
+    transform: translateY(-1px);
+}
+
+/* Add subtle bottom border animation on hover */
+.desktop-header a:hover::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 2px;
+    background-color: #dadce0;
+    border-radius: 1px;
+    animation: borderSlideIn 0.2s ease-out;
+}
+
+@keyframes borderSlideIn {
+    from {
+        width: 0%;
+        opacity: 0;
+    }
+    to {
+        width: 80%;
+        opacity: 1;
+    }
 }
 
 span.header-tab-span {
@@ -421,6 +456,14 @@ span.header-tab-span {
     color: #1a73e8;
     font-weight: 500;
     position: relative;
+    background-color: rgba(26, 115, 232, 0.04);
+    border-radius: 8px 8px 0 0;
+}
+
+/* Ensure selected tab doesn't get hover effects */
+span.header-tab-span:hover {
+    transform: none;
+    background-color: rgba(26, 115, 232, 0.04);
 }
 
 .mobile-header {
@@ -436,7 +479,23 @@ span.header-tab-span {
     color: #70757a;
     text-decoration: none;
     display: inline-block;
-    /* padding: 8px 12px 8px 12px; */
+    padding: 8px 12px;
+    transition: all 0.2s ease-in-out;
+    border-radius: 6px;
+    position: relative;
+}
+
+/* Mobile hover effects */
+.mobile-header a:hover {
+    color: #202124;
+    background-color: rgba(60, 64, 67, 0.08);
+    transform: scale(1.05);
+}
+
+/* Mobile touch feedback */
+.mobile-header a:active {
+    background-color: rgba(60, 64, 67, 0.12);
+    transform: scale(0.98);
 }
 
 span.mobile-tab-span {
@@ -461,10 +520,18 @@ a.header-tab-a:visited {
 
 .adv-search {
     font-size: 30px;
+    transition: all 0.2s ease-in-out;
+    padding: 4px;
+    border-radius: 8px;
 }
 
 .adv-search:hover {
     cursor: pointer;
+    background-color: rgba(60, 64, 67, 0.08);
+    border-radius: 8px;
+    padding: 4px;
+    transition: all 0.2s ease-in-out;
+    transform: scale(1.1);
 }
 
 #adv-search-toggle {
