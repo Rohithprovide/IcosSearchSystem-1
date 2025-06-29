@@ -430,6 +430,14 @@ a {
 .header-tab-a:hover {
     text-decoration: none !important;
     color: inherit !important;
+    font-weight: normal !important;
+    font-style: normal !important;
+    background-color: transparent !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    transform: none !important;
+    opacity: 1 !important;
 }
 
 /* Removed specific Maps styling - let it use the universal hover effect */
