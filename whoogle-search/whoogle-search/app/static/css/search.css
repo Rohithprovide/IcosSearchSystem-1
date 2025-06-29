@@ -84,9 +84,71 @@ audio {
         padding-bottom: 5px;
 }
 
+/* Override Google's default search result width constraints */
+div[style*="max-width"],
+div[style*="width"],
+div[style*="590px"] {
+    max-width: 900px !important;
+    width: auto !important;
+}
+
+/* Target specific search result containers */
+.g, .tF2Cxc, .MjjYud, .hlcw0c, .IsZvec {
+    max-width: 900px !important;
+    width: 100% !important;
+}
+
+/* Override inline styles that set width constraints */
+[style*="590px"],
+[style*="max-width: 590px"],
+[style*="max-width:590px"] {
+    max-width: 900px !important;
+    width: auto !important;
+}
+
+/* Target the main search results container */
+#main > div,
+#main div,
+.main > div,
+.main div {
+    max-width: 900px !important;
+    width: auto !important;
+}
+
+/* Ensure search results use full available width */
+#search .g,
+#search .tF2Cxc,
+#search .MjjYud,
+#search > div,
+#search div {
+    max-width: 900px !important;
+    width: 100% !important;
+}
+
+/* Force override all max-width constraints */
+* {
+    max-width: none !important;
+}
+
+/* But keep specific containers within reasonable bounds */
+.g, .tF2Cxc, .MjjYud, .hlcw0c, .IsZvec,
+#main, #search, .main, .search {
+    max-width: 900px !important;
+}
+
 @media (min-width: 801px) {
     body {
         min-width: 736px !important;
+    }
+    
+    /* Expand search results area on larger screens */
+    .g, .tF2Cxc, .MjjYud, .hlcw0c, .IsZvec {
+        max-width: 1000px !important;
+    }
+    
+    div[style*="max-width"],
+    div[style*="width"] {
+        max-width: 1000px !important;
     }
 }
 
