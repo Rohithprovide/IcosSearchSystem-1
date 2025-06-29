@@ -418,7 +418,14 @@ a {
     position: relative;
 }
 
-/* Removed hover effects per user request */
+/* Universal hover effect for ALL navigation tabs including Maps */
+.desktop-header a:hover {
+    color: #202124 !important;
+    text-decoration: underline !important;
+    text-decoration-color: #dadce0 !important;
+    text-decoration-thickness: 2px !important;
+    text-underline-offset: 8px !important;
+}
 
 /* Removed specific Maps styling - let it use the universal hover effect */
 
@@ -458,7 +465,21 @@ span.header-tab-span:hover {
     position: relative;
 }
 
-/* Removed mobile hover effects per user request */
+/* Mobile hover effects - same as desktop */
+.mobile-header a:hover {
+    color: #202124 !important;
+    text-decoration: underline !important;
+    text-decoration-color: #dadce0 !important;
+    text-decoration-thickness: 2px !important;
+    text-underline-offset: 6px !important;
+}
+
+/* Mobile touch feedback */
+.mobile-header a:active {
+    color: #202124 !important;
+    text-decoration: underline !important;
+    text-decoration-color: #dadce0 !important;
+}
 
 span.mobile-tab-span {
     border-bottom: 2px solid #202124;
