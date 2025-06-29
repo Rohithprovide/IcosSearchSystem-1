@@ -13,6 +13,8 @@ header {
     gap: 25px;
     max-width: 1200px;
     margin: 0;
+    position: relative;
+    z-index: 10;
 }
 
 .logo-link, .logo-letter {
@@ -366,28 +368,35 @@ a {
 
 .header-tab-div {
     border-bottom: 1px solid #dadce0;
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
     margin-bottom: 0;
     margin-top: 0;
     background: #fff;
+    width: 100%;
 }
 
 .header-tab-div-2 {
     height: 48px;
     overflow: hidden;
-    padding: 0 20px 0 15px;
+    padding: 0 40px 0 30px;
+    width: 100%;
+    max-width: none;
 }
 
 .header-tab-div-3 {
     height: 48px;
     overflow-x: auto;
     overflow-y: hidden;
+    width: 100%;
+    min-width: 800px;
 }
 
 .desktop-header {
     height: 48px;
     display: flex;
     width: 100%;
+    min-width: 800px;
     align-items: center;
 }
 
@@ -402,18 +411,19 @@ a {
     color: #70757a;
     display: block;
     flex: none;
-    padding: 12px 24px;
+    padding: 12px 32px;
     text-align: center;
     text-decoration: none;
     font-size: 13px;
     line-height: 16px;
     border-radius: 0;
-    margin: 0 8px;
+    margin: 0 12px;
     height: 48px;
     box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: center;
+    white-space: nowrap;
 }
 
 span.header-tab-span {
@@ -494,9 +504,40 @@ a.header-tab-a:visited {
     max-width: 200px;
 }
 
+/* Extended tab area for wider horizontal layout */
+.header-tab-div {
+    min-width: 100vw;
+}
+
+.header-tab-div-2 {
+    min-width: calc(100vw - 60px);
+}
+
+.header-tab-div-3 {
+    min-width: calc(100vw - 80px);
+}
+
+.desktop-header.header-tab {
+    min-width: calc(100vw - 100px);
+}
+
 @media (max-width: 801px) {
     .header-tab-div {
-        margin-bottom: 10px !important
+        margin-bottom: 10px !important;
+        min-width: 100vw;
+    }
+    
+    .header-tab-div-2 {
+        min-width: calc(100vw - 40px);
+        padding: 0 20px 0 15px;
+    }
+    
+    .header-tab-div-3 {
+        min-width: calc(100vw - 60px);
+    }
+    
+    .desktop-header.header-tab {
+        min-width: calc(100vw - 80px);
     }
 }
 
