@@ -494,6 +494,30 @@ a.header-tab-a:visited {
     max-width: 200px;
 }
 
+/* Search clear icon styling */
+.search-clear-icon {
+    color: #70757a !important;
+    font-size: 16px !important;
+    cursor: pointer !important;
+    padding: 4px !important;
+    border-radius: 50% !important;
+    transition: background-color 0.2s ease !important;
+}
+
+.search-clear-icon:hover {
+    background-color: #f1f3f4 !important;
+    color: #202124 !important;
+}
+
+/* Ensure proper positioning within search bar */
+.header-autocomplete {
+    position: relative !important;
+}
+
+.search-bar-desktop {
+    padding-right: 80px !important;
+}
+
 @media (max-width: 801px) {
     .header-tab-div {
         margin-bottom: 10px !important

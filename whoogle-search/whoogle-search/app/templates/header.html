@@ -73,7 +73,7 @@
                       id="sf"
                       method="{{ 'GET' if config.get_only else 'POST' }}">
                     <div class="autocomplete header-autocomplete">
-                        <div style="width: 100%; display: flex">
+                        <div style="width: 100%; display: flex; position: relative;">
                             {% if config.preferences %}
                                 <input type="hidden" name="preferences" value="{{ config.preferences }}" />
                             {% endif %}
@@ -88,6 +88,7 @@
                                     type="text"
                                     value="{{ clean_query(query) }}"
                                     dir="auto">
+                            <i class="fa-regular fa-xmark search-clear-icon" id="search-clear" onclick="clearSearch()" style="position: absolute; right: 60px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #70757a; font-size: 16px; z-index: 10; display: {{ 'block' if query else 'none' }};"></i>
                             <input name="tbm" value="{{ search_type }}" style="display: none">
                             <input name="country" value="{{ config.country }}" style="display: none;">
                             <input name="tbs" value="{{ config.tbs }}" style="display: none;">
@@ -156,5 +157,44 @@
         </select>
     </div>
 </div>
+
+<script>
+function clearSearch() {
+    const searchBar = document.getElementById('search-bar');
+    const clearIcon = document.getElementById('search-clear');
+    
+    if (searchBar) {
+        searchBar.value = '';
+        searchBar.focus();
+        if (clearIcon) {
+            clearIcon.style.display = 'none';
+        }
+    }
+}
+
+// Show/hide clear icon based on input content
+document.addEventListener('DOMContentLoaded', function() {
+    const searchBar = document.getElementById('search-bar');
+    const clearIcon = document.getElementById('search-clear');
+    
+    if (searchBar && clearIcon) {
+        // Check initial state
+        if (searchBar.value.trim() === '') {
+            clearIcon.style.display = 'none';
+        } else {
+            clearIcon.style.display = 'block';
+        }
+        
+        // Listen for input changes
+        searchBar.addEventListener('input', function() {
+            if (this.value.trim() === '') {
+                clearIcon.style.display = 'none';
+            } else {
+                clearIcon.style.display = 'block';
+            }
+        });
+    }
+});
+</script>
 
 <script type="text/javascript" src="{{ cb_url('header.js') }}"></script>
