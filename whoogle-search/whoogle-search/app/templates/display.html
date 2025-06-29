@@ -82,10 +82,10 @@
             width: 100% !important;
         }
         
-        /* Target search results content specifically - align with search bar and make wider */
+        /* Target search results content specifically - keep moderate right positioning */
         body > div:not([class*="header"]):not([id*="header"]) {
-            margin-left: 170px !important;
-            max-width: calc(100% - 190px) !important;
+            margin-left: 120px !important;
+            max-width: none !important;
             width: auto !important;
         }
         
@@ -93,8 +93,8 @@
         body > main,
         body > section,
         body > article {
-            margin-left: 170px !important;
-            max-width: calc(100% - 190px) !important;
+            margin-left: 120px !important;
+            max-width: none !important;
             width: auto !important;
         }
         
@@ -105,7 +105,6 @@
         div[data-result] {
             max-width: none !important;
             width: 100% !important;
-            min-width: 600px !important;
         }
         
         /* Move search results content specifically */
@@ -126,15 +125,8 @@
             body > main,
             body > section,
             body > article {
-                margin-left: 120px !important;
-                max-width: calc(100% - 140px) !important;
-            }
-            
-            .result,
-            .search-result,
-            div[class*="result"],
-            div[data-result] {
-                min-width: 400px !important;
+                margin-left: 80px !important;
+                max-width: none !important;
             }
         }
         
@@ -144,14 +136,7 @@
             body > section,
             body > article {
                 margin-left: 20px !important;
-                max-width: calc(100% - 40px) !important;
-            }
-            
-            .result,
-            .search-result,
-            div[class*="result"],
-            div[data-result] {
-                min-width: 300px !important;
+                max-width: none !important;
             }
         }
         
