@@ -163,6 +163,7 @@ class Filter:
         self.update_css()
         self.update_styling()
         self.remove_block_tabs()
+        self.remove_google_icons()
 
         # self.main_divs is only populated for the main page of search results
         # (i.e. not images/news/etc).
@@ -217,6 +218,42 @@ class Filter:
             
         self.remove_site_blocks(self.soup)
         return self.soup
+
+    def remove_google_icons(self) -> None:
+        """Removes Google logos and icons from search results footer
+
+        Returns:
+            None (The soup object is modified directly)
+        """
+        # Remove Google logo images
+        google_images = self.soup.find_all('img', src=lambda x: x and ('googlelogo' in x or 'google.com/images/branding' in x))
+        for img in google_images:
+            img.decompose()
+
+        # Remove images with Google-related alt text
+        google_alt_images = self.soup.find_all('img', alt=lambda x: x and 'google' in x.lower())
+        for img in google_alt_images:
+            img.decompose()
+
+        # Remove Google SVG logos
+        google_svgs = self.soup.find_all('svg', attrs={'viewBox': lambda x: x and ('0 0 272 92' in x or '0 0 136 46' in x)})
+        for svg in google_svgs:
+            svg.decompose()
+
+        # Remove elements with Google-related classes or IDs
+        google_elements = self.soup.find_all(attrs={'class': lambda x: x and any('google' in str(cls).lower() for cls in x if isinstance(x, list))})
+        for element in google_elements:
+            # Don't remove navigation elements
+            if not element.find_parent(attrs={'class': lambda x: x and any('header' in str(cls).lower() for cls in x if isinstance(x, list))}):
+                element.decompose()
+
+        # Remove divs that contain only Google branding in footer areas
+        footer_divs = self.soup.find_all('div')
+        for div in footer_divs:
+            if div.find('img', src=lambda x: x and 'google' in x.lower()):
+                # Check if this div is in a footer-like area (bottom of page)
+                if not div.find_parent(attrs={'class': lambda x: x and any('header' in str(cls).lower() for cls in x if isinstance(x, list))}):
+                    div.decompose()
 
     def sanitize_div(self, div) -> None:
         """Removes escaped script and iframe tags from results

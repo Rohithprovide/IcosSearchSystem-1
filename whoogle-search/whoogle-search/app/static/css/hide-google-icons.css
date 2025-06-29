@@ -1,0 +1,58 @@
+/* Hide Google logos and icons from search results footer */
+
+/* Hide Google logo images in footer */
+img[src*="googlelogo"],
+img[src*="google.com/images/branding"],
+img[alt*="Google"],
+img[title*="Google"] {
+    display: none !important;
+}
+
+/* Hide Google icons using various selectors */
+.google-icon,
+.gicon,
+svg[class*="google"],
+[aria-label*="Google"],
+[title*="Google logo"],
+[alt*="Google logo"] {
+    display: none !important;
+}
+
+/* Hide footer elements that contain Google branding */
+footer img,
+div[role="contentinfo"] img,
+.footer img,
+#footer img {
+    display: none !important;
+}
+
+/* Hide specific Google footer elements */
+div[style*="google"],
+span[style*="google"],
+a[href*="google.com"] img {
+    display: none !important;
+}
+
+/* Hide SVG Google logos */
+svg[viewBox*="0 0 272 92"],
+svg[viewBox*="0 0 136 46"] {
+    display: none !important;
+}
+
+/* Hide elements with Google-related classes in footer area */
+[class*="google-logo"],
+[class*="googlelogo"],
+[id*="google-logo"],
+[id*="googlelogo"] {
+    display: none !important;
+}
+
+/* Target common footer structure with Google logos */
+div:has(img[src*="google"]) {
+    display: none !important;
+}
+
+/* Hide Privacy and Terms section if it contains Google logos */
+div:has(img[alt*="Google"]) {
+    display: none !important;
+}

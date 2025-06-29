@@ -4,15 +4,58 @@
  */
 
 function removeGoogleIcons() {
-    // Minimal cleanup - only remove obvious icon elements that might interfere with search results
+    // Remove Google logos and icons from footer and search results
     // Avoid touching navigation elements to prevent conflicts with Maps icon
-    const unnecessaryIcons = document.querySelectorAll('svg[class*="google"], .google-icon, .gicon');
-    unnecessaryIcons.forEach(icon => {
+    const googleElements = document.querySelectorAll(`
+        img[src*="googlelogo"],
+        img[src*="google.com/images/branding"],
+        img[alt*="Google"],
+        img[title*="Google"],
+        svg[class*="google"],
+        .google-icon,
+        .gicon,
+        [aria-label*="Google"],
+        [title*="Google logo"],
+        [alt*="Google logo"],
+        [class*="google-logo"],
+        [class*="googlelogo"],
+        [id*="google-logo"],
+        [id*="googlelogo"],
+        svg[viewBox*="0 0 272 92"],
+        svg[viewBox*="0 0 136 46"]
+    `);
+    
+    googleElements.forEach(element => {
         // Only remove if it's clearly not part of navigation
-        if (!icon.closest('.desktop-header') && 
-            !icon.closest('.mobile-header') && 
-            !icon.closest('[role="navigation"]')) {
-            icon.remove();
+        if (!element.closest('.desktop-header') && 
+            !element.closest('.mobile-header') && 
+            !element.closest('[role="navigation"]') &&
+            !element.closest('.header-tab-div')) {
+            element.remove();
+        }
+    });
+    
+    // Also remove parent containers that only contain Google logos
+    const containerSelectors = [
+        'div:has(img[src*="google"])',
+        'div:has(img[alt*="Google"])',
+        'span:has(img[src*="google"])',
+        'a:has(img[src*="google"])'
+    ];
+    
+    containerSelectors.forEach(selector => {
+        try {
+            const containers = document.querySelectorAll(selector);
+            containers.forEach(container => {
+                if (!container.closest('.desktop-header') && 
+                    !container.closest('.mobile-header') && 
+                    !container.closest('[role="navigation"]') &&
+                    !container.closest('.header-tab-div')) {
+                    container.remove();
+                }
+            });
+        } catch (e) {
+            // Some browsers might not support :has() selector
         }
     });
 }
