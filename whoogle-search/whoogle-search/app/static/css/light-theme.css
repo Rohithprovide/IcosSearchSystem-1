@@ -259,25 +259,20 @@ path {
 
 /* Light Theme Modal Overrides */
 .modal-content {
-    background: linear-gradient(145deg, #ffffff, #f8f9ff) !important;
+    background: #ffffff !important;
     border: 1px solid rgba(226, 232, 240, 0.5) !important;
     box-shadow: 
         0 20px 60px rgba(0, 0, 0, 0.1),
-        0 8px 24px rgba(0, 0, 0, 0.05),
-        inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+        0 8px 24px rgba(0, 0, 0, 0.05) !important;
 }
 
 .modal-header {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 249, 255, 0.9)) !important;
+    background: #f8fafc !important;
     border-bottom: 1px solid rgba(226, 232, 240, 0.8) !important;
 }
 
 .modal-header h2 {
-    color: #1f2937 !important;
-    background: linear-gradient(135deg, #3b82f6, #1d4ed8) !important;
-    -webkit-background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
-    background-clip: text !important;
+    color: #2563eb !important;
 }
 
 .close-modal {
@@ -309,7 +304,7 @@ path {
 }
 
 .toggle-switch input:checked + .toggle-slider {
-    background: linear-gradient(135deg, #3b82f6, #1d4ed8) !important;
+    background: #2563eb !important;
 }
 
 .modal-buttons {
