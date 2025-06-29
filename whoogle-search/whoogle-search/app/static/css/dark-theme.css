@@ -87,6 +87,8 @@ div span {
 
 .settings-menu-icon {
     color: var(--whoogle-dark-contrast-text) !important;
+    background-color: rgba(32, 33, 36, 0.9) !important;
+    border-color: var(--whoogle-dark-border) !important;
 }
 
 .settings-menu-icon:hover {
