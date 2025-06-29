@@ -31,18 +31,30 @@ function addFavicons() {
             return;
         }
         
-        // Skip all Google service links and navigation
+        // Skip ALL Google services and navigation - be very strict
         if (href.includes('google.com') || 
             href.includes('maps.google.com') ||
             href.includes('images.google.com') ||
             href.includes('news.google.com') ||
-            href.includes('search?') ||
             href.includes('youtube.com') ||
+            href.includes('googleusercontent.com') ||
+            href.includes('gstatic.com') ||
+            href.includes('search?') ||
+            href.includes('tbm=') ||
+            href.startsWith('#') ||
+            href.includes('javascript:') ||
             link.closest('.desktop-header') ||
             link.closest('.mobile-header') ||
             link.closest('[role="navigation"]') ||
             link.closest('.header-tab-div') ||
-            link.closest('.header-container')) {
+            link.closest('.header-container') ||
+            link.closest('nav') ||
+            // Skip if it's clearly a navigation element by its text content
+            (linkText.toLowerCase() === 'maps') ||
+            (linkText.toLowerCase() === 'images') ||
+            (linkText.toLowerCase() === 'videos') ||
+            (linkText.toLowerCase() === 'news') ||
+            (linkText.toLowerCase() === 'all')) {
             return;
         }
         

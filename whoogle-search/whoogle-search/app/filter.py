@@ -207,10 +207,13 @@ class Filter:
         if header:
             header.decompose()
         
-        # Remove Maps tab links entirely
+        # Remove Maps tab icons only, not the entire tab
         maps_links = self.soup.find_all('a', href=lambda x: x and 'maps.google.com' in x)
         for link in maps_links:
-            link.decompose()
+            # Remove any child elements that might contain icons but keep the text
+            for child in link.find_all():
+                if child.name in ['img', 'svg', 'i', 'span'] and not child.get_text().strip():
+                    child.decompose()
             
         self.remove_site_blocks(self.soup)
         return self.soup
