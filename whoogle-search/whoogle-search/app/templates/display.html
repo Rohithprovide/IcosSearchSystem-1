@@ -85,7 +85,8 @@
         /* Target search results content specifically - everything after header */
         body > div:not([class*="header"]):not([id*="header"]) {
             margin-left: 120px !important;
-            max-width: calc(100% - 140px) !important;
+            max-width: calc(100% - 200px) !important;
+            width: auto !important;
         }
         
         /* Also target any direct content elements */
@@ -93,7 +94,17 @@
         body > section,
         body > article {
             margin-left: 120px !important;
-            max-width: calc(100% - 140px) !important;
+            max-width: calc(100% - 200px) !important;
+            width: auto !important;
+        }
+        
+        /* Increase search result item widths */
+        .result,
+        .search-result,
+        div[class*="result"],
+        div[data-result] {
+            max-width: none !important;
+            width: 100% !important;
         }
         
         /* Move search results content specifically */
@@ -115,7 +126,7 @@
             body > section,
             body > article {
                 margin-left: 80px !important;
-                max-width: calc(100% - 100px) !important;
+                max-width: calc(100% - 120px) !important;
             }
         }
         
@@ -125,7 +136,7 @@
             body > section,
             body > article {
                 margin-left: 20px !important;
-                max-width: calc(100% - 40px) !important;
+                max-width: calc(100% - 60px) !important;
             }
         }
         
