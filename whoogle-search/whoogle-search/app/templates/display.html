@@ -46,6 +46,20 @@
                 max-width: 90vw !important;
             }
         }
+        
+        /* Reduce spacing between header and tabs */
+        .header-tab-div {
+            margin-top: -5px !important;
+        }
+        
+        header + div .header-tab-div {
+            margin-top: -8px !important;
+        }
+        
+        /* Compact header spacing */
+        .header-container {
+            padding-bottom: 2px !important;
+        }
     </style>
     {% if config.theme %}
         {% if config.theme == 'system' %}
