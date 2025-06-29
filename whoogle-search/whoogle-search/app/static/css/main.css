@@ -3,23 +3,9 @@ body {
 }
 
 #main {
-    max-width: 1400px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
-}
-
-/* Override search result width constraints directly */
-body div[style*="max-width"],
-body div[style*="width"],
-body [style*="590px"] {
-    max-width: 750px !important;
-    width: auto !important;
-}
-
-/* Force search results to use custom width */
-.g, .tF2Cxc, .MjjYud, .hlcw0c, .IsZvec {
-    max-width: 750px !important;
-    width: 100% !important;
 }
 
 /* Search results page alignment - only when header is present */
@@ -27,8 +13,7 @@ body:has(.search-results-logo) #main,
 body:has(header) #main {
     margin: 0 0 0 120px !important;
     text-align: left !important;
-    max-width: calc(100% - 160px) !important;
-    width: calc(100% - 160px) !important;
+    max-width: calc(100% - 140px) !important;
 }
 
 /* Left align search results logo and container */
@@ -43,7 +28,7 @@ body:has(header) #main {
 }
 
 .header-tab-div {
-    max-width: 1400px;
+    max-width: 1200px;
     margin: 0 0 0 120px;
     padding: 0 20px;
 }
@@ -57,8 +42,7 @@ body:has(header) #main {
     body:has(.search-results-logo) #main,
     body:has(header) #main {
         margin: 0 0 0 80px !important;
-        max-width: calc(100% - 120px) !important;
-        width: calc(100% - 120px) !important;
+        max-width: calc(100% - 100px) !important;
     }
     
     .header-tab-div {

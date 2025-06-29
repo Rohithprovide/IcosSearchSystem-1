@@ -103,23 +103,14 @@
             width: auto !important;
         }
         
-        /* Override search result width constraints to 750px */
-        .g, .tF2Cxc, .MjjYud, .hlcw0c, .IsZvec,
+        /* Make search result items wider and expand to full available width */
         .result,
         .search-result,
         div[class*="result"],
         div[data-result] {
-            max-width: 750px !important;
-            width: 750px !important;
+            max-width: none !important;
+            width: 100% !important;
             padding-right: 0 !important;
-        }
-        
-        /* Force override inline styles that set 590px */
-        div[style*="590px"],
-        div[style*="max-width: 590px"],
-        div[style*="max-width:590px"] {
-            max-width: 750px !important;
-            width: 750px !important;
         }
         
         /* Ensure main content containers use full available width */
@@ -136,8 +127,8 @@
         div[id*="d2md"], 
         div[id*="main"],
         div[data-ved] {
-            max-width: 750px !important;
-            width: 750px !important;
+            max-width: none !important;
+            width: 100% !important;
             margin-left: 0 !important;
             padding-left: 0 !important;
         }
@@ -145,14 +136,14 @@
         /* Expand all search result containers */
         div[jscontroller],
         div[jsname] {
-            max-width: 750px !important;
-            width: 750px !important;
+            max-width: none !important;
+            width: 100% !important;
         }
         
         /* Force width on Google's result containers */
         div[style*="width"] {
-            width: 750px !important;
-            max-width: 750px !important;
+            width: 100% !important;
+            max-width: none !important;
         }
         
         /* Move search results content specifically */
@@ -249,43 +240,7 @@
         }
     </style>
     
-    <script>
-        // Override search result width constraints with JavaScript
-        function overrideSearchResultWidths() {
-            // Target all elements with inline max-width styles
-            const elements = document.querySelectorAll('div[style*="max-width"], div[style*="width"]');
-            elements.forEach(el => {
-                const style = el.getAttribute('style');
-                if (style && (style.includes('590px') || style.includes('max-width'))) {
-                    el.style.maxWidth = '750px';
-                    el.style.width = 'auto';
-                }
-            });
-            
-            // Target specific search result classes
-            const searchResults = document.querySelectorAll('.g, .tF2Cxc, .MjjYud, .hlcw0c, .IsZvec');
-            searchResults.forEach(el => {
-                el.style.maxWidth = '750px';
-                el.style.width = '100%';
-            });
-            
-            // Target main content containers
-            const mainContainers = document.querySelectorAll('#main, #search, .main, .search');
-            mainContainers.forEach(el => {
-                el.style.maxWidth = '750px';
-            });
-        }
-        
-        // Run on page load
-        document.addEventListener('DOMContentLoaded', overrideSearchResultWidths);
-        
-        // Run after a short delay to catch dynamically loaded content
-        setTimeout(overrideSearchResultWidths, 500);
-        
-        // Create observer to catch dynamically added content
-        const observer = new MutationObserver(overrideSearchResultWidths);
-        observer.observe(document.body, { childList: true, subtree: true });
-    </script>
+
     {% if config.theme %}
         {% if config.theme == 'system' %}
             <style>
