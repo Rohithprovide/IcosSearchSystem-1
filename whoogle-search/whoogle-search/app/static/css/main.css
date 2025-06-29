@@ -8,11 +8,12 @@ body {
     padding: 0 20px;
 }
 
-/* Search results page left alignment - only when header is present */
+/* Search results page alignment - only when header is present */
 body:has(.search-results-logo) #main,
 body:has(header) #main {
-    margin: 0 !important;
+    margin: 0 0 0 120px !important;
     text-align: left !important;
+    max-width: calc(100% - 140px) !important;
 }
 
 /* Left align search results logo and container */
@@ -28,12 +29,37 @@ body:has(header) #main {
 
 .header-tab-div {
     max-width: 1200px;
-    margin: 0;
+    margin: 0 0 0 120px;
     padding: 0 20px;
 }
 
 .header-tab-div-2, .header-tab-div-3 {
     max-width: none;
+}
+
+/* Responsive adjustments for search results positioning */
+@media (max-width: 1024px) {
+    body:has(.search-results-logo) #main,
+    body:has(header) #main {
+        margin: 0 0 0 80px !important;
+        max-width: calc(100% - 100px) !important;
+    }
+    
+    .header-tab-div {
+        margin: 0 0 0 80px;
+    }
+}
+
+@media (max-width: 768px) {
+    body:has(.search-results-logo) #main,
+    body:has(header) #main {
+        margin: 0 20px !important;
+        max-width: calc(100% - 40px) !important;
+    }
+    
+    .header-tab-div {
+        margin: 0;
+    }
 }
 
 .logo {
