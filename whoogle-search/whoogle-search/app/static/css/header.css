@@ -402,13 +402,13 @@ a {
     color: #70757a;
     display: block;
     flex: none;
-    padding: 12px 24px;
+    padding: 12px 32px;
     text-align: center;
     text-decoration: none;
     font-size: 13px;
     line-height: 16px;
     border-radius: 0;
-    margin: 0 12px;
+    margin: 0 18px;
     height: 48px;
     box-sizing: border-box;
     display: flex;
