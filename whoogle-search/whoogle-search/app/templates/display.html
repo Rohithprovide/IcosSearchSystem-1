@@ -118,6 +118,31 @@
             width: auto !important;
         }
         
+        /* Target the specific search results container seen in inspector */
+        #d2md,
+        div[id="d2md"],
+        div[id*="d2md"], 
+        div[id*="main"],
+        div[data-ved] {
+            max-width: none !important;
+            width: 100% !important;
+            margin-left: 0 !important;
+            padding-left: 0 !important;
+        }
+        
+        /* Expand all search result containers */
+        div[jscontroller],
+        div[jsname] {
+            max-width: none !important;
+            width: 100% !important;
+        }
+        
+        /* Force width on Google's result containers */
+        div[style*="width"] {
+            width: 100% !important;
+            max-width: none !important;
+        }
+        
         /* Move search results content specifically */
         #main,
         .content,
