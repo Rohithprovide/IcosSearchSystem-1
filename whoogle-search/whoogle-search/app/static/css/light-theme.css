@@ -272,7 +272,7 @@ path {
 }
 
 .modal-header h2 {
-    color: #2563eb !important;
+    color: #0891b2 !important;
 }
 
 .close-modal {
@@ -304,7 +304,7 @@ path {
 }
 
 .toggle-switch input:checked + .toggle-slider {
-    background: #3b82f6 !important;
+    background: #0891b2 !important;
 }
 
 .modal-buttons {
@@ -317,12 +317,12 @@ path {
 }
 
 .modal-buttons .apply-btn {
-    background: #06b6d4 !important;
+    background: #0891b2 !important;
     color: #ffffff !important;
 }
 
 .modal-buttons .apply-btn:hover {
-    background: #0891b2 !important;
+    background: #0e7490 !important;
 }
 
 .modal-buttons .cancel-btn:hover {
