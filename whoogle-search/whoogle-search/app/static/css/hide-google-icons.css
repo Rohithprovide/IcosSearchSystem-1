@@ -4,10 +4,31 @@
 .desktop-header a[href*="maps.google.com"]::before,
 .desktop-header a[href*="maps.google.com"]::after,
 .mobile-header a[href*="maps.google.com"]::before,
-.mobile-header a[href*="maps.google.com"]::after {
+.mobile-header a[href*="maps.google.com"]::after,
+.header-tab-a[href*="maps.google.com"]::before,
+.header-tab-a[href*="maps.google.com"]::after {
     display: none !important;
     content: "" !important;
     background: none !important;
+    width: 0 !important;
+    height: 0 !important;
+}
+
+/* Specifically target Maps links and remove any content or icons */
+a[href*="maps.google.com"] {
+    background-image: none !important;
+    background: none !important;
+    text-indent: 0 !important;
+    position: relative !important;
+}
+
+a[href*="maps.google.com"]::before,
+a[href*="maps.google.com"]::after {
+    display: none !important;
+    content: "" !important;
+    background: none !important;
+    width: 0 !important;
+    height: 0 !important;
 }
 
 /* Hide any background images in header tabs */
@@ -66,5 +87,47 @@ img[src*="gstatic.com"],
 img[src*="googleusercontent.com"],
 link[href*="google.com/favicon"],
 link[href*="gstatic.com"] {
+    display: none !important;
+}
+
+/* Force Maps link to display only text - most aggressive approach */
+.desktop-header a[href*="maps.google.com"],
+.mobile-header a[href*="maps.google.com"],
+.header-tab-a[href*="maps.google.com"] {
+    font-size: 0 !important;
+    line-height: 0 !important;
+    text-indent: -9999px !important;
+    background: none !important;
+    background-image: none !important;
+    background-color: transparent !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.desktop-header a[href*="maps.google.com"]:after,
+.mobile-header a[href*="maps.google.com"]:after,
+.header-tab-a[href*="maps.google.com"]:after {
+    content: "Maps" !important;
+    display: block !important;
+    font-size: 13px !important;
+    line-height: 16px !important;
+    text-indent: 0 !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    color: #70757a !important;
+    background: none !important;
+    width: auto !important;
+    height: auto !important;
+}
+
+/* Hide any potential icon containers or Unicode characters */
+.desktop-header a[href*="maps.google.com"] *,
+.mobile-header a[href*="maps.google.com"] *,
+.header-tab-a[href*="maps.google.com"] * {
     display: none !important;
 }
