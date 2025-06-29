@@ -220,12 +220,45 @@ class Filter:
         return self.soup
 
     def remove_google_icons(self) -> None:
-        """Removes Google logos and icons from search results footer
+        """Removes the entire footer section from search results including location, Google logos, Privacy and Terms
 
         Returns:
             None (The soup object is modified directly)
         """
-        # Remove Google logo images
+        # Remove entire footer elements
+        footers = self.soup.find_all('footer')
+        for footer in footers:
+            footer.decompose()
+
+        # Remove divs that contain Privacy, Terms, or location information
+        footer_keywords = ['privacy', 'terms', 'mumbai', 'maharashtra', 'from your ip address']
+        
+        for div in self.soup.find_all('div'):
+            div_text = div.get_text().lower() if div.get_text() else ''
+            if any(keyword in div_text for keyword in footer_keywords):
+                # Don't remove if it's part of navigation/header
+                if not div.find_parent(attrs={'class': lambda x: x and any('header' in str(cls).lower() for cls in x if isinstance(x, list))}):
+                    div.decompose()
+
+        # Remove elements containing "Next >" navigation if they are in footer-like areas
+        next_elements = self.soup.find_all(text=lambda text: text and 'next >' in text.lower())
+        for text in next_elements:
+            parent = text.parent
+            if parent:
+                # Check if this is likely a footer pagination (bottom of page, minimal content)
+                parent_text = parent.get_text().strip()
+                if len(parent_text) < 50 and 'next' in parent_text.lower():
+                    # Find the containing div/section and remove it
+                    container = parent
+                    while container and container.name not in ['div', 'section', 'footer', 'nav']:
+                        container = container.parent
+                    if container and container.name == 'div':
+                        # Only remove if it looks like a simple pagination footer
+                        container_text = container.get_text().strip()
+                        if len(container_text) < 100 and ('next' in container_text.lower() or 'privacy' in container_text.lower()):
+                            container.decompose()
+
+        # Remove Google logo images and related elements
         google_images = self.soup.find_all('img', src=lambda x: x and ('googlelogo' in x or 'google.com/images/branding' in x))
         for img in google_images:
             img.decompose()
@@ -235,25 +268,15 @@ class Filter:
         for img in google_alt_images:
             img.decompose()
 
-        # Remove Google SVG logos
-        google_svgs = self.soup.find_all('svg', attrs={'viewBox': lambda x: x and ('0 0 272 92' in x or '0 0 136 46' in x)})
-        for svg in google_svgs:
-            svg.decompose()
-
-        # Remove elements with Google-related classes or IDs
-        google_elements = self.soup.find_all(attrs={'class': lambda x: x and any('google' in str(cls).lower() for cls in x if isinstance(x, list))})
-        for element in google_elements:
-            # Don't remove navigation elements
-            if not element.find_parent(attrs={'class': lambda x: x and any('header' in str(cls).lower() for cls in x if isinstance(x, list))}):
-                element.decompose()
-
-        # Remove divs that contain only Google branding in footer areas
-        footer_divs = self.soup.find_all('div')
-        for div in footer_divs:
-            if div.find('img', src=lambda x: x and 'google' in x.lower()):
-                # Check if this div is in a footer-like area (bottom of page)
-                if not div.find_parent(attrs={'class': lambda x: x and any('header' in str(cls).lower() for cls in x if isinstance(x, list))}):
-                    div.decompose()
+        # Remove any remaining Privacy/Terms links
+        privacy_terms_links = self.soup.find_all('a', text=lambda text: text and ('privacy' in text.lower() or 'terms' in text.lower()))
+        for link in privacy_terms_links:
+            # Remove the parent container if it only contains these links
+            parent = link.parent
+            if parent and len(parent.find_all('a')) <= 3:  # Typical footer has 2-3 links
+                parent.decompose()
+            else:
+                link.decompose()
 
     def sanitize_div(self, div) -> None:
         """Removes escaped script and iframe tags from results

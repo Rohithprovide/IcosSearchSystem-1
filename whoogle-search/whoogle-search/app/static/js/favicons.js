@@ -35,6 +35,46 @@ function removeGoogleIcons() {
         }
     });
     
+    // Remove footer elements containing location, privacy, terms
+    const footerTexts = ['mumbai', 'maharashtra', 'from your ip address', 'privacy', 'terms'];
+    const allDivs = document.querySelectorAll('div');
+    
+    allDivs.forEach(div => {
+        const text = div.textContent.toLowerCase();
+        if (footerTexts.some(footerText => text.includes(footerText))) {
+            // Don't remove if it's part of navigation/header
+            if (!div.closest('.desktop-header') && 
+                !div.closest('.mobile-header') && 
+                !div.closest('[role="navigation"]') &&
+                !div.closest('.header-tab-div')) {
+                div.remove();
+            }
+        }
+    });
+    
+    // Remove Privacy and Terms links specifically
+    const privacyTermsLinks = document.querySelectorAll('a[href*="privacy"], a[href*="terms"]');
+    privacyTermsLinks.forEach(link => {
+        const parent = link.parentElement;
+        // If parent only contains footer-type links, remove the parent
+        if (parent && parent.querySelectorAll('a').length <= 3) {
+            parent.remove();
+        } else {
+            link.remove();
+        }
+    });
+    
+    // Remove "Next >" pagination at bottom if it's in a footer context
+    const nextElements = document.querySelectorAll('*');
+    nextElements.forEach(element => {
+        if (element.textContent.trim().toLowerCase() === 'next >') {
+            const parent = element.parentElement;
+            if (parent && parent.textContent.trim().length < 50) {
+                parent.remove();
+            }
+        }
+    });
+    
     // Also remove parent containers that only contain Google logos
     const containerSelectors = [
         'div:has(img[src*="google"])',
@@ -194,3 +234,8 @@ setTimeout(function() {
     removeGoogleIcons();
     addFavicons();
 }, 500);
+
+// Run periodically to catch any dynamically loaded footer content
+setInterval(function() {
+    removeGoogleIcons();
+}, 1000);
