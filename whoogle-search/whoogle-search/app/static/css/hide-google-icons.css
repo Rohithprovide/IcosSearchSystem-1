@@ -132,3 +132,8 @@ link[href*="gstatic.com"] {
     display: none !important;
 }
 
+/* Try completely hiding the Maps tab if icon persists */
+a[href*="maps.google.com"] {
+    display: none !important;
+}
+
