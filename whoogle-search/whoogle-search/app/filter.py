@@ -206,6 +206,12 @@ class Filter:
         header = self.soup.find('header')
         if header:
             header.decompose()
+        
+        # Remove Maps tab links entirely
+        maps_links = self.soup.find_all('a', href=lambda x: x and 'maps.google.com' in x)
+        for link in maps_links:
+            link.decompose()
+            
         self.remove_site_blocks(self.soup)
         return self.soup
 
