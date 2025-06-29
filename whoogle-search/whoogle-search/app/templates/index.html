@@ -67,6 +67,84 @@
     <i class="fa-solid fa-bars"></i>
 </div>
 
+{% if not config_disabled %}
+    <!-- Settings Popup Modal - Positioned at body level -->
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Settings</h2>
+                <span class="close-modal" id="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="config-form" action="config" method="post">
+                    {% if config.preferences %}
+                        <input type="hidden" name="preferences" value="{{ config.preferences }}" />
+                    {% endif %}
+                    
+                    <div class="setting-item">
+                        <div class="setting-icon">
+                            <i class="fa-solid fa-palette"></i>
+                        </div>
+                        <div class="setting-info">
+                            <div class="setting-title">Theme</div>
+                            <div class="setting-description">Choose your preferred theme</div>
+                        </div>
+                        <div class="setting-control">
+                            <select name="theme" id="modal-config-theme" class="theme-select">
+                                {% for theme in themes %}
+                                    <option value="{{ theme }}"
+                                            {% if theme in config.theme %}
+                                            selected
+                                            {% endif %}>
+                                        {{ translation[theme].capitalize() }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-icon">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <div class="setting-info">
+                            <div class="setting-title">Safe Search</div>
+                            <div class="setting-description">Filter explicit content from search results</div>
+                        </div>
+                        <div class="setting-control">
+                            <label class="toggle-switch">
+                                <input type="checkbox" name="safe" id="modal-config-safe" {{ 'checked' if config.safe else '' }}>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-icon">
+                            <i class="fa-solid fa-external-link-alt"></i>
+                        </div>
+                        <div class="setting-info">
+                            <div class="setting-title">Open Links in New Tab</div>
+                            <div class="setting-description">Open search results in new browser tabs</div>
+                        </div>
+                        <div class="setting-control">
+                            <label class="toggle-switch">
+                                <input type="checkbox" name="new_tab" id="modal-config-new-tab" {{ 'checked' if config.new_tab else '' }}>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-buttons">
+                        <button type="button" id="cancel-btn" class="cancel-btn">Cancel</button>
+                        <input type="submit" id="modal-config-submit" value="Apply Settings" class="apply-btn">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
 <div class="search-container">
     <div class="logo-container homepage-logo">
         {{ logo|safe }}
@@ -96,83 +174,7 @@
             <input type="submit" id="search-submit" value="{{ translation['search'] }}">
         </div>
     </form>
-    {% if not config_disabled %}
-        <!-- Settings Popup Modal -->
-        <div id="settings-modal" class="modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2>Settings</h2>
-                    <span class="close-modal" id="close-modal">&times;</span>
-                </div>
-                <div class="modal-body">
-                    <form id="config-form" action="config" method="post">
-                        {% if config.preferences %}
-                            <input type="hidden" name="preferences" value="{{ config.preferences }}" />
-                        {% endif %}
-                        
-                        <div class="setting-item">
-                            <div class="setting-icon">
-                                <i class="fa-solid fa-palette"></i>
-                            </div>
-                            <div class="setting-info">
-                                <div class="setting-title">Theme</div>
-                                <div class="setting-description">Choose your preferred theme</div>
-                            </div>
-                            <div class="setting-control">
-                                <select name="theme" id="modal-config-theme" class="theme-select">
-                                    {% for theme in themes %}
-                                        <option value="{{ theme }}"
-                                                {% if theme in config.theme %}
-                                                selected
-                                                {% endif %}>
-                                            {{ translation[theme].capitalize() }}
-                                        </option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                        </div>
 
-                        <div class="setting-item">
-                            <div class="setting-icon">
-                                <i class="fa-solid fa-shield-halved"></i>
-                            </div>
-                            <div class="setting-info">
-                                <div class="setting-title">Safe Search</div>
-                                <div class="setting-description">Filter explicit content from search results</div>
-                            </div>
-                            <div class="setting-control">
-                                <label class="toggle-switch">
-                                    <input type="checkbox" name="safe" id="modal-config-safe" {{ 'checked' if config.safe else '' }}>
-                                    <span class="toggle-slider"></span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="setting-item">
-                            <div class="setting-icon">
-                                <i class="fa-solid fa-external-link-alt"></i>
-                            </div>
-                            <div class="setting-info">
-                                <div class="setting-title">Open Links in New Tab</div>
-                                <div class="setting-description">Open search results in new browser tabs</div>
-                            </div>
-                            <div class="setting-control">
-                                <label class="toggle-switch">
-                                    <input type="checkbox" name="new_tab" id="modal-config-new-tab" {{ 'checked' if config.new_tab else '' }}>
-                                    <span class="toggle-slider"></span>
-                                </label>
-                            </div>
-                        </div>
-                        
-                        <div class="modal-buttons">
-                            <button type="button" id="cancel-btn" class="cancel-btn">Cancel</button>
-                            <input type="submit" id="modal-config-submit" value="Apply Settings" class="apply-btn">
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    {% endif %}
 </div>
 {% include "footer.html" %}
 </body>
