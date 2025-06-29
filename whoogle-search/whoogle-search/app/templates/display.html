@@ -60,6 +60,30 @@
         .header-container {
             padding-bottom: 2px !important;
         }
+        
+        /* Move navigation tabs to the right */
+        .header-tab-div-2 {
+            padding-left: 180px !important;
+        }
+        
+        /* Responsive adjustments for navigation tabs */
+        @media (max-width: 1024px) {
+            .header-tab-div-2 {
+                padding-left: 120px !important;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-tab-div-2 {
+                padding-left: 80px !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header-tab-div-2 {
+                padding-left: 40px !important;
+            }
+        }
     </style>
     {% if config.theme %}
         {% if config.theme == 'system' %}
