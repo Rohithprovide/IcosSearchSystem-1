@@ -159,10 +159,22 @@
             }
         }
         
+        /* Remove overflow scrollbar and set fixed tab spacing */
+        .header-tab-div-3 {
+            overflow-x: hidden !important;
+            overflow-y: hidden !important;
+        }
+        
         /* Increase spacing between navigation tabs */
         .desktop-header a, .desktop-header span {
-            margin: 0 30px !important;
+            margin: 0 25px !important;
             padding: 12px 20px !important;
+        }
+        
+        /* Ensure tabs container fits content */
+        .desktop-header {
+            justify-content: flex-start !important;
+            flex-wrap: nowrap !important;
         }
         
         /* Responsive tab spacing */
