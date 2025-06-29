@@ -223,16 +223,18 @@ header {
 .search-div .autocomplete,
 .search-div .header-autocomplete {
     width: 100% !important;
-    max-width: 600px !important;
+    max-width: 700px !important;
+    min-width: 500px !important;
     position: relative !important;
 }
 
 /* Fix search bar width consistency between pages */
 .header-container .search-div {
     flex: 1 !important;
-    max-width: 600px !important;
+    max-width: 700px !important;
+    min-width: 500px !important;
     position: relative !important;
-    margin: 0 24px !important;
+    margin: 0 20px !important;
 }
 
 /* Ensure the flex container doesn't add extra spacing */
