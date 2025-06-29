@@ -255,12 +255,12 @@ button::-moz-focus-inner {
 .modal-content {
     background: linear-gradient(145deg, #ffffff, #f8f9ff);
     position: fixed;
-    top: 50px;
-    left: 50px;
+    top: 10px;
+    left: 60px;
     padding: 0;
     border-radius: 24px;
-    width: 400px;
-    max-width: calc(100vw - 70px);
+    width: 350px;
+    max-width: calc(100vw - 80px);
     box-shadow: 
         0 20px 60px rgba(139, 69, 255, 0.15),
         0 8px 24px rgba(0, 0, 0, 0.1),
@@ -283,9 +283,18 @@ button::-moz-focus-inner {
 /* Mobile responsive adjustments for modal */
 @media (max-width: 480px) {
     .modal-content {
-        top: 45px !important;
-        left: 10px !important;
-        width: calc(100vw - 20px) !important;
+        top: 10px !important;
+        left: 50px !important;
+        width: calc(100vw - 60px) !important;
+        max-width: none !important;
+    }
+}
+
+@media (max-width: 360px) {
+    .modal-content {
+        top: 10px !important;
+        left: 40px !important;
+        width: calc(100vw - 50px) !important;
         max-width: none !important;
     }
 }
