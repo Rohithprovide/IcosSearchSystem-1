@@ -84,17 +84,18 @@ link[href*="gstatic.com"] {
     display: none !important;
 }
 
-/* Force Maps link to display only text - but allow hover effects */
+/* Force Maps link to display only text - but allow ALL hover effects including underline */
 .desktop-header a[href*="maps.google.com"],
 .mobile-header a[href*="maps.google.com"],
 .header-tab-a[href*="maps.google.com"] {
     background-image: none !important;
     text-indent: 0 !important;
     position: relative !important;
-    /* Ensure Maps text is visible */
+    /* Ensure Maps text is visible and can be underlined */
     font-size: 13px !important;
     line-height: 16px !important;
     color: #70757a !important;
+    text-decoration: none !important;
 }
 
 /* Allow Maps tab :after pseudo-elements for hover effects */

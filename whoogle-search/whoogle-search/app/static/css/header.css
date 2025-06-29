@@ -418,59 +418,16 @@ a {
     position: relative;
 }
 
-/* Hover effects for navigation tabs - only underline effect */
+/* Simple universal hover effect for ALL navigation tabs */
 .desktop-header a:hover {
-    color: #202124;
-}
-
-/* Add subtle bottom border animation on hover */
-.desktop-header a:hover::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80%;
-    height: 2px;
-    background-color: #dadce0;
-    border-radius: 1px;
-    animation: borderSlideIn 0.2s ease-out;
-}
-
-/* Ensure Maps tab also gets the hover border effect */
-.desktop-header a[href*="maps.google.com"]:hover::after,
-.desktop-header a[href*="maps"]:hover::after,
-.desktop-header a[href*="tbm=lcl"]:hover::after {
-    content: '' !important;
-    position: absolute !important;
-    bottom: 0 !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    width: 80% !important;
-    height: 2px !important;
-    background-color: #dadce0 !important;
-    border-radius: 1px !important;
-    animation: borderSlideIn 0.2s ease-out !important;
-    display: block !important;
-}
-
-/* Also ensure Maps tab text color changes on hover */
-.desktop-header a[href*="maps.google.com"]:hover,
-.desktop-header a[href*="maps"]:hover,
-.desktop-header a[href*="tbm=lcl"]:hover {
     color: #202124 !important;
+    text-decoration: underline !important;
+    text-decoration-color: #dadce0 !important;
+    text-decoration-thickness: 2px !important;
+    text-underline-offset: 8px !important;
 }
 
-@keyframes borderSlideIn {
-    from {
-        width: 0%;
-        opacity: 0;
-    }
-    to {
-        width: 80%;
-        opacity: 1;
-    }
-}
+/* Removed old animation - using simple text-decoration now */
 
 span.header-tab-span {
     border-bottom: 3px solid #4285f4;
@@ -506,14 +463,20 @@ span.header-tab-span:hover {
     position: relative;
 }
 
-/* Mobile hover effects - simple color change */
+/* Mobile hover effects - same as desktop */
 .mobile-header a:hover {
-    color: #202124;
+    color: #202124 !important;
+    text-decoration: underline !important;
+    text-decoration-color: #dadce0 !important;
+    text-decoration-thickness: 2px !important;
+    text-underline-offset: 6px !important;
 }
 
 /* Mobile touch feedback */
 .mobile-header a:active {
-    color: #202124;
+    color: #202124 !important;
+    text-decoration: underline !important;
+    text-decoration-color: #dadce0 !important;
 }
 
 span.mobile-tab-span {
