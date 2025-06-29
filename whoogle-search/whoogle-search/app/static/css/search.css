@@ -86,9 +86,32 @@ audio {
 
 
 
+/* Slightly increase search result width without affecting header */
+div[style*="590px"],
+div[style*="max-width: 590px"],
+div[style*="max-width:590px"] {
+    max-width: 650px !important;
+    width: auto !important;
+}
+
+.g, .tF2Cxc, .MjjYud, .hlcw0c, .IsZvec {
+    max-width: 650px !important;
+}
+
 @media (min-width: 801px) {
     body {
         min-width: 736px !important;
+    }
+    
+    /* Slightly wider on larger screens */
+    div[style*="590px"],
+    div[style*="max-width: 590px"],
+    div[style*="max-width:590px"] {
+        max-width: 680px !important;
+    }
+    
+    .g, .tF2Cxc, .MjjYud, .hlcw0c, .IsZvec {
+        max-width: 680px !important;
     }
 }
 
