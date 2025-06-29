@@ -125,15 +125,23 @@ div[style*="590px"] {
     width: 100% !important;
 }
 
-/* Force override all max-width constraints */
-* {
+/* Force override all max-width constraints with highest specificity */
+body * {
     max-width: none !important;
 }
 
 /* But keep specific containers within reasonable bounds */
-.g, .tF2Cxc, .MjjYud, .hlcw0c, .IsZvec,
-#main, #search, .main, .search {
+body .g, body .tF2Cxc, body .MjjYud, body .hlcw0c, body .IsZvec,
+body #main, body #search, body .main, body .search {
     max-width: 750px !important;
+}
+
+/* Ultra high specificity override for search results */
+html body div[style*="max-width"],
+html body div[style*="width"],
+html body [style*="590px"] {
+    max-width: 750px !important;
+    width: auto !important;
 }
 
 @media (min-width: 801px) {
