@@ -163,6 +163,7 @@ class Filter:
         self.update_css()
         self.update_styling()
         self.remove_block_tabs()
+        self.remove_google_icons()
 
         # self.main_divs is only populated for the main page of search results
         # (i.e. not images/news/etc).
@@ -360,6 +361,33 @@ class Filter:
                 attrs={'class': f'{GClasses.images_tbm_tab}'}
             ):
                 _ = div.decompose()
+
+    def remove_google_icons(self) -> None:
+        """Removes Google-specific icons, particularly from Maps tabs
+        
+        Returns:
+            None (The soup object is modified directly)
+        """
+        # Find all links to Google Maps and clean them
+        maps_links = self.soup.find_all('a', href=lambda x: x and 'maps.google.com' in x)
+        for link in maps_links:
+            # Remove any child elements that might contain icons
+            for child in link.find_all():
+                child.decompose()
+            # Ensure only text content "Maps" remains
+            link.string = "Maps"
+            
+        # Remove any elements with Google icon classes
+        icon_selectors = [
+            {'class': lambda x: x and any(icon_class in ' '.join(x) for icon_class in 
+                                        ['material-icons', 'google-material-icons', 'googlematerial', 'gmnoprint', 'icon'])},
+            {'style': lambda x: x and ('background-image' in x or 'content:' in x)}
+        ]
+        
+        for selector in icon_selectors:
+            for element in self.soup.find_all(attrs=selector):
+                if element.name in ['span', 'i', 'div'] and element.get_text().strip() == '':
+                    element.decompose()
 
     def collapse_sections(self) -> None:
         """Collapses long result sections ("people also asked", "related

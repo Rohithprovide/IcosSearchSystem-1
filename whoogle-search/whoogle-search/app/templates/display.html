@@ -264,6 +264,66 @@
     </iframe>
 {% endif %}
 {{ response|safe }}
+<script>
+// Aggressive Maps icon removal
+function forceRemoveMapsIcon() {
+    // Find all Maps links and replace their content
+    const mapsLinks = document.querySelectorAll('a[href*="maps.google.com"]');
+    mapsLinks.forEach(link => {
+        // Store original href
+        const originalHref = link.href;
+        
+        // Clear all content and replace with clean text
+        link.innerHTML = '';
+        link.textContent = 'Maps';
+        link.href = originalHref;
+        
+        // Remove any styling that might show icons
+        link.style.backgroundImage = 'none';
+        link.style.background = 'none';
+        link.style.fontFamily = 'Roboto, HelveticaNeue, Arial, sans-serif';
+        link.style.fontSize = '13px';
+        link.style.color = '#70757a';
+        link.style.textDecoration = 'none';
+        
+        // Remove any event listeners that might add icons back
+        const newLink = link.cloneNode(true);
+        link.parentNode.replaceChild(newLink, link);
+    });
+    
+    // Remove any remaining icon elements
+    const iconElements = document.querySelectorAll('span.material-icons, i.material-icons, .google-material-icons, svg[class*="icon"], [class*="gicon"]');
+    iconElements.forEach(icon => {
+        if (icon.closest('a[href*="maps.google.com"]')) {
+            icon.remove();
+        }
+    });
+}
+
+// Run immediately
+forceRemoveMapsIcon();
+
+// Run after DOM changes
+const observer = new MutationObserver(forceRemoveMapsIcon);
+observer.observe(document.body, { 
+    childList: true, 
+    subtree: true,
+    attributes: true,
+    attributeFilter: ['class', 'style']
+});
+
+// Run on page load
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', forceRemoveMapsIcon);
+} else {
+    forceRemoveMapsIcon();
+}
+
+// Run with delay to catch late-loading content
+setTimeout(forceRemoveMapsIcon, 100);
+setTimeout(forceRemoveMapsIcon, 500);
+setTimeout(forceRemoveMapsIcon, 1000);
+</script>
 </body>
 {% include 'footer.html' %}
 {% if autocomplete_enabled == '1' %}
