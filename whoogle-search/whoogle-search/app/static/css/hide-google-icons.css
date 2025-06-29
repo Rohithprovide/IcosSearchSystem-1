@@ -84,15 +84,58 @@ link[href*="gstatic.com"] {
     display: none !important;
 }
 
-/* Minimal Maps tab styling - just hide icons, keep everything else normal */
-.desktop-header a[href*="maps.google.com"] img,
-.mobile-header a[href*="maps.google.com"] img,
-.header-tab-a[href*="maps.google.com"] img,
-.desktop-header a[href*="maps.google.com"] svg,
-.mobile-header a[href*="maps.google.com"] svg,
-.header-tab-a[href*="maps.google.com"] svg {
+/* Force Maps link to display only text - most aggressive approach */
+.desktop-header a[href*="maps.google.com"],
+.mobile-header a[href*="maps.google.com"],
+.header-tab-a[href*="maps.google.com"] {
+    font-size: 0 !important;
+    line-height: 0 !important;
+    text-indent: -9999px !important;
+    background: none !important;
+    background-image: none !important;
+    background-color: transparent !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.desktop-header a[href*="maps.google.com"]:after,
+.mobile-header a[href*="maps.google.com"]:after,
+.header-tab-a[href*="maps.google.com"]:after {
+    content: "Maps" !important;
+    display: block !important;
+    font-size: 13px !important;
+    line-height: 16px !important;
+    text-indent: 0 !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    color: #70757a !important;
+    background: none !important;
+    width: auto !important;
+    height: auto !important;
+}
+
+/* Add hover effect to the Maps :after pseudo-element */
+.desktop-header a[href*="maps.google.com"]:hover:after,
+.mobile-header a[href*="maps.google.com"]:hover:after,
+.header-tab-a[href*="maps.google.com"]:hover:after {
+    color: #202124 !important;
+    text-decoration: underline !important;
+    text-decoration-color: #dadce0 !important;
+    text-decoration-thickness: 2px !important;
+    text-underline-offset: 8px !important;
+}
+
+/* Hide any potential icon containers or Unicode characters */
+.desktop-header a[href*="maps.google.com"] *,
+.mobile-header a[href*="maps.google.com"] *,
+.header-tab-a[href*="maps.google.com"] * {
     display: none !important;
 }
 
-/* End of Maps tab styling */
+/* Keep Maps tab visible but ensure no icons are loaded */
 
