@@ -119,21 +119,7 @@ link[href*="gstatic.com"] {
     height: auto !important;
 }
 
-/* Add hover effect to the Maps :after pseudo-element - using border instead of text-decoration */
-.desktop-header a[href*="maps.google.com"]:hover:after,
-.mobile-header a[href*="maps.google.com"]:hover:after,
-.header-tab-a[href*="maps.google.com"]:hover:after {
-    color: #202124 !important;
-    border-bottom: 2px solid #dadce0 !important;
-    padding-bottom: 2px !important;
-}
-
-/* Also add hover effect to the container for visual feedback */
-.desktop-header a[href*="maps.google.com"]:hover,
-.mobile-header a[href*="maps.google.com"]:hover,
-.header-tab-a[href*="maps.google.com"]:hover {
-    cursor: pointer !important;
-}
+/* Removed Maps tab hover effects per user request */
 
 /* Hide any potential icon containers or Unicode characters */
 .desktop-header a[href*="maps.google.com"] *,
