@@ -23,6 +23,7 @@ dependencies = [
     "markupsafe==2.1.2",
     "more-itertools==9.0.0",
     "packaging==23.0",
+    "pillow>=11.2.1",
     "pluggy==1.0.0",
     "pycodestyle==2.10.0",
     "pycparser==2.22",

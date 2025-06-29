@@ -2,7 +2,7 @@ modules = ["python-3.11"]
 
 [nix]
 channel = "stable-24_05"
-packages = ["cacert", "cargo", "gmp", "libffi", "libiconv", "libxcrypt", "openssl", "pkg-config", "rustc", "xcodebuild", "zlib"]
+packages = ["cacert", "cargo", "freetype", "gmp", "lcms2", "libffi", "libiconv", "libimagequant", "libjpeg", "libtiff", "libwebp", "libxcrypt", "openjpeg", "openssl", "pkg-config", "rustc", "tcl", "tk", "xcodebuild", "zlib"]
 
 [workflows]
 runButton = "Project"
