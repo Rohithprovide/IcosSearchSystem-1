@@ -3,7 +3,7 @@ body {
 }
 
 #main {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     padding: 0 20px;
 }
@@ -13,7 +13,8 @@ body:has(.search-results-logo) #main,
 body:has(header) #main {
     margin: 0 0 0 120px !important;
     text-align: left !important;
-    max-width: calc(100% - 140px) !important;
+    max-width: calc(100% - 160px) !important;
+    width: calc(100% - 160px) !important;
 }
 
 /* Left align search results logo and container */
@@ -28,7 +29,7 @@ body:has(header) #main {
 }
 
 .header-tab-div {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 0 0 120px;
     padding: 0 20px;
 }
@@ -42,7 +43,8 @@ body:has(header) #main {
     body:has(.search-results-logo) #main,
     body:has(header) #main {
         margin: 0 0 0 80px !important;
-        max-width: calc(100% - 100px) !important;
+        max-width: calc(100% - 120px) !important;
+        width: calc(100% - 120px) !important;
     }
     
     .header-tab-div {
