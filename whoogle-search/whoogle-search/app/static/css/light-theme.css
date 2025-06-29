@@ -256,3 +256,73 @@ path {
 .desktop-header, .mobile-header {
     background-color: var(--whoogle-result-bg) !important;
 }
+
+/* Light Theme Modal Overrides */
+.modal-content {
+    background: linear-gradient(145deg, #ffffff, #f8f9ff) !important;
+    border: 1px solid rgba(226, 232, 240, 0.5) !important;
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.1),
+        0 8px 24px rgba(0, 0, 0, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+}
+
+.modal-header {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 249, 255, 0.9)) !important;
+    border-bottom: 1px solid rgba(226, 232, 240, 0.8) !important;
+}
+
+.modal-header h2 {
+    color: #1f2937 !important;
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+.close-modal {
+    color: #6b7280 !important;
+}
+
+.close-modal:hover {
+    color: #374151 !important;
+    background-color: rgba(243, 244, 246, 0.8) !important;
+}
+
+.setting-title {
+    color: #1f2937 !important;
+}
+
+.setting-description {
+    color: #6b7280 !important;
+}
+
+.theme-select {
+    background: #ffffff !important;
+    border: 2px solid #d1d5db !important;
+    color: #1f2937 !important;
+}
+
+.theme-select:focus {
+    border-color: #3b82f6 !important;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+}
+
+.toggle-switch input:checked + .toggle-slider {
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8) !important;
+}
+
+.modal-buttons {
+    border-top: 1px solid rgba(226, 232, 240, 0.8) !important;
+}
+
+.modal-buttons .cancel-btn {
+    color: #6b7280 !important;
+    border: 2px solid #d1d5db !important;
+}
+
+.modal-buttons .cancel-btn:hover {
+    background-color: #f9fafb !important;
+    border-color: #9ca3af !important;
+    color: #374151 !important;
+}
