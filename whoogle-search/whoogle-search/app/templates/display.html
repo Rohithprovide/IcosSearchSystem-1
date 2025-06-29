@@ -82,10 +82,10 @@
             width: 100% !important;
         }
         
-        /* Target search results content specifically - everything after header */
+        /* Target search results content specifically - align with search bar and make wider */
         body > div:not([class*="header"]):not([id*="header"]) {
-            margin-left: 120px !important;
-            max-width: calc(100% - 200px) !important;
+            margin-left: 170px !important;
+            max-width: calc(100% - 190px) !important;
             width: auto !important;
         }
         
@@ -93,18 +93,19 @@
         body > main,
         body > section,
         body > article {
-            margin-left: 120px !important;
-            max-width: calc(100% - 200px) !important;
+            margin-left: 170px !important;
+            max-width: calc(100% - 190px) !important;
             width: auto !important;
         }
         
-        /* Increase search result item widths */
+        /* Make search result items wider and remove width constraints */
         .result,
         .search-result,
         div[class*="result"],
         div[data-result] {
             max-width: none !important;
             width: 100% !important;
+            min-width: 600px !important;
         }
         
         /* Move search results content specifically */
@@ -125,8 +126,15 @@
             body > main,
             body > section,
             body > article {
-                margin-left: 80px !important;
-                max-width: calc(100% - 120px) !important;
+                margin-left: 120px !important;
+                max-width: calc(100% - 140px) !important;
+            }
+            
+            .result,
+            .search-result,
+            div[class*="result"],
+            div[data-result] {
+                min-width: 400px !important;
             }
         }
         
@@ -136,7 +144,14 @@
             body > section,
             body > article {
                 margin-left: 20px !important;
-                max-width: calc(100% - 60px) !important;
+                max-width: calc(100% - 40px) !important;
+            }
+            
+            .result,
+            .search-result,
+            div[class*="result"],
+            div[data-result] {
+                min-width: 300px !important;
             }
         }
         
