@@ -91,15 +91,13 @@ link[href*="gstatic.com"] {
     background-image: none !important;
     text-indent: 0 !important;
     position: relative !important;
-    /* Remove the aggressive hiding that conflicts with hover effects */
+    /* Ensure Maps text is visible */
+    font-size: 13px !important;
+    line-height: 16px !important;
+    color: #70757a !important;
 }
 
-.desktop-header a[href*="maps.google.com"]:after,
-.mobile-header a[href*="maps.google.com"]:after,
-.header-tab-a[href*="maps.google.com"]:after {
-    /* Remove the :after pseudo-element that was causing the different hover effect */
-    display: none !important;
-}
+/* Allow Maps tab :after pseudo-elements for hover effects */
 
 /* Allow Maps tab text to be visible while hiding icons */
 .desktop-header a[href*="maps.google.com"] img,

@@ -439,7 +439,8 @@ a {
 
 /* Ensure Maps tab also gets the hover border effect */
 .desktop-header a[href*="maps.google.com"]:hover::after,
-.desktop-header a[href*="maps"]:hover::after {
+.desktop-header a[href*="maps"]:hover::after,
+.desktop-header a[href*="tbm=lcl"]:hover::after {
     content: '' !important;
     position: absolute !important;
     bottom: 0 !important;
@@ -451,6 +452,13 @@ a {
     border-radius: 1px !important;
     animation: borderSlideIn 0.2s ease-out !important;
     display: block !important;
+}
+
+/* Also ensure Maps tab text color changes on hover */
+.desktop-header a[href*="maps.google.com"]:hover,
+.desktop-header a[href*="maps"]:hover,
+.desktop-header a[href*="tbm=lcl"]:hover {
+    color: #202124 !important;
 }
 
 @keyframes borderSlideIn {
