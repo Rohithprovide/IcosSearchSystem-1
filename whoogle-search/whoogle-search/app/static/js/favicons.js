@@ -1,7 +1,24 @@
 /**
  * Favicon functionality for Whoogle Search
- * Adds website favicons to search results dynamically
+ * Adds website favicons to search results dynamically and removes Google icons
  */
+
+function removeGoogleIcons() {
+    // Remove any Google Maps icons or other Google icons from navigation
+    const navElements = document.querySelectorAll('.desktop-header, .mobile-header');
+    navElements.forEach(nav => {
+        // Remove any SVG elements or icon fonts
+        const icons = nav.querySelectorAll('svg, [class*="icon"], [class*="google"]');
+        icons.forEach(icon => icon.remove());
+        
+        // Remove background images from navigation items
+        const navItems = nav.querySelectorAll('a, span');
+        navItems.forEach(item => {
+            item.style.backgroundImage = 'none';
+            item.style.background = 'none';
+        });
+    });
+}
 
 function addFavicons() {
     // Find all result links that should have favicons
@@ -86,10 +103,17 @@ function addFavicons() {
 
 // Run when page loads
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', addFavicons);
+    document.addEventListener('DOMContentLoaded', function() {
+        removeGoogleIcons();
+        addFavicons();
+    });
 } else {
+    removeGoogleIcons();
     addFavicons();
 }
 
 // Also run after a short delay to catch any dynamically loaded content
-setTimeout(addFavicons, 500);
+setTimeout(function() {
+    removeGoogleIcons();
+    addFavicons();
+}, 500);

@@ -1,0 +1,70 @@
+/* Hide all Google-specific icons and graphics */
+
+/* Hide Google Maps pin icon and other tab icons */
+.desktop-header a[href*="maps.google.com"]::before,
+.desktop-header a[href*="maps.google.com"]::after,
+.mobile-header a[href*="maps.google.com"]::before,
+.mobile-header a[href*="maps.google.com"]::after {
+    display: none !important;
+    content: "" !important;
+    background: none !important;
+}
+
+/* Hide any background images in header tabs */
+.header-tab-a::before,
+.header-tab-a::after,
+.header-tab-span::before,
+.header-tab-span::after {
+    display: none !important;
+    content: "" !important;
+    background: none !important;
+}
+
+/* Remove background images from all navigation elements */
+.desktop-header a,
+.desktop-header span,
+.mobile-header a,
+.mobile-header span {
+    background-image: none !important;
+    background: none !important;
+}
+
+/* Hide any Google icon fonts or symbols */
+.desktop-header [class*="google"],
+.desktop-header [class*="icon"],
+.mobile-header [class*="google"],
+.mobile-header [class*="icon"] {
+    display: none !important;
+}
+
+/* Hide SVG icons in navigation */
+.desktop-header svg,
+.mobile-header svg,
+.header-tab-div svg {
+    display: none !important;
+}
+
+/* Ensure Maps tab shows only text */
+.desktop-header a[href*="maps.google.com"],
+.mobile-header a[href*="maps.google.com"] {
+    background: none !important;
+    background-image: none !important;
+    text-indent: 0 !important;
+    padding-left: 16px !important;
+}
+
+/* Hide any icon containers */
+.desktop-header .icon,
+.mobile-header .icon,
+.header-tab-div .icon {
+    display: none !important;
+}
+
+/* Block Google favicon and other Google assets from loading */
+img[src*="google.com/favicon"],
+img[src*="gstatic.com"],
+img[src*="googleusercontent.com"],
+link[href*="google.com/favicon"],
+link[href*="gstatic.com"] {
+    display: none !important;
+}
