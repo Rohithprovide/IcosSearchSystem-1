@@ -304,7 +304,7 @@ path {
 }
 
 .toggle-switch input:checked + .toggle-slider {
-    background: #2563eb !important;
+    background: #06b6d4 !important;
 }
 
 .modal-buttons {
@@ -314,6 +314,14 @@ path {
 .modal-buttons .cancel-btn {
     color: #6b7280 !important;
     border: 2px solid #d1d5db !important;
+}
+
+.modal-buttons .apply-btn {
+    background: #06b6d4 !important;
+}
+
+.modal-buttons .apply-btn:hover {
+    background: #0891b2 !important;
 }
 
 .modal-buttons .cancel-btn:hover {
