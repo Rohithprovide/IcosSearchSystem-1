@@ -66,36 +66,62 @@
             padding-left: 120px !important;
         }
         
-        /* Move search results content to the right */
-        #main {
-            margin-left: 120px !important;
-            max-width: calc(100% - 140px) !important;
+        /* Move all content to the right - target body and all main containers */
+        body {
+            padding-left: 120px !important;
+            box-sizing: border-box !important;
         }
         
-        /* Also move the entire content area */
-        .content {
-            margin-left: 120px !important;
-            max-width: calc(100% - 140px) !important;
+        /* Ensure header stays in place */
+        header,
+        .header-container,
+        .header-tab-div,
+        .header-tab-div-2,
+        .header-tab-div-3 {
+            margin-left: -120px !important;
+            width: calc(100% + 120px) !important;
         }
         
-        /* Target the search results specifically */
-        .results {
-            margin-left: 120px !important;
-            max-width: calc(100% - 140px) !important;
+        /* Move search results content specifically */
+        #main,
+        .content,
+        .results,
+        div[id*="main"],
+        div[class*="main"],
+        div[class*="content"],
+        div[class*="result"] {
+            margin-left: 0 !important;
+            padding-left: 0 !important;
         }
         
         /* Responsive adjustments */
         @media (max-width: 1024px) {
-            #main, .content, .results {
-                margin-left: 80px !important;
-                max-width: calc(100% - 100px) !important;
+            body {
+                padding-left: 80px !important;
+            }
+            
+            header,
+            .header-container,
+            .header-tab-div,
+            .header-tab-div-2,
+            .header-tab-div-3 {
+                margin-left: -80px !important;
+                width: calc(100% + 80px) !important;
             }
         }
         
         @media (max-width: 768px) {
-            #main, .content, .results {
-                margin-left: 20px !important;
-                max-width: calc(100% - 40px) !important;
+            body {
+                padding-left: 20px !important;
+            }
+            
+            header,
+            .header-container,
+            .header-tab-div,
+            .header-tab-div-2,
+            .header-tab-div-3 {
+                margin-left: -20px !important;
+                width: calc(100% + 20px) !important;
             }
         }
         
