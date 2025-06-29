@@ -13,8 +13,8 @@
 .header-container .search-div .header-autocomplete .search-bar-desktop,
 #search-bar.search-bar-desktop {
     width: 100% !important;
-    max-width: 700px !important;
-    min-width: 500px !important;
+    max-width: 800px !important;
+    min-width: 600px !important;
     border: 1px solid #dfe1e5 !important;
     border-radius: 24px !important;
     padding: 12px 16px !important;
