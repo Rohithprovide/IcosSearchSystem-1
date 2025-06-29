@@ -66,20 +66,34 @@
             padding-left: 120px !important;
         }
         
-        /* Move all content to the right - target body and all main containers */
+        /* Move only search results content to the right, not header */
         body {
-            padding-left: 120px !important;
-            box-sizing: border-box !important;
+            position: relative;
         }
         
-        /* Ensure header stays in place */
+        /* Keep header in original position */
         header,
         .header-container,
         .header-tab-div,
         .header-tab-div-2,
         .header-tab-div-3 {
-            margin-left: -120px !important;
-            width: calc(100% + 120px) !important;
+            position: relative;
+            margin-left: 0 !important;
+            width: 100% !important;
+        }
+        
+        /* Target search results content specifically - everything after header */
+        body > div:not([class*="header"]):not([id*="header"]) {
+            margin-left: 120px !important;
+            max-width: calc(100% - 140px) !important;
+        }
+        
+        /* Also target any direct content elements */
+        body > main,
+        body > section,
+        body > article {
+            margin-left: 120px !important;
+            max-width: calc(100% - 140px) !important;
         }
         
         /* Move search results content specifically */
@@ -94,34 +108,24 @@
             padding-left: 0 !important;
         }
         
-        /* Responsive adjustments */
+        /* Responsive adjustments for search results positioning */
         @media (max-width: 1024px) {
-            body {
-                padding-left: 80px !important;
-            }
-            
-            header,
-            .header-container,
-            .header-tab-div,
-            .header-tab-div-2,
-            .header-tab-div-3 {
-                margin-left: -80px !important;
-                width: calc(100% + 80px) !important;
+            body > div:not([class*="header"]):not([id*="header"]),
+            body > main,
+            body > section,
+            body > article {
+                margin-left: 80px !important;
+                max-width: calc(100% - 100px) !important;
             }
         }
         
         @media (max-width: 768px) {
-            body {
-                padding-left: 20px !important;
-            }
-            
-            header,
-            .header-container,
-            .header-tab-div,
-            .header-tab-div-2,
-            .header-tab-div-3 {
-                margin-left: -20px !important;
-                width: calc(100% + 20px) !important;
+            body > div:not([class*="header"]):not([id*="header"]),
+            body > main,
+            body > section,
+            body > article {
+                margin-left: 20px !important;
+                max-width: calc(100% - 40px) !important;
             }
         }
         
