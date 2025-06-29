@@ -1,59 +1,103 @@
-# Hello World Python Project
+# Whoogle Search - Replit Deployment
 
 ## Overview
 
-This is a simple Python project containing a basic "Hello World" program. The repository demonstrates fundamental Python programming concepts including function definitions, conditional execution, and console output. This serves as a starting point for Python development and can be extended with additional functionality.
+This repository contains a Whoogle Search deployment wrapper for Replit. Whoogle Search is a privacy-focused Google search proxy that removes ads, tracking, and JavaScript while providing clean search results. The application is built with Python/Flask and designed to be easily deployable on various platforms including Replit.
 
 ## System Architecture
 
-The project follows a simple script-based architecture:
+### Backend Architecture
+- **Framework**: Flask web application written in Python
+- **Core Components**:
+  - Search proxy engine that queries Google and filters results
+  - Request handling system with Tor support
+  - Configuration management with user preferences
+  - Session management with encryption
+  - Filter system for cleaning search results
+  - Bang shortcuts for quick navigation
 
-- **Single-file application**: The entire application is contained within `hello_world.py`
-- **Procedural programming**: Uses a simple function-based approach with a main entry point
-- **Console-based output**: Utilizes standard output for user interaction
-- **Standalone execution**: Designed to run independently without external dependencies
+### Frontend Architecture
+- **Templates**: Jinja2 templating with responsive HTML
+- **Styling**: CSS with theme support (light/dark/system)
+- **JavaScript**: Vanilla JS for autocomplete, keyboard navigation, and utilities
+- **Responsive Design**: Mobile-first approach with separate mobile templates
+
+### Data Flow
+1. User submits search query through web interface
+2. Flask routes process the request and apply user configurations
+3. Search class constructs Google search query with privacy parameters
+4. Request module fetches results (optionally through Tor)
+5. Filter module processes HTML, removes tracking, ads, and unwanted content
+6. Results are rendered with custom templates and returned to user
 
 ## Key Components
 
-### Core Files
-- `hello_world.py`: Main application file containing the program logic
+### Core Modules
+- **`app/__init__.py`**: Flask application initialization and configuration
+- **`app/routes.py`**: Main route handlers for search, config, and utilities
+- **`app/filter.py`**: HTML filtering and result cleaning logic
+- **`app/request.py`**: HTTP request handling with Tor support
+- **`app/utils/search.py`**: Search query processing and construction
 
-### Main Functions
-- `main()`: Primary function that handles the greeting output
-- Entry point conditional: Ensures proper execution when run as a script
+### Models
+- **`Config`**: User preference management and session handling
+- **`Endpoint`**: URL endpoint enumeration
+- **`GClasses`**: Google CSS class tracking for filtering
 
-### Design Patterns
-- **Entry point pattern**: Uses `if __name__ == "__main__"` for proper script execution
-- **Function-based organization**: Separates logic into reusable functions
-- **Documentation pattern**: Includes comprehensive docstrings and comments
+### Frontend Assets
+- **Templates**: HTML templates for search results, configuration, and layouts
+- **CSS**: Theming system with variables and responsive design
+- **JavaScript**: Client-side functionality for search enhancement
 
-## Data Flow
-
-1. Script execution begins at the conditional check
-2. `main()` function is called if running as primary script
-3. Two greeting messages are printed to console output
-4. Program execution completes
+### Configuration System
+- Environment variable based configuration
+- User session preferences with encryption
+- Country, language, and search customization options
+- Theme and appearance settings
 
 ## External Dependencies
 
-- **Runtime**: Python 3.x interpreter
-- **Standard library**: Uses built-in `print()` function only
-- **No external packages**: Project has no third-party dependencies
+### Python Packages
+- **Flask**: Web framework and routing
+- **BeautifulSoup4**: HTML parsing and manipulation
+- **Requests**: HTTP client for search queries
+- **Cryptography**: Session encryption and security
+- **Stem**: Tor network integration
+- **Waitress**: WSGI server for production deployment
+
+### Optional Integrations
+- **Tor Network**: Anonymous search routing
+- **Proxy Support**: SOCKS and HTTP proxy compatibility
+- **Translation Services**: Multi-language interface support
 
 ## Deployment Strategy
 
-### Local Development
-- Execute directly with `python hello_world.py` or `python3 hello_world.py`
-- Requires Python 3.x runtime environment
+### Replit Deployment
+- **Entry Point**: `main.py` - Sets up and runs Whoogle Search
+- **Process**: 
+  1. Clones Whoogle Search repository if not present
+  2. Installs Python dependencies
+  3. Configures environment for Replit hosting
+  4. Starts Flask application server
 
-### Potential Extensions
-- Can be packaged as a module for import by other scripts
-- Ready for containerization with Docker if needed
-- Suitable for CI/CD pipeline integration
+### Environment Configuration
+- Automatic dependency installation from `requirements.txt`
+- Environment variable configuration for Replit compatibility
+- Port and host configuration for cloud deployment
+
+### Scalability Considerations
+- Stateless application design for horizontal scaling
+- Session-based user preferences without persistent storage
+- Configurable proxy and Tor support for distributed deployment
 
 ## Changelog
-
-- June 29, 2025. Initial setup
+- June 29, 2025. Initial repository clone and setup:
+  - Cloned icos-search-3 repository from GitHub (https://github.com/Rohithprovide/icos-search-3.git)
+  - Successfully cloned repository with all files and nested Whoogle Search components
+  - Installed required Python dependencies including cssutils, stem, pysocks, validators, waitress, and python-dotenv
+  - Configured main.py as entry point for Whoogle Search application
+  - Application successfully running on port 5000 with proper dependency resolution
+  - Whoogle Search proxy server is now fully operational and accessible
 
 ## User Preferences
 

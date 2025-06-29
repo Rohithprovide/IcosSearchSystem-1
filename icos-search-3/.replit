@@ -14,34 +14,10 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "Python Hello World"
-
-[[workflows.workflow.tasks]]
-task = "workflow.run"
-args = "hello_world_test"
-
-[[workflows.workflow.tasks]]
-task = "workflow.run"
-args = "Whoogle Search"
+args = "IcosSearch Server"
 
 [[workflows.workflow]]
-name = "Python Hello World"
-author = "agent"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "python hello_world.py"
-
-[[workflows.workflow]]
-name = "hello_world_test"
-author = "agent"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "python hello_world.py"
-
-[[workflows.workflow]]
-name = "Whoogle Search"
+name = "IcosSearch Server"
 author = "agent"
 
 [[workflows.workflow.tasks]]
