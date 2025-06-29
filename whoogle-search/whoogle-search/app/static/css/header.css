@@ -421,12 +421,18 @@ a {
 /* Comprehensive hover effect for ALL navigation tabs */
 .desktop-header a:hover,
 .mobile-header a:hover,
-.header-tab-a:hover,
-.desktop-header a:nth-child(1):hover,
-.desktop-header a:nth-child(2):hover,
-.desktop-header a:nth-child(3):hover,
-.desktop-header a:nth-child(4):hover,
-.desktop-header a:nth-child(5):hover {
+.header-tab-a:hover {
+    color: #202124 !important;
+    text-decoration: underline !important;
+    text-decoration-color: #dadce0 !important;
+    text-decoration-thickness: 2px !important;
+    text-underline-offset: 8px !important;
+    transition: all 0.2s ease !important;
+}
+
+/* Specific targeting for Maps tab based on actual HTML structure */
+a[href*="maps.google.com"]:hover,
+.header-tab-a[href*="maps.google.com"]:hover {
     color: #202124 !important;
     text-decoration: underline !important;
     text-decoration-color: #dadce0 !important;
