@@ -418,21 +418,9 @@ a {
     position: relative;
 }
 
-/* Hover effects for navigation tabs */
+/* Hover effects for navigation tabs - only underline effect */
 .desktop-header a:hover {
     color: #202124;
-    background-color: rgba(60, 64, 67, 0.08);
-    border-radius: 8px;
-    transform: translateY(-1px);
-}
-
-/* Ensure Maps tab gets same hover effect */
-.desktop-header a[href*="maps.google.com"]:hover,
-.desktop-header a[href*="maps"]:hover {
-    color: #202124 !important;
-    background-color: rgba(60, 64, 67, 0.08) !important;
-    border-radius: 8px !important;
-    transform: translateY(-1px) !important;
 }
 
 /* Add subtle bottom border animation on hover */
@@ -510,17 +498,14 @@ span.header-tab-span:hover {
     position: relative;
 }
 
-/* Mobile hover effects */
+/* Mobile hover effects - simple color change */
 .mobile-header a:hover {
     color: #202124;
-    background-color: rgba(60, 64, 67, 0.08);
-    transform: scale(1.05);
 }
 
 /* Mobile touch feedback */
 .mobile-header a:active {
-    background-color: rgba(60, 64, 67, 0.12);
-    transform: scale(0.98);
+    color: #202124;
 }
 
 span.mobile-tab-span {
