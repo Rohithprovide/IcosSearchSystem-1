@@ -248,130 +248,230 @@ button::-moz-focus-inner {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.5);
-    backdrop-filter: blur(4px);
+    background: linear-gradient(135deg, rgba(139, 69, 255, 0.1), rgba(75, 85, 255, 0.1));
+    backdrop-filter: blur(8px);
 }
 
 .modal-content {
-    background-color: #fff;
-    margin: 15% auto;
+    background: linear-gradient(145deg, #ffffff, #f8f9ff);
+    margin: 8% auto;
     padding: 0;
-    border-radius: 12px;
-    width: 400px;
+    border-radius: 24px;
+    width: 480px;
     max-width: 90%;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-    animation: modalSlideIn 0.3s ease-out;
+    box-shadow: 
+        0 20px 60px rgba(139, 69, 255, 0.15),
+        0 8px 24px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    animation: modalSlideIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 @keyframes modalSlideIn {
     from {
         opacity: 0;
-        transform: translateY(-50px);
+        transform: translateY(-40px) scale(0.95);
     }
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
     }
 }
 
 .modal-header {
-    padding: 20px 24px 16px;
-    border-bottom: 1px solid #e8eaed;
+    padding: 28px 32px 20px;
+    border-bottom: 1px solid rgba(139, 69, 255, 0.1);
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 249, 255, 0.9));
+    border-radius: 24px 24px 0 0;
 }
 
-.modal-header h3 {
+.modal-header h2 {
     margin: 0;
-    font-size: 18px;
-    font-weight: 500;
-    color: #202124;
+    font-size: 24px;
+    font-weight: 600;
+    color: #2d3748;
+    background: linear-gradient(135deg, #4c51bf, #805ad5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .close-modal {
     font-size: 24px;
-    color: #5f6368;
+    color: #a0aec0;
     cursor: pointer;
     line-height: 1;
-    transition: color 0.2s ease;
+    transition: all 0.2s ease;
+    padding: 8px;
+    border-radius: 50%;
 }
 
 .close-modal:hover {
-    color: #202124;
+    color: #4a5568;
+    background-color: rgba(139, 69, 255, 0.1);
 }
 
 .modal-body {
-    padding: 24px;
+    padding: 8px 32px 32px;
 }
 
-.setting-group {
-    margin-bottom: 20px;
+.setting-item {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+    transition: all 0.2s ease;
 }
 
-.setting-group label {
-    font-size: 14px;
-    color: #202124;
-    font-weight: 500;
+.setting-item:last-of-type {
+    border-bottom: none;
+}
+
+.setting-item:hover {
+    background-color: rgba(139, 69, 255, 0.02);
+    border-radius: 16px;
+    margin: 0 -16px;
+    padding: 20px 16px;
+}
+
+.setting-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 16px;
+    background: linear-gradient(135deg, rgba(139, 69, 255, 0.1), rgba(99, 102, 241, 0.1));
+    color: #6366f1;
+    font-size: 18px;
+}
+
+.setting-info {
     flex: 1;
 }
 
-.setting-group select {
-    padding: 8px 12px;
-    border: 1px solid #dadce0;
-    border-radius: 6px;
+.setting-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 4px;
+}
+
+.setting-description {
+    font-size: 14px;
+    color: #718096;
+    line-height: 1.4;
+}
+
+.setting-control {
+    margin-left: 16px;
+}
+
+.theme-select {
+    padding: 10px 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
     background: white;
     font-size: 14px;
-    color: #202124;
+    color: #2d3748;
     outline: none;
-    width: 140px;
+    min-width: 120px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.theme-select:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* Custom Toggle Switch */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 54px;
+    height: 28px;
     cursor: pointer;
 }
 
-.setting-group select:focus {
-    border-color: #1a73e8;
-    box-shadow: 0 0 0 1px #1a73e8;
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
 }
 
-.setting-group input[type="checkbox"] {
-    width: 16px;
-    height: 16px;
-    cursor: pointer;
-    accent-color: #1a73e8;
+.toggle-slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, #e2e8f0, #cbd5e0);
+    border-radius: 28px;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 3px;
+    bottom: 3px;
+    background: linear-gradient(135deg, #ffffff, #f7fafc);
+    border-radius: 50%;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.toggle-switch input:checked + .toggle-slider {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+}
+
+.toggle-switch input:checked + .toggle-slider:before {
+    transform: translateX(26px);
+    background: linear-gradient(135deg, #ffffff, #f8faff);
 }
 
 .modal-buttons {
     margin-top: 32px;
     display: flex;
-    gap: 12px;
+    gap: 16px;
     justify-content: flex-end;
+    padding-top: 24px;
+    border-top: 1px solid rgba(226, 232, 240, 0.8);
 }
 
 .modal-buttons .apply-btn {
-    background-color: #1a73e8;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
     color: white;
     border: none;
-    padding: 10px 24px;
-    border-radius: 6px;
+    padding: 12px 32px;
+    border-radius: 12px;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
 }
 
 .modal-buttons .apply-btn:hover {
-    background-color: #1557b0;
+    background: linear-gradient(135deg, #5a5fcf, #7c3aed);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
 }
 
 .modal-buttons .cancel-btn {
-    background-color: transparent;
-    color: #5f6368;
-    border: 1px solid #dadce0;
+    background: transparent;
+    color: #718096;
+    border: 2px solid #e2e8f0;
     padding: 10px 24px;
-    border-radius: 6px;
+    border-radius: 12px;
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
@@ -379,8 +479,9 @@ button::-moz-focus-inner {
 }
 
 .modal-buttons .cancel-btn:hover {
-    background-color: #f8f9fa;
-    border-color: #5f6368;
+    background-color: #f7fafc;
+    border-color: #cbd5e0;
+    color: #4a5568;
 }
 
 footer {
