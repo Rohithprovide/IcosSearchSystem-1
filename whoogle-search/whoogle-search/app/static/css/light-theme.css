@@ -304,7 +304,7 @@ path {
 }
 
 .toggle-switch input:checked + .toggle-slider {
-    background: #06b6d4 !important;
+    background: #3b82f6 !important;
 }
 
 .modal-buttons {
@@ -318,6 +318,7 @@ path {
 
 .modal-buttons .apply-btn {
     background: #06b6d4 !important;
+    color: #ffffff !important;
 }
 
 .modal-buttons .apply-btn:hover {

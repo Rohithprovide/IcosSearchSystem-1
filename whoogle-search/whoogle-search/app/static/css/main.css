@@ -465,7 +465,7 @@ button::-moz-focus-inner {
 
 .modal-buttons .apply-btn {
     background: #06b6d4;
-    color: #ffffff;
+    color: #ffffff !important;
     border: none;
     padding: 12px 32px;
     border-radius: 12px;
