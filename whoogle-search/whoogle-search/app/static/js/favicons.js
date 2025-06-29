@@ -4,24 +4,21 @@
  */
 
 function removeGoogleIcons() {
-    // Remove any Google Maps icons or other Google icons from navigation
-    const navElements = document.querySelectorAll('.desktop-header, .mobile-header');
-    navElements.forEach(nav => {
-        // Remove any SVG elements or icon fonts
-        const icons = nav.querySelectorAll('svg, [class*="icon"], [class*="google"]');
-        icons.forEach(icon => icon.remove());
-        
-        // Remove background images from navigation items
-        const navItems = nav.querySelectorAll('a, span');
-        navItems.forEach(item => {
-            item.style.backgroundImage = 'none';
-            item.style.background = 'none';
-        });
+    // Minimal cleanup - only remove obvious icon elements that might interfere with search results
+    // Avoid touching navigation elements to prevent conflicts with Maps icon
+    const unnecessaryIcons = document.querySelectorAll('svg[class*="google"], .google-icon, .gicon');
+    unnecessaryIcons.forEach(icon => {
+        // Only remove if it's clearly not part of navigation
+        if (!icon.closest('.desktop-header') && 
+            !icon.closest('.mobile-header') && 
+            !icon.closest('[role="navigation"]')) {
+            icon.remove();
+        }
     });
 }
 
 function addFavicons() {
-    // Find all result links that should have favicons
+    // Find all result links that should have favicons - be very specific
     const resultLinks = document.querySelectorAll('a[href*="://"]');
     
     resultLinks.forEach(link => {
@@ -34,9 +31,34 @@ function addFavicons() {
             return;
         }
         
+        // Skip all Google service links and navigation
+        if (href.includes('google.com') || 
+            href.includes('maps.google.com') ||
+            href.includes('images.google.com') ||
+            href.includes('news.google.com') ||
+            href.includes('search?') ||
+            href.includes('youtube.com') ||
+            link.closest('.desktop-header') ||
+            link.closest('.mobile-header') ||
+            link.closest('[role="navigation"]') ||
+            link.closest('.header-tab-div') ||
+            link.closest('.header-container')) {
+            return;
+        }
+        
         // Skip if link doesn't have meaningful text (likely not a title link)
         const linkText = link.textContent.trim();
         if (!linkText || linkText.length < 3) {
+            return;
+        }
+        
+        // Only add to links that are clearly search results
+        const isSearchResult = link.closest('[data-ved]') || 
+                              link.closest('.g') || 
+                              link.closest('[class*="result"]') ||
+                              (link.parentElement && !link.closest('nav'));
+        
+        if (!isSearchResult) {
             return;
         }
         
