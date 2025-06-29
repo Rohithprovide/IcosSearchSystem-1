@@ -91,18 +91,18 @@ body div[style*="590px"],
 body div[style*="max-width: 590px"],
 body div[style*="max-width:590px"],
 body div[style*="max-width"] {
-    max-width: 900px !important;
+    max-width: 1200px !important;
     width: auto !important;
 }
 
 body .g, body .tF2Cxc, body .MjjYud, body .hlcw0c, body .IsZvec {
-    max-width: 900px !important;
+    max-width: 1200px !important;
 }
 
 /* Target main search containers */
 body #main > div,
 body #search > div {
-    max-width: 900px !important;
+    max-width: 1200px !important;
 }
 
 @media (min-width: 801px) {
@@ -115,16 +115,16 @@ body #search > div {
     body div[style*="max-width: 590px"],
     body div[style*="max-width:590px"],
     body div[style*="max-width"] {
-        max-width: 1000px !important;
+        max-width: 1300px !important;
     }
     
     body .g, body .tF2Cxc, body .MjjYud, body .hlcw0c, body .IsZvec {
-        max-width: 1000px !important;
+        max-width: 1300px !important;
     }
     
     body #main > div,
     body #search > div {
-        max-width: 1000px !important;
+        max-width: 1300px !important;
     }
 }
 
