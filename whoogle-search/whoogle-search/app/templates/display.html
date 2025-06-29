@@ -82,9 +82,10 @@
             width: 100% !important;
         }
         
-        /* Target search results content specifically - keep moderate right positioning */
+        /* Target search results content specifically - expand to use more space */
         body > div:not([class*="header"]):not([id*="header"]) {
             margin-left: 120px !important;
+            margin-right: 60px !important;
             max-width: none !important;
             width: auto !important;
         }
@@ -94,17 +95,27 @@
         body > section,
         body > article {
             margin-left: 120px !important;
+            margin-right: 60px !important;
             max-width: none !important;
             width: auto !important;
         }
         
-        /* Make search result items wider and remove width constraints */
+        /* Make search result items wider and expand to full available width */
         .result,
         .search-result,
         div[class*="result"],
         div[data-result] {
             max-width: none !important;
             width: 100% !important;
+            padding-right: 0 !important;
+        }
+        
+        /* Ensure main content containers use full available width */
+        #main {
+            margin-left: 120px !important;
+            margin-right: 60px !important;
+            max-width: none !important;
+            width: auto !important;
         }
         
         /* Move search results content specifically */
@@ -124,8 +135,10 @@
             body > div:not([class*="header"]):not([id*="header"]),
             body > main,
             body > section,
-            body > article {
+            body > article,
+            #main {
                 margin-left: 80px !important;
+                margin-right: 40px !important;
                 max-width: none !important;
             }
         }
@@ -134,8 +147,10 @@
             body > div:not([class*="header"]):not([id*="header"]),
             body > main,
             body > section,
-            body > article {
+            body > article,
+            #main {
                 margin-left: 20px !important;
+                margin-right: 20px !important;
                 max-width: none !important;
             }
         }
