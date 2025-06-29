@@ -449,14 +449,14 @@ span.header-tab-span {
     color: #1a73e8;
     font-weight: 500;
     position: relative;
-    background-color: rgba(26, 115, 232, 0.04);
-    border-radius: 8px 8px 0 0;
+    background-color: transparent;
+    border-radius: 0;
 }
 
 /* Ensure selected tab doesn't get hover effects */
 span.header-tab-span:hover {
     transform: none;
-    background-color: rgba(26, 115, 232, 0.04);
+    background-color: transparent;
 }
 
 .mobile-header {
@@ -474,7 +474,7 @@ span.header-tab-span:hover {
     display: inline-block;
     padding: 8px 12px;
     transition: all 0.2s ease-in-out;
-    border-radius: 6px;
+    border-radius: 0;
     position: relative;
 }
 
