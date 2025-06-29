@@ -5,10 +5,10 @@
 
 function removeGoogleIcons() {
     // Remove any Google Maps icons or other Google icons from navigation
-    const navElements = document.querySelectorAll('.desktop-header, .mobile-header, .header-tab-div');
+    const navElements = document.querySelectorAll('.desktop-header, .mobile-header');
     navElements.forEach(nav => {
         // Remove any SVG elements or icon fonts
-        const icons = nav.querySelectorAll('svg, [class*="icon"], [class*="google"], [class*="material"]');
+        const icons = nav.querySelectorAll('svg, [class*="icon"], [class*="google"]');
         icons.forEach(icon => icon.remove());
         
         // Remove background images from navigation items
@@ -16,34 +16,7 @@ function removeGoogleIcons() {
         navItems.forEach(item => {
             item.style.backgroundImage = 'none';
             item.style.background = 'none';
-            item.style.listStyle = 'none';
-            
-            // Special handling for Maps links
-            if (item.href && item.href.includes('maps.google.com')) {
-                // Force only text content
-                const textContent = item.textContent.trim();
-                item.innerHTML = '';
-                item.textContent = 'Maps';
-                item.style.backgroundImage = 'none';
-                item.style.background = 'none';
-                item.style.textIndent = '0';
-                item.style.fontSize = '13px';
-                item.style.lineHeight = '16px';
-                
-                // Remove any child elements that might contain icons
-                while (item.firstChild && item.firstChild.nodeType !== Node.TEXT_NODE) {
-                    item.removeChild(item.firstChild);
-                }
-            }
         });
-    });
-    
-    // Additional cleanup for any remaining icons
-    const allIcons = document.querySelectorAll('[class*="google"], [class*="gicon"], [class*="maps"], svg, .icon');
-    allIcons.forEach(icon => {
-        if (icon.closest('.desktop-header, .mobile-header, .header-tab-div')) {
-            icon.remove();
-        }
     });
 }
 
