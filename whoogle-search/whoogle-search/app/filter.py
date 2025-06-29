@@ -249,46 +249,59 @@ class Filter:
         if not show_favicons or not is_valid_link:
             return
 
-        parent = link.parent
-        is_result_div = False
-
-        # Check each parent to make sure that the div doesn't already have a
-        # favicon attached, and that the div is a result div
-        while parent:
-            p_cls = parent.attrs.get('class') or []
-            if 'has-favicon' in p_cls or GClasses.scroller_class in p_cls:
-                return
-            elif GClasses.result_class_a not in p_cls:
-                parent = parent.parent
-            else:
-                is_result_div = True
-                break
-
-        if not is_result_div:
+        # Skip if this link already has a favicon or is not a result link
+        if link.find_previous_sibling('img', class_='site-favicon'):
+            return
+            
+        # Check if this is a title link (contains text and is likely a result title)
+        link_text = link.get_text(strip=True)
+        if not link_text or len(link_text) < 3:
             return
 
-        # Construct the html for inserting the icon into the parent div
+        # Find the appropriate parent container for the favicon
+        parent = link.parent
+        favicon_target = None
+        
+        # Look for a suitable container (either the direct parent or a result div)
+        current = parent
+        depth = 0
+        while current and depth < 10:
+            p_cls = current.attrs.get('class') or []
+            if 'has-favicon' in p_cls:
+                return  # Already has favicon
+            
+            # Check for result containers (including mobile format)
+            if (GClasses.result_class_a in p_cls or 
+                'ezO2md' in p_cls or  # Mobile result div
+                any('result' in cls.lower() for cls in p_cls)):
+                favicon_target = current
+                break
+            
+            current = current.parent
+            depth += 1
+
+        # If we didn't find a specific result container, use the direct parent
+        if not favicon_target:
+            favicon_target = parent
+
+        # Construct the html for inserting the icon
         parsed = urlparse.urlparse(link['href'])
-        favicon = self.encrypt_path(
+        favicon_url = self.encrypt_path(
             f'{parsed.scheme}://{parsed.netloc}/favicon.ico',
             is_element=True)
-        src = f'{self.root_url}/{Endpoint.element}?url={favicon}' + \
+        src = f'{self.root_url}/{Endpoint.element}?url={favicon_url}' + \
             '&type=image/x-icon'
-        html = f'<img class="site-favicon" src="{src}">'
+        html = f'<img class="site-favicon" src="{src}" alt="">'
 
-        favicon = BeautifulSoup(html, 'html.parser')
-        link.parent.insert(0, favicon)
+        favicon_soup = BeautifulSoup(html, 'html.parser')
+        
+        # Insert favicon before the link
+        link.insert_before(favicon_soup)
 
-        # Update all parents to indicate that a favicon has been attached
-        parent = link.parent
-        while parent:
-            p_cls = parent.get('class') or []
-            p_cls.append('has-favicon')
-            parent['class'] = p_cls
-            parent = parent.parent
-
-            if GClasses.result_class_a in p_cls:
-                break
+        # Mark the target container as having a favicon
+        target_cls = favicon_target.attrs.get('class') or []
+        target_cls.append('has-favicon')
+        favicon_target['class'] = target_cls
 
     def remove_site_blocks(self, soup) -> None:
         if not self.config.block or not soup.body:

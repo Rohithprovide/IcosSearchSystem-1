@@ -55,11 +55,12 @@ def run_whoogle():
         'WHOOGLE_PORT': '5000',
         'WHOOGLE_CONFIG_DISABLE_LOCATION': '1',
         'WHOOGLE_CONFIG_DISABLE_ADBLOCK': '0',
-        'WHOOGLE_CONFIG_THEME': 'dark',
+        'WHOOGLE_CONFIG_THEME': 'light',
         'WHOOGLE_CONFIG_LANGUAGE': 'lang_en',
         'WHOOGLE_CONFIG_SEARCH_LANGUAGE': 'lang_en',
         'WHOOGLE_CONFIG_SAFE_SEARCH': '0',
-        'WHOOGLE_SHOW_FAVICONS': '1'
+        'WHOOGLE_SHOW_FAVICONS': '1',
+        'WHOOGLE_CONFIG_STYLE': '.site-favicon { display: inline-block !important; }'
     })
     
     try:
