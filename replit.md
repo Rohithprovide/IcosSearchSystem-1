@@ -106,6 +106,12 @@ This repository contains a Whoogle Search deployment wrapper for Replit. Whoogle
   - Added smooth animations and proper accessibility features (ESC key, click outside to close)
   - Applied consistent styling across light and dark themes
   - Modal maintains full functionality of original settings system while providing cleaner UX
+- June 29, 2025. Added navigation tab hover effects:
+  - Implemented universal hover effects for all navigation tabs (All, Images, Maps, Videos, News)
+  - Added text-decoration underline effect with custom styling (color: #dadce0, thickness: 2px)
+  - Special handling for Maps tab: preserved hide-google-icons functionality while adding border-bottom hover effect
+  - Consistent hover behavior across desktop and mobile interfaces
+  - Enhanced user experience with visual feedback on tab interaction
 
 ## User Preferences
 
