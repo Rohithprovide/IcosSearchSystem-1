@@ -84,36 +84,7 @@ link[href*="gstatic.com"] {
     display: none !important;
 }
 
-/* Force Maps link to display only text - but allow ALL hover effects including underline */
-.desktop-header a[href*="maps.google.com"],
-.mobile-header a[href*="maps.google.com"],
-.header-tab-a[href*="maps.google.com"] {
-    background-image: none !important;
-    text-indent: 0 !important;
-    position: relative !important;
-    /* Ensure Maps text is visible and can be underlined */
-    font-size: 13px !important;
-    line-height: 16px !important;
-    color: #70757a !important;
-    text-decoration: none !important;
-    /* Ensure hover states can override */
-    overflow: visible !important;
-    display: inline-block !important;
-}
-
-/* Override any built CSS that might be preventing Maps hover effects */
-.desktop-header a[href*="maps"]:hover,
-.desktop-header a[href*="Maps"]:hover,
-.mobile-header a[href*="maps"]:hover,
-.header-tab-a[href*="maps"]:hover {
-    text-decoration: underline !important;
-    text-decoration-color: #dadce0 !important;
-    text-decoration-thickness: 2px !important;
-    text-underline-offset: 8px !important;
-    color: #202124 !important;
-}
-
-/* Allow Maps tab text to be visible while hiding icons */
+/* Minimal Maps tab styling - just hide icons, keep everything else normal */
 .desktop-header a[href*="maps.google.com"] img,
 .mobile-header a[href*="maps.google.com"] img,
 .header-tab-a[href*="maps.google.com"] img,
@@ -123,5 +94,5 @@ link[href*="gstatic.com"] {
     display: none !important;
 }
 
-/* Keep Maps tab visible but ensure no icons are loaded */
+/* End of Maps tab styling */
 
