@@ -248,7 +248,7 @@
             allDivs.forEach(div => {
                 const currentStyle = div.getAttribute('style');
                 if (currentStyle && currentStyle.includes('590px')) {
-                    div.style.maxWidth = '750px';
+                    div.style.maxWidth = '900px';
                     div.style.width = 'auto';
                 }
             });
@@ -258,7 +258,7 @@
             searchClasses.forEach(className => {
                 const elements = document.querySelectorAll(className);
                 elements.forEach(el => {
-                    el.style.maxWidth = '750px';
+                    el.style.maxWidth = '900px';
                     el.style.width = '100%';
                 });
             });
