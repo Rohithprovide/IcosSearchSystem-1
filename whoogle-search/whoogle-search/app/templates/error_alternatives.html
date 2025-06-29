@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Search Temporarily Unavailable - Whoogle</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 40px 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 40px;
+            text-align: center;
+        }
+        h1 {
+            color: #1a73e8;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .message {
+            margin-bottom: 30px;
+            line-height: 1.5;
+            color: #666;
+        }
+        .alternatives {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+        .alternatives li {
+            margin: 15px 0;
+        }
+        .alternatives a {
+            display: inline-block;
+            padding: 12px 20px;
+            background-color: #1a73e8;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            min-width: 150px;
+        }
+        .alternatives a:hover {
+            background-color: #1557b0;
+        }
+        .retry-button {
+            margin-top: 30px;
+        }
+        .retry-button a {
+            background-color: #34a853;
+            padding: 12px 24px;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .retry-button a:hover {
+            background-color: #2e7d32;
+        }
+        .info {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #888;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Search Temporarily Unavailable</h1>
+        
+        <div class="message">
+            <p>We're experiencing temporary difficulties accessing search results. This may be due to high traffic or rate limiting.</p>
+            <p>Please try one of these alternative search engines, or retry your search in a few moments:</p>
+        </div>
+        
+        <ul class="alternatives">
+            <li><a href="https://duckduckgo.com/?q={{ query|urlencode }}" target="_blank">Search with DuckDuckGo</a></li>
+            <li><a href="https://www.bing.com/search?q={{ query|urlencode }}" target="_blank">Search with Bing</a></li>
+            <li><a href="https://search.brave.com/search?q={{ query|urlencode }}" target="_blank">Search with Brave</a></li>
+            <li><a href="https://www.startpage.com/search?query={{ query|urlencode }}" target="_blank">Search with Startpage</a></li>
+        </ul>
+        
+        <div class="retry-button">
+            <a href="{{ url_for('index') }}?q={{ query|urlencode }}">Retry with Whoogle</a>
+        </div>
+        
+        <div class="info">
+            <p>This is a temporary issue. Whoogle provides privacy-focused search by proxying Google results without tracking.</p>
+        </div>
+    </div>
+</body>
+</html>

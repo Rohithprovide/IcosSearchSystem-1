@@ -1,5 +1,6 @@
 from app.models.config import Config
 from app.utils.misc import read_config_bool
+from app.utils.rate_limiter import should_rate_limit, record_request, get_rate_limit_delay
 from datetime import datetime
 from defusedxml import ElementTree as ET
 import random
@@ -7,6 +8,8 @@ import requests
 from requests import Response, ConnectionError
 import urllib.parse as urlparse
 import os
+import time
+import hashlib
 from stem import Signal, SocketError
 from stem.connection import AuthenticationFailure
 from stem.control import Controller
@@ -19,8 +22,29 @@ AUTOCOMPLETE_URL = ('https://suggestqueries.google.com/'
 MOBILE_UA = '{}/5.0 (Android 0; Mobile; rv:54.0) Gecko/54.0 {}/59.0'
 DESKTOP_UA = '{}/5.0 (X11; {} x86_64; rv:75.0) Gecko/20100101 {}/75.0'
 
+# Enhanced user agents to avoid rate limiting
+ENHANCED_USER_AGENTS = [
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.1 Safari/605.1.15',
+    'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:121.0) Gecko/20100101 Firefox/121.0'
+]
+
+MOBILE_USER_AGENTS = [
+    'Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.1 Mobile/15E148 Safari/604.1',
+    'Mozilla/5.0 (Linux; Android 13; SM-S918B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36',
+    'Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36'
+]
+
 # Valid query params
 VALID_PARAMS = ['tbs', 'tbm', 'start', 'near', 'source', 'nfpr']
+
+# Request tracking for rate limiting
+_request_history = {}
+_last_request_time = 0
 
 
 class TorError(Exception):
@@ -71,6 +95,27 @@ def send_tor_signal(signal: Signal) -> bool:
 
     return False
 
+
+def get_enhanced_user_agent(is_mobile=False) -> str:
+    """Get a randomized, realistic user agent to avoid detection"""
+    if is_mobile:
+        return random.choice(MOBILE_USER_AGENTS)
+    else:
+        return random.choice(ENHANCED_USER_AGENTS)
+
+def add_request_delay():
+    """Add delay between requests to avoid rate limiting"""
+    global _last_request_time
+    current_time = time.time()
+    time_since_last = current_time - _last_request_time
+    
+    # Minimum delay of 1-3 seconds between requests
+    min_delay = random.uniform(1.0, 3.0)
+    if time_since_last < min_delay:
+        delay = min_delay - time_since_last
+        time.sleep(delay)
+    
+    _last_request_time = time.time()
 
 def gen_user_agent(config, is_mobile) -> str:
     # Define the Lynx user agent
@@ -190,11 +235,20 @@ class Request:
     """
 
     def __init__(self, normal_ua, root_path, config: Config):
-        self.search_url = 'https://www.google.com/search?gbv=1&num=' + str(
-            os.getenv('WHOOGLE_RESULTS_PER_PAGE', 10)) + '&q='
+        # Multiple search URLs to rotate through for rate limiting avoidance
+        self.search_urls = [
+            'https://www.google.com/search?gbv=1&num=' + str(os.getenv('WHOOGLE_RESULTS_PER_PAGE', 10)) + '&q=',
+            'https://www.google.com/search?ie=UTF-8&num=' + str(os.getenv('WHOOGLE_RESULTS_PER_PAGE', 10)) + '&q=',
+            'https://www.google.com/search?source=hp&num=' + str(os.getenv('WHOOGLE_RESULTS_PER_PAGE', 10)) + '&q='
+        ]
+        self.current_url_index = 0
+        
         # Send heartbeat to Tor, used in determining if the user can or cannot
         # enable Tor for future requests
-        send_tor_signal(Signal.HEARTBEAT)
+        try:
+            send_tor_signal(Signal.HEARTBEAT)
+        except:
+            pass  # Ignore Tor errors during initialization
 
         self.language = config.lang_search if config.lang_search else ''
         self.country = config.country if config.country else ''
@@ -207,10 +261,13 @@ class Request:
         self.mobile = bool(normal_ua) and ('Android' in normal_ua
                                            or 'iPhone' in normal_ua)
 
-        # Generate user agent based on config
-        self.modified_user_agent = gen_user_agent(config, self.mobile)
+        # Generate user agent based on config with enhanced rotation
+        self.modified_user_agent = get_enhanced_user_agent(self.mobile)
         if not self.mobile:
-            self.modified_user_agent_mobile = gen_user_agent(config, True)
+            self.modified_user_agent_mobile = get_enhanced_user_agent(True)
+        
+        # Fallback to original method if needed
+        self.original_user_agent = gen_user_agent(config, self.mobile)
 
         # Set up proxy configuration
         proxy_path = os.environ.get('WHOOGLE_PROXY_LOC', '')
@@ -272,85 +329,148 @@ class Request:
             # Malformed XML response
             return []
 
+    def get_current_search_url(self):
+        """Get current search URL and rotate to next one"""
+        url = self.search_urls[self.current_url_index]
+        self.current_url_index = (self.current_url_index + 1) % len(self.search_urls)
+        return url
+
     def send(self, base_url='', query='', attempt=0,
              force_mobile=False, user_agent='') -> Response:
-        """Sends an outbound request to a URL. Optionally sends the request
-        using Tor, if enabled by the user.
+        """Sends an outbound request to a URL with enhanced rate limiting protection.
 
         Args:
             base_url: The URL to use in the request
             query: The optional query string for the request
             attempt: The number of attempts made for the request
-                (used for cycling through Tor identities, if enabled)
             force_mobile: Optional flag to enable a mobile user agent
-                (used for fetching full size images in search results)
+            user_agent: Override user agent
 
         Returns:
             Response: The Response object returned by the requests call
-
         """
+        # Add delay between requests to avoid rate limiting
+        add_request_delay()
+        
         use_client_user_agent = int(os.environ.get('WHOOGLE_USE_CLIENT_USER_AGENT', '0'))
         if user_agent and use_client_user_agent == 1:
             modified_user_agent = user_agent
         else:
+            # Use enhanced user agents with rotation
             if force_mobile and not self.mobile:
-                modified_user_agent = self.modified_user_agent_mobile
+                modified_user_agent = get_enhanced_user_agent(True)
             else:
-                modified_user_agent = self.modified_user_agent
+                modified_user_agent = get_enhanced_user_agent(self.mobile)
 
+        # Enhanced headers to appear more like a real browser
         headers = {
-            'User-Agent': modified_user_agent
+            'User-Agent': modified_user_agent,
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+            'Accept-Language': 'en-US,en;q=0.5',
+            'Accept-Encoding': 'gzip, deflate, br',
+            'DNT': '1',
+            'Connection': 'keep-alive',
+            'Upgrade-Insecure-Requests': '1',
+            'Sec-Fetch-Dest': 'document',
+            'Sec-Fetch-Mode': 'navigate',
+            'Sec-Fetch-Site': 'none',
+            'Cache-Control': 'max-age=0'
         }
 
-        # Adding the Accept-Language to the Header if possible
+        # Override Accept-Language if configured
         if self.lang_interface:
-            headers.update({'Accept-Language':
-                            self.lang_interface.replace('lang_', '')
-                            + ';q=1.0'})
+            headers['Accept-Language'] = self.lang_interface.replace('lang_', '') + ';q=1.0'
 
-        # view is suppressed correctly
+        # Enhanced cookies to avoid detection
         now = datetime.now()
         cookies = {
             'CONSENT': 'PENDING+987',
             'SOCS': 'CAESHAgBEhIaAB',
+            'NID': f'511={random.randint(100000000000000000000, 999999999999999999999)}',
+            'AEC': f'Ae3NU9M{random.randint(10000000, 99999999)}',
         }
 
-        # Validate Tor conn and request new identity if the last one failed
-        if self.tor and not send_tor_signal(
-                Signal.NEWNYM if attempt > 0 else Signal.HEARTBEAT):
-            raise TorError(
-                "Tor was previously enabled, but the connection has been "
-                "dropped. Please check your Tor configuration and try again.",
-                disable=True)
-
-        # Make sure that the tor connection is valid, if enabled
+        # Validate Tor connection if enabled
         if self.tor:
             try:
+                if not send_tor_signal(Signal.NEWNYM if attempt > 0 else Signal.HEARTBEAT):
+                    raise TorError(
+                        "Tor connection dropped. Please check configuration.",
+                        disable=True)
+            except:
+                pass  # Continue without Tor if signal fails
+                
+            try:
                 tor_check = requests.get('https://check.torproject.org/',
-                                         proxies=self.proxies, headers=headers)
+                                       proxies=self.proxies, headers=headers, timeout=10)
                 self.tor_valid = 'Congratulations' in tor_check.text
-
+                
                 if not self.tor_valid:
                     raise TorError(
-                        "Tor connection succeeded, but the connection could "
-                        "not be validated by torproject.org",
+                        "Tor connection could not be validated",
                         disable=True)
-            except ConnectionError:
-                raise TorError(
-                    "Error raised during Tor connection validation",
-                    disable=True)
+            except (ConnectionError, requests.exceptions.Timeout):
+                raise TorError("Error during Tor validation", disable=True)
 
-        response = requests.get(
-            (base_url or self.search_url) + query,
-            proxies=self.proxies,
-            headers=headers,
-            cookies=cookies)
+        # Determine URL to use
+        if base_url:
+            url = base_url + query
+        else:
+            search_url = self.get_current_search_url()
+            url = search_url + query
 
-        # Retry query with new identity if using Tor (max 10 attempts)
-        if 'form id="captcha-form"' in response.text and self.tor:
-            attempt += 1
-            if attempt > 10:
-                raise TorError("Tor query failed -- max attempts exceeded 10")
-            return self.send((base_url or self.search_url), query, attempt)
+        try:
+            # Make the request with timeout
+            response = requests.get(
+                url,
+                proxies=self.proxies,
+                headers=headers,
+                cookies=cookies,
+                timeout=30,
+                allow_redirects=True
+            )
+            
+            # Check for rate limiting or blocking
+            if response.status_code == 429:
+                # Rate limited - wait and retry with different URL
+                if attempt < 3:
+                    time.sleep(random.uniform(5, 15))  # Wait 5-15 seconds
+                    return self.send(base_url, query, attempt + 1, force_mobile, user_agent)
+                else:
+                    raise requests.exceptions.RequestException("Rate limited after multiple attempts")
+            
+            # Check for captcha or blocking
+            response_text = response.text.lower()
+            if any(indicator in response_text for indicator in [
+                'captcha', 'blocked', 'rate limited', 'unusual traffic',
+                'robots.txt', 'access denied'
+            ]):
+                if attempt < 3:
+                    # Try with different user agent and URL
+                    time.sleep(random.uniform(3, 8))
+                    return self.send(base_url, query, attempt + 1, force_mobile, user_agent)
+                elif not base_url:  # Only for search requests
+                    # Raise an exception that will be caught by the route handler
+                    # to show the error alternatives page
+                    raise requests.exceptions.RequestException("Rate limited - showing alternatives")
 
-        return response
+            # Retry with Tor if enabled and captcha detected
+            if 'form id="captcha-form"' in response.text and self.tor:
+                attempt += 1
+                if attempt > 5:  # Reduced max attempts
+                    raise TorError("Tor query failed -- max attempts exceeded")
+                time.sleep(random.uniform(2, 5))
+                return self.send(base_url, query, attempt, force_mobile, user_agent)
+
+            return response
+            
+        except requests.exceptions.Timeout:
+            if attempt < 2:
+                time.sleep(random.uniform(1, 3))
+                return self.send(base_url, query, attempt + 1, force_mobile, user_agent)
+            raise
+        except requests.exceptions.ConnectionError:
+            if attempt < 2:
+                time.sleep(random.uniform(2, 5))
+                return self.send(base_url, query, attempt + 1, force_mobile, user_agent)
+            raise

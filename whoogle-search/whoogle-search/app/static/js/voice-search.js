@@ -28,13 +28,15 @@ function initVoiceSearch() {
                 searchInput.focus();
             }
             
-            // Reset microphone icon
-            micIcon.classList.remove('recording');
-            // Reset inline styles
-            micIcon.style.backgroundColor = '';
-            micIcon.style.color = '';
-            micIcon.style.transform = '';
-            micIcon.style.borderRadius = '';
+            // Reset microphone icon if it exists
+            if (micIcon) {
+                micIcon.classList.remove('recording');
+                // Reset inline styles
+                micIcon.style.backgroundColor = '';
+                micIcon.style.color = '';
+                micIcon.style.transform = '';
+                micIcon.style.borderRadius = '';
+            }
             isRecording = false;
         };
         
@@ -42,12 +44,14 @@ function initVoiceSearch() {
         recognition.onerror = function(event) {
             console.log('Speech recognition error:', event.error);
             const micIcon = document.querySelector('.search-icon-right');
-            micIcon.classList.remove('recording');
-            // Reset inline styles
-            micIcon.style.backgroundColor = '';
-            micIcon.style.color = '';
-            micIcon.style.transform = '';
-            micIcon.style.borderRadius = '';
+            if (micIcon) {
+                micIcon.classList.remove('recording');
+                // Reset inline styles
+                micIcon.style.backgroundColor = '';
+                micIcon.style.color = '';
+                micIcon.style.transform = '';
+                micIcon.style.borderRadius = '';
+            }
             isRecording = false;
             
             // Show user-friendly error message
@@ -63,7 +67,9 @@ function initVoiceSearch() {
         // Handle when speech recognition ends
         recognition.onend = function() {
             const micIcon = document.querySelector('.search-icon-right');
-            micIcon.classList.remove('recording');
+            if (micIcon) {
+                micIcon.classList.remove('recording');
+            }
             isRecording = false;
         };
         

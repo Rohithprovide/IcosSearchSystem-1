@@ -24,6 +24,7 @@ from app.utils.misc import empty_gif, placeholder_img, get_proxy_host_url, \
 from app.filter import Filter
 from app.utils.misc import read_config_bool, get_client_ip, get_request_url, \
     check_for_update, encrypt_string
+from app.utils.rate_limiter import should_rate_limit, record_request
 from app.utils.widgets import *
 from app.utils.results import bold_search_terms,\
     add_currency_card, check_currency, get_tabs_content
@@ -292,6 +293,17 @@ def autocomplete():
 @session_required
 @auth_required
 def search():
+    client_ip = get_client_ip(request)
+    
+    # Check rate limiting before processing search
+    if should_rate_limit(client_ip):
+        return render_template('error_alternatives.html', 
+                             query=request.args.get('q', ''),
+                             config=g.user_config), 429
+    
+    # Record this request
+    record_request(client_ip)
+    
     if request.method == 'POST':
         # Redirect as a GET request with an encrypted query
         post_data = MultiDict(request.form)
@@ -319,6 +331,15 @@ def search():
         session['config']['tor'] = False if e.disable else session['config'][
             'tor']
         return redirect(url_for('.index'))
+    except Exception as e:
+        # Handle rate limiting and other errors more gracefully
+        error_str = str(e).lower()
+        if any(term in error_str for term in ['rate limit', 'blocked', 'captcha', 'unusual traffic']):
+            return render_template('error_alternatives.html', 
+                                 query=query,
+                                 config=g.user_config)
+        # Re-raise other exceptions
+        raise
 
     if search_util.feeling_lucky:
         return redirect(response, code=303)
@@ -336,22 +357,20 @@ def search():
 
     response = str(soup)
 
-    # Return 503 if temporarily blocked by captcha
-    if has_captcha(str(response)):
-        app.logger.error('503 (CAPTCHA)')
+    # Return 503 if temporarily blocked by captcha or rate limited
+    response_text = str(response).lower()
+    if has_captcha(str(response)) or any(indicator in response_text for indicator in [
+        'rate limited', 'unusual traffic', 'blocked', 'captcha', 'instance has been ratelimited'
+    ]):
+        app.logger.error('503 (CAPTCHA/Rate Limited)')
         fallback_engine = os.environ.get('WHOOGLE_FALLBACK_ENGINE_URL', '')
         if (fallback_engine):
             return redirect(fallback_engine + query)
         
-        return render_template(
-            'error.html',
-            blocked=True,
-            error_message=translation['ratelimit'],
-            translation=translation,
-            farside='https://farside.link',
-            config=g.user_config,
-            query=urlparse.unquote(query),
-            params=g.user_config.to_params(keys=['preferences'])), 503
+        # Show alternatives page instead of generic error
+        return render_template('error_alternatives.html', 
+                             query=urlparse.unquote(query),
+                             config=g.user_config), 503
 
     response = bold_search_terms(response, query)
 
