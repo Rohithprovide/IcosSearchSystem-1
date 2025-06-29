@@ -125,7 +125,10 @@ div[style*="590px"] {
     width: 100% !important;
 }
 
-
+/* Force override all max-width constraints */
+* {
+    max-width: none !important;
+}
 
 /* But keep specific containers within reasonable bounds */
 .g, .tF2Cxc, .MjjYud, .hlcw0c, .IsZvec,
@@ -140,12 +143,12 @@ div[style*="590px"] {
     
     /* Expand search results area on larger screens */
     .g, .tF2Cxc, .MjjYud, .hlcw0c, .IsZvec {
-        max-width: 700px !important;
+        max-width: 1000px !important;
     }
     
     div[style*="max-width"],
     div[style*="width"] {
-        max-width: 700px !important;
+        max-width: 1000px !important;
     }
 }
 
