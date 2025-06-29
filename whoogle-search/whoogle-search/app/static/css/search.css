@@ -68,8 +68,13 @@ details summary span {
 
 .site-favicon {
         float: left;
-        width: 25px;
-        padding-right: 5px;
+        width: 18px;
+        height: 18px;
+        margin-right: 8px;
+        margin-top: 0px;
+        border-radius: 50%;
+        object-fit: cover;
+        vertical-align: top;
 }
 
 .has-favicon .sCuL3 {

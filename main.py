@@ -58,7 +58,8 @@ def run_whoogle():
         'WHOOGLE_CONFIG_THEME': 'dark',
         'WHOOGLE_CONFIG_LANGUAGE': 'lang_en',
         'WHOOGLE_CONFIG_SEARCH_LANGUAGE': 'lang_en',
-        'WHOOGLE_CONFIG_SAFE_SEARCH': '0'
+        'WHOOGLE_CONFIG_SAFE_SEARCH': '0',
+        'WHOOGLE_SHOW_FAVICONS': '1'
     })
     
     try:
