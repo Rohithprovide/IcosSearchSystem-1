@@ -121,14 +121,22 @@ const updateAutocompleteList = () => {
     }
 
     // Apply connected styling when suggestions are present
+    let autocompleteContainer = searchInput.closest('.autocomplete') || searchInput.closest('.header-autocomplete');
+    
     if (hasResults) {
         searchInput.style.borderRadius = "24px 24px 0 0";
         searchInput.style.borderBottom = "none";
         searchInput.style.borderBottomColor = "transparent";
+        if (autocompleteContainer) {
+            autocompleteContainer.classList.add('has-autocomplete');
+        }
     } else {
         searchInput.style.borderRadius = "24px";
         searchInput.style.borderBottom = "1px solid #dfe1e5";
         searchInput.style.borderBottomColor = "#dfe1e5";
+        if (autocompleteContainer) {
+            autocompleteContainer.classList.remove('has-autocomplete');
+        }
     }
 };
 
@@ -156,6 +164,12 @@ document.addEventListener("DOMContentLoaded", function() {
             searchInput.style.borderRadius = "24px";
             searchInput.style.borderBottom = "1px solid #dfe1e5";
             searchInput.style.borderBottomColor = "#dfe1e5";
+            
+            // Remove autocomplete class from container
+            let autocompleteContainer = searchInput.closest('.autocomplete') || searchInput.closest('.header-autocomplete');
+            if (autocompleteContainer) {
+                autocompleteContainer.classList.remove('has-autocomplete');
+            }
         }
     });
 });

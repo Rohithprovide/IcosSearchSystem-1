@@ -122,10 +122,22 @@ header {
 .autocomplete:has(.autocomplete-items:not(:empty)) .search-bar-desktop,
 .header-autocomplete:has(.autocomplete-items:not(:empty)) .search-bar-desktop,
 .autocomplete.has-suggestions .search-bar-desktop,
-.header-autocomplete.has-suggestions .search-bar-desktop {
+.header-autocomplete.has-suggestions .search-bar-desktop,
+.header-autocomplete:has(#autocomplete-list:not(:empty)) .search-bar-desktop {
     border-radius: 24px 24px 0 0 !important;
     border-bottom: none !important;
     box-shadow: 0 2px 5px 1px rgba(64,60,67,.16) !important;
+}
+
+/* Specific fixes for search results page autocomplete positioning */
+.header-container .search-div .header-autocomplete {
+    position: relative !important;
+    z-index: 999 !important;
+}
+
+.header-container .search-div .header-autocomplete .search-bar-desktop {
+    position: relative !important;
+    z-index: 1000 !important;
 }
 
 /* Style autocomplete dropdown like Google - seamlessly connected */
@@ -157,6 +169,18 @@ header {
     right: 0 !important;
     margin: 0 !important;
     transform: none !important;
+    margin-top: -1px !important;
+}
+
+/* Force autocomplete to connect seamlessly in search results */
+.header-container .header-autocomplete #autocomplete-list {
+    position: absolute !important;
+    top: calc(100% - 1px) !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
 }
 
 /* Hide when empty */
