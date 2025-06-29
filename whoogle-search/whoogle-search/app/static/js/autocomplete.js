@@ -138,7 +138,14 @@ document.addEventListener("DOMContentLoaded", function() {
     autocompleteList.setAttribute("class", "autocomplete-items");
 
     searchInput = document.getElementById("search-bar");
-    searchInput.parentNode.appendChild(autocompleteList);
+    
+    // Find the proper autocomplete container (either .autocomplete or .header-autocomplete)
+    let autocompleteContainer = searchInput.closest('.autocomplete') || searchInput.closest('.header-autocomplete');
+    if (autocompleteContainer) {
+        autocompleteContainer.appendChild(autocompleteList);
+    } else {
+        searchInput.parentNode.appendChild(autocompleteList);
+    }
 
     searchInput.addEventListener("keydown", (event) => autocompleteInput(event));
 

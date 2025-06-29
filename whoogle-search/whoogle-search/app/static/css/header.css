@@ -114,6 +114,8 @@ header {
 .autocomplete, .header-autocomplete {
     position: relative !important;
     width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 /* When autocomplete is active, modify search bar to connect seamlessly */
@@ -139,10 +141,22 @@ header {
     box-shadow: 0 4px 12px rgba(32,33,36,.28) !important;
     background-color: #fff !important;
     margin-top: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
     overflow: hidden !important;
     width: 100% !important;
     max-height: 400px !important;
     overflow-y: auto !important;
+}
+
+/* Ensure header autocomplete is properly positioned */
+.header-autocomplete #autocomplete-list {
+    position: absolute !important;
+    top: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin: 0 !important;
+    transform: none !important;
 }
 
 /* Hide when empty */
@@ -186,6 +200,22 @@ header {
 .search-div .header-autocomplete {
     width: 100% !important;
     max-width: 600px !important;
+    position: relative !important;
+}
+
+/* Fix search bar width consistency between pages */
+.header-container .search-div {
+    flex: 1 !important;
+    max-width: 600px !important;
+    position: relative !important;
+    margin: 0 24px !important;
+}
+
+/* Ensure the flex container doesn't add extra spacing */
+.header-autocomplete > div[style*="display: flex"] {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
 }
 
 /* Additional styling to ensure seamless integration */
