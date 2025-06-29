@@ -66,6 +66,39 @@
             padding-left: 120px !important;
         }
         
+        /* Move search results content to the right */
+        #main {
+            margin-left: 120px !important;
+            max-width: calc(100% - 140px) !important;
+        }
+        
+        /* Also move the entire content area */
+        .content {
+            margin-left: 120px !important;
+            max-width: calc(100% - 140px) !important;
+        }
+        
+        /* Target the search results specifically */
+        .results {
+            margin-left: 120px !important;
+            max-width: calc(100% - 140px) !important;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 1024px) {
+            #main, .content, .results {
+                margin-left: 80px !important;
+                max-width: calc(100% - 100px) !important;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            #main, .content, .results {
+                margin-left: 20px !important;
+                max-width: calc(100% - 40px) !important;
+            }
+        }
+        
         /* Responsive adjustments for navigation tabs */
         @media (max-width: 1024px) {
             .header-tab-div-2 {
