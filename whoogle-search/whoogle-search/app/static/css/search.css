@@ -86,23 +86,23 @@ audio {
 
 
 
-/* Increase search result width significantly without affecting header */
+/* Increase search result width to maximum without affecting header */
 body div[style*="590px"],
 body div[style*="max-width: 590px"],
 body div[style*="max-width:590px"],
 body div[style*="max-width"] {
-    max-width: 1200px !important;
+    max-width: 1600px !important;
     width: auto !important;
 }
 
 body .g, body .tF2Cxc, body .MjjYud, body .hlcw0c, body .IsZvec {
-    max-width: 1200px !important;
+    max-width: 1600px !important;
 }
 
 /* Target main search containers */
 body #main > div,
 body #search > div {
-    max-width: 1200px !important;
+    max-width: 1600px !important;
 }
 
 @media (min-width: 801px) {
@@ -110,21 +110,21 @@ body #search > div {
         min-width: 736px !important;
     }
     
-    /* Even wider on larger screens */
+    /* Maximum width on larger screens */
     body div[style*="590px"],
     body div[style*="max-width: 590px"],
     body div[style*="max-width:590px"],
     body div[style*="max-width"] {
-        max-width: 1300px !important;
+        max-width: 1800px !important;
     }
     
     body .g, body .tF2Cxc, body .MjjYud, body .hlcw0c, body .IsZvec {
-        max-width: 1300px !important;
+        max-width: 1800px !important;
     }
     
     body #main > div,
     body #search > div {
-        max-width: 1300px !important;
+        max-width: 1800px !important;
     }
 }
 
