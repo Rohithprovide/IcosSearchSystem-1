@@ -418,13 +418,21 @@ a {
     position: relative;
 }
 
-/* Universal hover effect for ALL navigation tabs including Maps */
-.desktop-header a:hover {
+/* Comprehensive hover effect for ALL navigation tabs */
+.desktop-header a:hover,
+.mobile-header a:hover,
+.header-tab-a:hover,
+.desktop-header a:nth-child(1):hover,
+.desktop-header a:nth-child(2):hover,
+.desktop-header a:nth-child(3):hover,
+.desktop-header a:nth-child(4):hover,
+.desktop-header a:nth-child(5):hover {
     color: #202124 !important;
     text-decoration: underline !important;
     text-decoration-color: #dadce0 !important;
     text-decoration-thickness: 2px !important;
     text-underline-offset: 8px !important;
+    transition: all 0.2s ease !important;
 }
 
 /* Removed specific Maps styling - let it use the universal hover effect */
