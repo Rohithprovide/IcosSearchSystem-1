@@ -220,45 +220,12 @@ class Filter:
         return self.soup
 
     def remove_google_icons(self) -> None:
-        """Removes the entire footer section from search results including location, Google logos, Privacy and Terms
+        """Removes only footer elements with Google logos, Privacy/Terms links, and location info while preserving search results
 
         Returns:
             None (The soup object is modified directly)
         """
-        # Remove entire footer elements
-        footers = self.soup.find_all('footer')
-        for footer in footers:
-            footer.decompose()
-
-        # Remove divs that contain Privacy, Terms, or location information
-        footer_keywords = ['privacy', 'terms', 'mumbai', 'maharashtra', 'from your ip address']
-        
-        for div in self.soup.find_all('div'):
-            div_text = div.get_text().lower() if div.get_text() else ''
-            if any(keyword in div_text for keyword in footer_keywords):
-                # Don't remove if it's part of navigation/header
-                if not div.find_parent(attrs={'class': lambda x: x and any('header' in str(cls).lower() for cls in x if isinstance(x, list))}):
-                    div.decompose()
-
-        # Remove elements containing "Next >" navigation if they are in footer-like areas
-        next_elements = self.soup.find_all(text=lambda text: text and 'next >' in text.lower())
-        for text in next_elements:
-            parent = text.parent
-            if parent:
-                # Check if this is likely a footer pagination (bottom of page, minimal content)
-                parent_text = parent.get_text().strip()
-                if len(parent_text) < 50 and 'next' in parent_text.lower():
-                    # Find the containing div/section and remove it
-                    container = parent
-                    while container and container.name not in ['div', 'section', 'footer', 'nav']:
-                        container = container.parent
-                    if container and container.name == 'div':
-                        # Only remove if it looks like a simple pagination footer
-                        container_text = container.get_text().strip()
-                        if len(container_text) < 100 and ('next' in container_text.lower() or 'privacy' in container_text.lower()):
-                            container.decompose()
-
-        # Remove Google logo images and related elements
+        # Remove Google logo images specifically
         google_images = self.soup.find_all('img', src=lambda x: x and ('googlelogo' in x or 'google.com/images/branding' in x))
         for img in google_images:
             img.decompose()
@@ -268,15 +235,37 @@ class Filter:
         for img in google_alt_images:
             img.decompose()
 
-        # Remove any remaining Privacy/Terms links
+        # Only remove divs that contain ONLY footer information (privacy, terms, location)
+        # and are small/simple (likely to be actual footer, not search results)
+        footer_keywords = ['privacy', 'terms', 'mumbai', 'maharashtra', 'from your ip address']
+        
+        for div in self.soup.find_all('div'):
+            div_text = div.get_text().strip().lower() if div.get_text() else ''
+            
+            # Only remove if:
+            # 1. Contains footer keywords
+            # 2. Is a small div (less than 200 characters - typical footer size)
+            # 3. Doesn't contain search result indicators
+            # 4. Is not part of navigation/header
+            if (any(keyword in div_text for keyword in footer_keywords) and 
+                len(div_text) < 200 and
+                not any(indicator in div_text for indicator in ['search', 'result', 'www.', 'http', '.com', '.org']) and
+                not div.find_parent(attrs={'class': lambda x: x and any('header' in str(cls).lower() for cls in x if isinstance(x, list))})):
+                
+                div.decompose()
+
+        # Remove Privacy/Terms links specifically, but only if they're in small containers
         privacy_terms_links = self.soup.find_all('a', text=lambda text: text and ('privacy' in text.lower() or 'terms' in text.lower()))
         for link in privacy_terms_links:
-            # Remove the parent container if it only contains these links
             parent = link.parent
-            if parent and len(parent.find_all('a')) <= 3:  # Typical footer has 2-3 links
-                parent.decompose()
-            else:
-                link.decompose()
+            if parent:
+                parent_text = parent.get_text().strip()
+                # Only remove if parent is small and doesn't contain search results
+                if (len(parent_text) < 100 and 
+                    not any(indicator in parent_text.lower() for indicator in ['search', 'result', 'www.', 'http', '.com', '.org'])):
+                    parent.decompose()
+                else:
+                    link.decompose()
 
     def sanitize_div(self, div) -> None:
         """Removes escaped script and iframe tags from results

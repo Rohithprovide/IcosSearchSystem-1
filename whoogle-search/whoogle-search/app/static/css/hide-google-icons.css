@@ -1,33 +1,4 @@
-/* Completely hide footer elements from search results */
-
-/* Hide all footer elements */
-footer,
-.footer,
-#footer,
-div[role="contentinfo"] {
-    display: none !important;
-}
-
-/* Hide divs containing location information */
-div:has-text("Mumbai"),
-div:has-text("Maharashtra"),
-div:has-text("From your IP address") {
-    display: none !important;
-}
-
-/* Hide Privacy and Terms links */
-a[href*="privacy"],
-a[href*="terms"],
-a:contains("Privacy"),
-a:contains("Terms") {
-    display: none !important;
-}
-
-/* Hide parent containers of Privacy/Terms links */
-div:has(a[href*="privacy"]),
-div:has(a[href*="terms"]) {
-    display: none !important;
-}
+/* Hide only specific footer elements while preserving search results */
 
 /* Hide Google logo images */
 img[src*="googlelogo"],
@@ -40,36 +11,27 @@ img[title*="Google"] {
 /* Hide Google icons and SVGs */
 .google-icon,
 .gicon,
-svg[class*="google"],
+svg[class*="google"]:not(.header *):not(.navigation *),
 svg[viewBox*="0 0 272 92"],
 svg[viewBox*="0 0 136 46"] {
     display: none !important;
 }
 
-/* Hide elements with Google-related classes */
-[class*="google-logo"],
-[class*="googlelogo"],
-[id*="google-logo"],
-[id*="googlelogo"] {
+/* Hide elements with Google-related classes but not in navigation */
+[class*="google-logo"]:not(.header *):not(.navigation *),
+[class*="googlelogo"]:not(.header *):not(.navigation *),
+[id*="google-logo"]:not(.header *):not(.navigation *),
+[id*="googlelogo"]:not(.header *):not(.navigation *) {
     display: none !important;
 }
 
-/* Hide divs that contain text matching footer content */
-div:contains("Mumbai, Maharashtra"),
-div:contains("From your IP address"),
-div:contains("Privacy"),
-div:contains("Terms") {
+/* Hide Privacy and Terms links only if they're standalone (typical footer) */
+a[href*="privacy"]:not([href*="search"]):not([href*="results"]),
+a[href*="terms"]:not([href*="search"]):not([href*="results"]) {
     display: none !important;
 }
 
-/* Hide navigation elements at bottom (Next >) if they're in footer context */
-div:contains("Next >"):last-child {
-    display: none !important;
-}
-
-/* Aggressive footer removal - target common footer patterns */
-body > div:last-child:has-text("Privacy"),
-body > div:last-child:has-text("Terms"),
-body > div:last-child:has-text("Mumbai") {
-    display: none !important;
+/* Hide small divs containing only footer text (under 200 chars and no URLs) */
+div:not(:has(a[href*="www."])):not(:has(a[href*="http"])):not(:has(a[href*=".com"])):not(:has(a[href*=".org"])) {
+    /* This will be handled by JavaScript for better control */
 }

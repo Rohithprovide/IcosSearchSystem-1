@@ -35,18 +35,24 @@ function removeGoogleIcons() {
         }
     });
     
-    // Remove footer elements containing location, privacy, terms
+    // Remove footer elements containing location, privacy, terms (but preserve search results)
     const footerTexts = ['mumbai', 'maharashtra', 'from your ip address', 'privacy', 'terms'];
     const allDivs = document.querySelectorAll('div');
     
     allDivs.forEach(div => {
-        const text = div.textContent.toLowerCase();
-        if (footerTexts.some(footerText => text.includes(footerText))) {
-            // Don't remove if it's part of navigation/header
-            if (!div.closest('.desktop-header') && 
-                !div.closest('.mobile-header') && 
-                !div.closest('[role="navigation"]') &&
-                !div.closest('.header-tab-div')) {
+        const text = div.textContent.toLowerCase().trim();
+        const hasFooterText = footerTexts.some(footerText => text.includes(footerText));
+        
+        if (hasFooterText) {
+            // Only remove if it's small (footer-like) and doesn't contain search result indicators
+            const isSmall = text.length < 200;
+            const hasSearchIndicators = /www\.|http|\.com|\.org|search|result/.test(text);
+            const isNotNavigation = !div.closest('.desktop-header') && 
+                                   !div.closest('.mobile-header') && 
+                                   !div.closest('[role="navigation"]') &&
+                                   !div.closest('.header-tab-div');
+            
+            if (isSmall && !hasSearchIndicators && isNotNavigation) {
                 div.remove();
             }
         }
