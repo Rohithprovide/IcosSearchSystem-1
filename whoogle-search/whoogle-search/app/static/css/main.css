@@ -253,7 +253,7 @@ button::-moz-focus-inner {
 }
 
 .modal-content {
-    background: linear-gradient(145deg, #ffffff, #f8f9ff);
+    background: linear-gradient(145deg, #1e293b, #334155);
     position: fixed;
     top: 10px;
     left: 60px;
@@ -262,11 +262,11 @@ button::-moz-focus-inner {
     width: 350px;
     max-width: calc(100vw - 80px);
     box-shadow: 
-        0 20px 60px rgba(139, 69, 255, 0.15),
-        0 8px 24px rgba(0, 0, 0, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        0 20px 60px rgba(0, 0, 0, 0.4),
+        0 8px 24px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
     animation: modalSlideIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(71, 85, 105, 0.3);
 }
 
 @keyframes modalSlideIn {
@@ -301,11 +301,11 @@ button::-moz-focus-inner {
 
 .modal-header {
     padding: 28px 32px 20px;
-    border-bottom: 1px solid rgba(139, 69, 255, 0.1);
+    border-bottom: 1px solid rgba(71, 85, 105, 0.3);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 249, 255, 0.9));
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(51, 65, 85, 0.9));
     border-radius: 24px 24px 0 0;
 }
 
@@ -313,8 +313,8 @@ button::-moz-focus-inner {
     margin: 0;
     font-size: 24px;
     font-weight: 600;
-    color: #2d3748;
-    background: linear-gradient(135deg, #4c51bf, #805ad5);
+    color: #e2e8f0;
+    background: linear-gradient(135deg, #60a5fa, #a78bfa);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -322,7 +322,7 @@ button::-moz-focus-inner {
 
 .close-modal {
     font-size: 24px;
-    color: #a0aec0;
+    color: #cbd5e1;
     cursor: pointer;
     line-height: 1;
     transition: all 0.2s ease;
@@ -378,13 +378,13 @@ button::-moz-focus-inner {
 .setting-title {
     font-size: 16px;
     font-weight: 600;
-    color: #2d3748;
+    color: #e2e8f0;
     margin-bottom: 4px;
 }
 
 .setting-description {
     font-size: 14px;
-    color: #718096;
+    color: #94a3b8;
     line-height: 1.4;
 }
 
@@ -394,11 +394,11 @@ button::-moz-focus-inner {
 
 .theme-select {
     padding: 10px 16px;
-    border: 2px solid #e2e8f0;
+    border: 2px solid #475569;
     border-radius: 12px;
-    background: white;
+    background: #374151;
     font-size: 14px;
-    color: #2d3748;
+    color: #e2e8f0;
     outline: none;
     min-width: 120px;
     cursor: pointer;
@@ -406,8 +406,8 @@ button::-moz-focus-inner {
 }
 
 .theme-select:focus {
-    border-color: #6366f1;
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
 }
 
 /* Custom Toggle Switch */
@@ -465,12 +465,12 @@ button::-moz-focus-inner {
     gap: 16px;
     justify-content: flex-end;
     padding-top: 24px;
-    border-top: 1px solid rgba(226, 232, 240, 0.8);
+    border-top: 1px solid rgba(71, 85, 105, 0.3);
 }
 
 .modal-buttons .apply-btn {
-    background: linear-gradient(135deg, #6366f1, #8b5cf6);
-    color: white;
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    color: #ffffff;
     border: none;
     padding: 12px 32px;
     border-radius: 12px;
@@ -478,19 +478,19 @@ button::-moz-focus-inner {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
 }
 
 .modal-buttons .apply-btn:hover {
-    background: linear-gradient(135deg, #5a5fcf, #7c3aed);
+    background: linear-gradient(135deg, #2563eb, #1e40af);
     transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
+    box-shadow: 0 6px 16px rgba(59, 130, 246, 0.5);
 }
 
 .modal-buttons .cancel-btn {
     background: transparent;
-    color: #718096;
-    border: 2px solid #e2e8f0;
+    color: #94a3b8;
+    border: 2px solid #475569;
     padding: 10px 24px;
     border-radius: 12px;
     font-size: 14px;
@@ -500,9 +500,9 @@ button::-moz-focus-inner {
 }
 
 .modal-buttons .cancel-btn:hover {
-    background-color: #f7fafc;
-    border-color: #cbd5e0;
-    color: #4a5568;
+    background-color: #374151;
+    border-color: #6b7280;
+    color: #e5e7eb;
 }
 
 footer {
