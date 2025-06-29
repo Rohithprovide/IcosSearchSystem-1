@@ -223,9 +223,9 @@ button::-moz-focus-inner {
 
 /* Settings Menu Icon */
 .settings-menu-icon {
-    position: absolute;
-    top: 20px;
-    left: 20px;
+    position: fixed;
+    top: 10px;
+    left: 10px;
     font-size: 20px;
     color: #5f6368;
     cursor: pointer;
