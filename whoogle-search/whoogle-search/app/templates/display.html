@@ -61,9 +61,12 @@
             padding-bottom: 2px !important;
         }
         
-        /* Move navigation tabs to align with space between logo and search bar */
+        /* Move navigation tabs to align with space between logo and search bar and expand width */
         .header-tab-div-2 {
             padding-left: 15px !important;
+            padding-right: 20px !important;
+            width: calc(100% - 35px) !important;
+            max-width: none !important;
         }
         
         /* Move only search results content to the right, not header */
@@ -199,10 +202,18 @@
             }
         }
         
-        /* Remove overflow scrollbar and set fixed tab spacing */
+        /* Remove overflow scrollbar and set fixed tab spacing with expanded width */
         .header-tab-div-3 {
             overflow-x: hidden !important;
             overflow-y: hidden !important;
+            width: 100% !important;
+            max-width: none !important;
+        }
+        
+        /* Expand the main header tab div container */
+        .header-tab-div {
+            width: 100% !important;
+            max-width: none !important;
         }
         
         /* Reduce spacing between navigation tabs to fit all tabs */
@@ -211,10 +222,13 @@
             padding: 12px 16px !important;
         }
         
-        /* Ensure tabs container fits content */
+        /* Ensure tabs container fits content and expand width */
         .desktop-header {
             justify-content: flex-start !important;
             flex-wrap: nowrap !important;
+            width: calc(100% - 40px) !important;
+            max-width: none !important;
+            padding-right: 20px !important;
         }
         
         /* Responsive tab spacing */
