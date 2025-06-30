@@ -113,11 +113,6 @@ body:has(header) #main {
     padding: 8px;
     border-radius: 50%;
     transition: all 0.2s ease;
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .search-clear-icon {
@@ -130,11 +125,6 @@ body:has(header) #main {
     padding: 8px;
     border-radius: 50%;
     transition: all 0.2s ease;
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .search-clear-icon:hover {

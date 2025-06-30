@@ -125,10 +125,6 @@ header {
     display: none !important;
     visibility: hidden !important;
     opacity: 0 !important;
-    width: 34px !important;
-    height: 34px !important;
-    align-items: center !important;
-    justify-content: center !important;
 }
 
 .header-search-clear:hover {
@@ -144,7 +140,7 @@ header {
 
 /* Show clear icon when search has content */
 .header-search-clear.show {
-    display: flex !important;
+    display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
 }
