@@ -23,23 +23,42 @@ function findRelatedSearchContainers() {
     const detailsElements = document.querySelectorAll('details');
     detailsElements.forEach(details => {
         const summary = details.querySelector('summary');
-        if (summary && summary.textContent.includes('Related searches')) {
+        if (summary && (summary.textContent.includes('Related searches') || summary.textContent.includes('People also search for'))) {
             containers.push(details);
         }
     });
     
-    // Look for any element containing "Related searches"
+    // Look for headings or text containing "Related searches"
+    const headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6, div, span, p');
+    headings.forEach(heading => {
+        const text = heading.textContent.trim();
+        if (text === 'Related searches' || text === 'People also search for') {
+            // Find the container with links
+            let parent = heading.parentElement;
+            while (parent && parent !== document.body) {
+                const links = parent.querySelectorAll('a[href*="search"]');
+                if (links.length > 0) {
+                    containers.push(parent);
+                    break;
+                }
+                parent = parent.parentElement;
+            }
+        }
+    });
+    
+    // Look for any element containing "Related searches" with nearby links
     const allElements = document.querySelectorAll('*');
     allElements.forEach(element => {
         if (element.textContent && element.textContent.includes('Related searches')) {
             // Check if it's a header element or contains links
             const parent = element.closest('div, section, article');
-            if (parent && parent.querySelectorAll('a').length > 0) {
+            if (parent && parent.querySelectorAll('a[href*="search"]').length > 0) {
                 containers.push(parent);
             }
         }
     });
     
+    console.log('Related Searches: Found containers:', containers.length);
     return [...new Set(containers)]; // Remove duplicates
 }
 
@@ -151,7 +170,11 @@ function createGridItem(originalLink) {
     const item = document.createElement('a');
     item.className = 'related-search-item';
     item.href = originalLink.href;
-    item.textContent = cleanSearchText(originalLink.textContent);
+    
+    // Create text content span
+    const textSpan = document.createElement('span');
+    textSpan.textContent = cleanSearchText(originalLink.textContent);
+    item.appendChild(textSpan);
     
     // Copy any other relevant attributes
     if (originalLink.target) {
