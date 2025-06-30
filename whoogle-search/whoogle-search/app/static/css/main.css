@@ -610,7 +610,7 @@ footer {
     border: 1px solid #dfe1e5 !important;
     border-top: none !important;
     border-radius: 0 0 24px 24px !important;
-    box-shadow: none !important;
+    box-shadow: 2px 4px 8px rgba(32,33,36,.28), -2px 4px 8px rgba(32,33,36,.28), 0 4px 8px rgba(32,33,36,.28) !important;
     background-color: #fff !important;
     margin-top: 0 !important;
     overflow: hidden !important;
