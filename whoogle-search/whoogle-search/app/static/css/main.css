@@ -614,6 +614,7 @@ footer {
     background-color: #fff !important;
     margin-top: 0 !important;
     overflow: hidden !important;
+    overflow-x: hidden !important;
     width: 100% !important;
     max-height: 400px !important;
     overflow-y: auto !important;
@@ -629,8 +630,8 @@ footer {
 #autocomplete-list div {
     background-color: #fff !important;
     border-bottom: none !important;
-    padding: 12px 20px !important;
-    font-size: 16px !important;
+    padding: 10px 16px !important;
+    font-size: 14px !important;
     color: #202124 !important;
     cursor: pointer !important;
     display: flex !important;
@@ -639,7 +640,9 @@ footer {
     white-space: nowrap !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
-    min-height: 44px !important;
+    min-height: 36px !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
 }
 
 #autocomplete-list div:hover {
