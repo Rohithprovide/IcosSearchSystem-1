@@ -77,7 +77,10 @@
                             {% if config.preferences %}
                                 <input type="hidden" name="preferences" value="{{ config.preferences }}" />
                             {% endif %}
-                            <i class="fa-regular fa-magnifying-glass header-search-icon" id="header-search-icon" style="position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: #9aa0a6; font-size: 16px; z-index: 1001; pointer-events: none; display: block !important;"></i>
+                            <svg class="header-search-icon" id="header-search-icon" style="position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: #9aa0a6; font-size: 16px; z-index: 1001; pointer-events: none; display: block !important; width: 16px; height: 16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <path d="m21 21-4.35-4.35"></path>
+                            </svg>
                             <input
                                     id="search-bar"
                                     autocapitalize="none"
