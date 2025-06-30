@@ -651,62 +651,6 @@ def internal_error(e):
             params=g.user_config.to_params(keys=['preferences'])), 500
 
 
-@app.route('/ai-query', methods=['POST'])
-def ai_query():
-    """Handle AI query requests using Gemini API"""
-    try:
-        # Import Gemini functionality
-        from google import genai
-        import os
-        
-        # Get the query from request
-        query_data = request.get_json()
-        if not query_data or 'query' not in query_data:
-            return jsonify({'success': False, 'error': 'No query provided'}), 400
-        
-        user_query = query_data['query'].strip()
-        if not user_query:
-            return jsonify({'success': False, 'error': 'Empty query provided'}), 400
-        
-        # Initialize Gemini client
-        api_key = os.environ.get('GEMINI_API_KEY')
-        if not api_key:
-            return jsonify({'success': False, 'error': 'AI service not configured'}), 500
-        
-        client = genai.Client(api_key=api_key)
-        
-        # Create a helpful prompt for the AI
-        prompt = f"""You are a helpful AI assistant integrated into a private search engine. A user has searched for: "{user_query}"
-
-Please provide a concise, informative response that helps the user understand this topic. Keep your response:
-- Factual and accurate
-- Under 300 words
-- Well-structured with key points
-- Helpful for someone researching this topic
-
-Query: {user_query}"""
-        
-        # Get AI response
-        response = client.models.generate_content(
-            model="gemini-2.5-flash",
-            contents=prompt
-        )
-        
-        if response.text:
-            return jsonify({
-                'success': True,
-                'response': response.text,
-                'query': user_query
-            })
-        else:
-            return jsonify({'success': False, 'error': 'No response from AI service'}), 500
-            
-    except ImportError:
-        return jsonify({'success': False, 'error': 'AI service dependencies not available'}), 500
-    except Exception as e:
-        print(f"AI Query Error: {str(e)}", file=sys.stderr)
-        return jsonify({'success': False, 'error': 'Failed to process AI request'}), 500
-
 
 def run_app() -> None:
     parser = argparse.ArgumentParser(

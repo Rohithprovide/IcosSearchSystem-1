@@ -135,15 +135,12 @@ This repository contains a Whoogle Search deployment wrapper for Replit. Whoogle
   - Added search icons and hover effects to each suggestion box
   - Applied responsive design for mobile devices with single-column layout
   - Added dark theme support for all related search elements
-- June 30, 2025. Added ChatGPT-style AI chat panel with Gemini integration:
-  - Created ai-panel.css with ChatGPT-inspired design featuring message bubbles and modern styling
-  - Implemented ai-chat.js for full chat functionality with real-time messaging
-  - Added floating chat button positioned at bottom-right corner of search results pages
-  - Integrated Google Gemini API backend endpoint (/ai-query) for AI responses
-  - Chat panel features: message history, typing indicators, auto-expanding text input
-  - No conversation persistence - each session starts fresh for privacy
-  - Panel slides in from right side with smooth animations and responsive design
-  - Users can chat with AI while browsing search results for enhanced research experience
+- June 30, 2025. Removed AI chat panel functionality per user request:
+  - Removed ai-panel.css and ai-chat.js files completely
+  - Removed /ai-query Flask route from routes.py
+  - Removed AI panel CSS and JavaScript references from display.html template
+  - Cleaned up all AI-related code to restore original search functionality
+  - Search engine now operates without AI integration, maintaining privacy focus
 
 ## User Preferences
 
