@@ -25,9 +25,7 @@ body.dark .voice-search-overlay {
 }
 
 .voice-search-content {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: #ffffff;
     border-radius: 20px;
     padding: 30px;
     width: 90%;
@@ -35,7 +33,7 @@ body.dark .voice-search-overlay {
     text-align: center;
     animation: slideUp 0.3s ease-out;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .voice-search-header {
@@ -185,7 +183,7 @@ body.voice-search-active {
 /* Dark theme adjustments */
 [data-theme="dark"] .voice-search-content,
 body.dark .voice-search-content {
-    background: rgba(32, 33, 36, 0.95);
+    background: #202124;
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
