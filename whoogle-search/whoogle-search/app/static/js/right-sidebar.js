@@ -28,6 +28,25 @@ class RightSidebar {
             return;
         }
         
+        // Find the main search results container
+        const mainContainer = document.querySelector('#main') || document.querySelector('.main-column');
+        if (!mainContainer) {
+            console.log('Right Sidebar: Main container not found');
+            return;
+        }
+        
+        // Create a wrapper for the search results and sidebar
+        const contentWrapper = document.createElement('div');
+        contentWrapper.className = 'search-content-wrapper';
+        contentWrapper.style.cssText = `
+            position: relative;
+            display: flex;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        `;
+        
+        // Create the sidebar
         const sidebar = document.createElement('div');
         sidebar.className = 'right-sidebar';
         sidebar.innerHTML = `
@@ -39,8 +58,13 @@ class RightSidebar {
             </div>
         `;
         
-        document.body.appendChild(sidebar);
-        console.log('Right Sidebar: Sidebar created and added to page');
+        // Wrap the main container and add sidebar
+        const parent = mainContainer.parentNode;
+        parent.insertBefore(contentWrapper, mainContainer);
+        contentWrapper.appendChild(mainContainer);
+        contentWrapper.appendChild(sidebar);
+        
+        console.log('Right Sidebar: Sidebar created and integrated with search results');
     }
     
     adjustLayout() {
