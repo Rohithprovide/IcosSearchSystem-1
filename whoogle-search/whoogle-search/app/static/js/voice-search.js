@@ -80,6 +80,7 @@ class VoiceSearch {
             
             if (this.isVoiceMode) {
                 this.updateListeningText(transcript);
+                this.hasTranscript = true; // Mark that we received some speech
                 
                 // If result is final, perform search
                 if (event.results[event.results.length - 1].isFinal) {
@@ -97,7 +98,12 @@ class VoiceSearch {
         this.recognition.onend = () => {
             this.isListening = false;
             if (this.isVoiceMode) {
-                this.updateVoiceUI('idle');
+                // Check if no speech was captured
+                if (!this.hasTranscript) {
+                    this.showNoSpeechMessage();
+                } else {
+                    this.updateVoiceUI('idle');
+                }
             }
         };
     }
@@ -161,6 +167,7 @@ class VoiceSearch {
 
     startVoiceSearch() {
         this.isVoiceMode = true;
+        this.hasTranscript = false; // Reset transcript flag
         this.voiceSearchContainer.style.display = 'flex';
         
         // Add body class to prevent scrolling
@@ -173,6 +180,22 @@ class VoiceSearch {
             console.error('Failed to start speech recognition:', error);
             this.stopVoiceSearch();
         }
+    }
+
+    showNoSpeechMessage() {
+        const listeningText = this.voiceSearchContainer.querySelector('.voice-listening-text');
+        const micIcon = this.voiceSearchContainer.querySelector('.voice-microphone-icon');
+        const pulseAnimation = this.voiceSearchContainer.querySelector('.voice-pulse-animation');
+        
+        // Update UI to show no speech message
+        listeningText.textContent = 'No speech was found';
+        micIcon.classList.remove('listening');
+        pulseAnimation.classList.remove('active');
+        
+        // Auto-close after 2 seconds
+        setTimeout(() => {
+            this.stopVoiceSearch();
+        }, 2000);
     }
 
     stopVoiceSearch() {
