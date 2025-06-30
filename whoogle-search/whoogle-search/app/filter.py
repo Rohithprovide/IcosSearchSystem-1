@@ -476,6 +476,10 @@ class Filter:
                 result.decompose()
                 continue
             
+            # Never collapse "People also ask" sections - preserve them expanded
+            if any("People also ask" in str(s) or "people also ask" in str(s) for s in result_children):
+                continue
+            
             if minimal_mode:
                 if any(f">{x}</span" in str(s) for s in result_children
                    for x in minimal_mode_sections):

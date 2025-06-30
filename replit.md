@@ -121,11 +121,13 @@ This repository contains a Whoogle Search deployment wrapper for Replit. Whoogle
   - Attempted to add magnifying glass icon to search results page but encountered rendering issues
 - June 30, 2025. Added "People also ask" section functionality:
   - Removed "People also ask" from minimal_mode_sections filter to ensure it's always displayed
+  - Modified collapse_sections() function to prevent "People also ask" sections from being collapsed into details elements
   - Created custom CSS styling (people-also-ask.css) to match Google's design with bordered question boxes
   - Implemented JavaScript functionality (people-also-ask.js) for expandable questions with dropdown arrows
   - Added Google-style pagination transformation from simple "Next >" to numbered pagination (1, 2, 3, 4, >)
   - Enhanced pagination with blue underline for current page and hover effects
   - Integrated both CSS and JavaScript files into display.html template for full functionality
+  - Fixed core issue: "People also ask" sections now remain expanded and visible instead of being auto-collapsed
 
 ## User Preferences
 
