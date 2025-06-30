@@ -141,9 +141,10 @@ header {
 }
 
 /* Header search magnifying glass icon */
+.header-autocomplete .search-icon-left,
 .header-search-icon {
     position: absolute !important;
-    left: 16px !important;
+    left: 18px !important;
     top: 50% !important;
     transform: translateY(-50%) !important;
     color: #9aa0a6 !important;
