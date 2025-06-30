@@ -1,0 +1,219 @@
+/* Clean image section styling for search results - matches Google's professional layout */
+
+/* Main image section container */
+.image-section-container {
+    margin: 16px 0 20px 0;
+    background: #fff;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 1px 6px rgba(32,33,36,.18);
+}
+
+/* Image section header */
+.image-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #dadce0;
+    padding-bottom: 8px;
+}
+
+.image-section-title {
+    font-size: 18px;
+    font-weight: 400;
+    color: #202124;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.image-section-view-all {
+    color: #1a73e8;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.image-section-view-all:hover {
+    background-color: #f8f9fa;
+    text-decoration: none;
+}
+
+/* Image grid container */
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+/* Individual image items */
+.image-item {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f8f9fa;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.image-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(32,33,36,.18);
+}
+
+.image-item img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.image-item:hover img {
+    transform: scale(1.02);
+}
+
+/* Image overlay with source info */
+.image-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.7));
+    padding: 8px;
+    color: white;
+    font-size: 11px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.image-item:hover .image-overlay {
+    opacity: 1;
+}
+
+.image-source {
+    font-weight: 400;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+/* More images indicator */
+.more-images-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 8px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.image-item.more-images:hover .more-images-overlay {
+    opacity: 1;
+}
+
+/* Dark theme support */
+[data-theme="dark"] .image-section-container {
+    background: #202124;
+    box-shadow: 0 1px 6px rgba(0,0,0,.3);
+}
+
+[data-theme="dark"] .image-section-header {
+    border-bottom-color: #3c4043;
+}
+
+[data-theme="dark"] .image-section-title {
+    color: #e8eaed;
+}
+
+[data-theme="dark"] .image-section-view-all:hover {
+    background-color: #3c4043;
+}
+
+[data-theme="dark"] .image-item {
+    background: #3c4043;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .image-section-container {
+        margin: 12px 0 16px 0;
+        padding: 12px;
+        border-radius: 0;
+        box-shadow: none;
+        border-top: 1px solid #dadce0;
+        border-bottom: 1px solid #dadce0;
+    }
+    
+    .image-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 8px;
+    }
+    
+    .image-item img {
+        height: 80px;
+    }
+    
+    .image-section-title {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .image-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+    }
+    
+    .image-item img {
+        height: 70px;
+    }
+}
+
+/* Integration with existing Whoogle styles */
+body .image-section-container {
+    max-width: none !important;
+    width: 100% !important;
+}
+
+/* Fix for light/dark theme integration */
+body[data-dark="true"] .image-section-container,
+.dark-theme .image-section-container {
+    background: #202124;
+    box-shadow: 0 1px 6px rgba(0,0,0,.3);
+}
+
+body[data-dark="true"] .image-section-header,
+.dark-theme .image-section-header {
+    border-bottom-color: #3c4043;
+}
+
+body[data-dark="true"] .image-section-title,
+.dark-theme .image-section-title {
+    color: #e8eaed;
+}
+
+body[data-dark="true"] .image-section-view-all:hover,
+.dark-theme .image-section-view-all:hover {
+    background-color: #3c4043;
+}
+
+body[data-dark="true"] .image-item,
+.dark-theme .image-item {
+    background: #3c4043;
+}
