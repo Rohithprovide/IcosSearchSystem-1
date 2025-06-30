@@ -108,7 +108,7 @@ header {
 .header-search-clear {
     position: absolute !important;
     right: 20px !important;
-    top: 50% !important;
+    top: 15% !important;
     transform: translateY(-50%) !important;
     color: #70757a !important;
     font-size: 18px !important;
@@ -127,9 +127,10 @@ header {
     color: #202124 !important;
 }
 
-/* Ensure the search bar has proper padding for the clear icon */
+/* Ensure the search bar has proper padding for icons */
 .header-autocomplete .search-bar-input {
     padding-right: 55px !important;
+    padding-left: 45px !important;
 }
 
 /* Show clear icon when search has content */
@@ -137,6 +138,18 @@ header {
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
+}
+
+/* Header search magnifying glass icon */
+.header-search-icon {
+    position: absolute !important;
+    left: 16px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    color: #9aa0a6 !important;
+    font-size: 16px !important;
+    z-index: 1001 !important;
+    pointer-events: none !important;
 }
 
 /* Remove any blue borders/outlines from search inputs - but keep desktop search bar styling */
