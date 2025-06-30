@@ -4,6 +4,9 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Related Searches: Initializing...');
+    // Wait a bit for content to load
+    setTimeout(initializeRelatedSearches, 500);
+    // Also try immediately
     initializeRelatedSearches();
 });
 
@@ -19,27 +22,64 @@ function initializeRelatedSearches() {
 function findRelatedSearchContainers() {
     const containers = [];
     
+    console.log('Related Searches: Looking for containers...');
+    
     // Look for details elements with "Related searches" in summary
     const detailsElements = document.querySelectorAll('details');
+    console.log('Related Searches: Found', detailsElements.length, 'details elements');
+    
     detailsElements.forEach(details => {
         const summary = details.querySelector('summary');
-        if (summary && summary.textContent.includes('Related searches')) {
-            containers.push(details);
-        }
-    });
-    
-    // Look for any element containing "Related searches"
-    const allElements = document.querySelectorAll('*');
-    allElements.forEach(element => {
-        if (element.textContent && element.textContent.includes('Related searches')) {
-            // Check if it's a header element or contains links
-            const parent = element.closest('div, section, article');
-            if (parent && parent.querySelectorAll('a').length > 0) {
-                containers.push(parent);
+        if (summary) {
+            console.log('Related Searches: Details summary text:', summary.textContent);
+            if (summary.textContent.includes('Related searches')) {
+                console.log('Related Searches: Found details container');
+                containers.push(details);
             }
         }
     });
     
+    // Look for any element containing "Related searches" - more comprehensive search
+    const textNodes = document.evaluate(
+        "//text()[contains(., 'Related searches')]",
+        document,
+        null,
+        XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE,
+        null
+    );
+    
+    console.log('Related Searches: Found', textNodes.snapshotLength, 'text nodes with "Related searches"');
+    
+    for (let i = 0; i < textNodes.snapshotLength; i++) {
+        const textNode = textNodes.snapshotItem(i);
+        const parent = textNode.parentElement;
+        if (parent) {
+            console.log('Related Searches: Text node parent:', parent.tagName, parent.textContent.substring(0, 50));
+            
+            // Find the container that has the links
+            let container = parent;
+            while (container && container !== document.body) {
+                const links = container.querySelectorAll('a');
+                if (links.length > 0) {
+                    // Check if these are search result links (not navigation)
+                    const searchLinks = Array.from(links).filter(link => {
+                        const href = link.getAttribute('href');
+                        const text = link.textContent.trim();
+                        return href && text && (href.includes('search?q=') || href.includes('q=')) && text.length > 2;
+                    });
+                    
+                    if (searchLinks.length > 0) {
+                        console.log('Related Searches: Found container with', searchLinks.length, 'search links');
+                        containers.push(container);
+                        break;
+                    }
+                }
+                container = container.parentElement;
+            }
+        }
+    }
+    
+    console.log('Related Searches: Total containers found:', containers.length);
     return [...new Set(containers)]; // Remove duplicates
 }
 
@@ -138,7 +178,26 @@ function isHeaderLink(link) {
 
 function isSearchLink(href, text) {
     // Check if this looks like a search query link
-    return href.includes('search?q=') || href.includes('q=') || text.length > 2;
+    if (!href || !text || text.trim().length < 2) return false;
+    
+    // Common patterns for search links
+    const searchPatterns = [
+        'search?q=',
+        'q=',
+        '/search?',
+        'tbm=',
+        'apple' // Looking at your screenshot, these seem to be apple-related searches
+    ];
+    
+    const hasSearchPattern = searchPatterns.some(pattern => 
+        href.toLowerCase().includes(pattern.toLowerCase())
+    );
+    
+    // Also check if text looks like a search query (contains common search terms)
+    const textLower = text.toLowerCase().trim();
+    const isReasonableLength = textLower.length > 2 && textLower.length < 100;
+    
+    return hasSearchPattern || isReasonableLength;
 }
 
 function createGridContainer() {
@@ -163,7 +222,12 @@ function createGridItem(originalLink) {
 
 function cleanSearchText(text) {
     // Clean up the search text - remove extra whitespace and symbols
-    return text.trim().replace(/^\>/, '').replace(/\>$/, '').trim();
+    return text.trim()
+        .replace(/^\>+\s*/, '') // Remove leading > arrows
+        .replace(/\s*\>+$/, '') // Remove trailing > arrows
+        .replace(/^\s*-\s*/, '') // Remove leading dashes
+        .replace(/\s*-\s*$/, '') // Remove trailing dashes
+        .trim();
 }
 
 // Handle dynamic content loading
