@@ -13,21 +13,34 @@ class AIChatPanel {
     }
     
     init() {
+        console.log('AI Chat: Starting initialization...');
+        
         // Only initialize on search results pages
         if (!this.isSearchResultsPage()) {
+            console.log('AI Chat: Not a search results page, skipping initialization');
             return;
         }
         
-        console.log('AI Chat: Initializing chat panel...');
+        console.log('AI Chat: This is a search results page, initializing chat panel...');
         this.createPanel();
-        this.createToggleButton();
+        this.showPanel();
         this.bindEvents();
+        console.log('AI Chat: Initialization complete!');
     }
     
     isSearchResultsPage() {
         // Check if we're on a search results page
         const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.has('q') || document.querySelector('.search-bar-desktop') || document.querySelector('#search-bar');
+        const hasQuery = urlParams.has('q');
+        const hasSearchBar = document.querySelector('.search-bar-desktop') || document.querySelector('#search-bar');
+        const hasResults = document.querySelector('body') && !document.querySelector('title')?.textContent?.includes('Whoogle Search');
+        
+        console.log('AI Chat: URL has query:', hasQuery);
+        console.log('AI Chat: Has search bar:', !!hasSearchBar);
+        console.log('AI Chat: Current URL:', window.location.href);
+        
+        // Always show on pages that have search functionality or results
+        return hasQuery || hasSearchBar || window.location.pathname === '/search';
     }
     
     createPanel() {
@@ -37,11 +50,8 @@ class AIChatPanel {
             <div class="ai-panel-header">
                 <h3 class="ai-panel-title">
                     <i class="fas fa-robot ai-icon"></i>
-                    AI Chat
+                    AI Assistant
                 </h3>
-                <button class="ai-panel-close" type="button">
-                    <i class="fas fa-times"></i>
-                </button>
             </div>
             <div class="ai-chat-messages">
                 <div class="ai-welcome">
@@ -65,27 +75,13 @@ class AIChatPanel {
         document.body.appendChild(this.panel);
     }
     
-    createToggleButton() {
-        this.toggleBtn = document.createElement('button');
-        this.toggleBtn.className = 'ai-toggle-btn';
-        this.toggleBtn.innerHTML = '<i class="fas fa-comments"></i>';
-        this.toggleBtn.title = 'Open AI Chat';
-        
-        document.body.appendChild(this.toggleBtn);
+    showPanel() {
+        // Make the AI panel visible and adjust page layout
+        document.body.classList.add('has-ai-panel');
+        console.log('AI Chat: Panel should now be visible');
     }
     
     bindEvents() {
-        // Toggle button click
-        this.toggleBtn.addEventListener('click', () => {
-            this.toggle();
-        });
-        
-        // Close button click
-        const closeBtn = this.panel.querySelector('.ai-panel-close');
-        closeBtn.addEventListener('click', () => {
-            this.close();
-        });
-        
         // Send button click
         const sendBtn = this.panel.querySelector('.ai-send-button');
         sendBtn.addEventListener('click', () => {
@@ -109,12 +105,10 @@ class AIChatPanel {
             }
         });
         
-        // Escape key to close
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && this.isOpen) {
-                this.close();
-            }
-        });
+        // Focus on text input initially
+        setTimeout(() => {
+            textInput.focus();
+        }, 500);
     }
     
     autoResizeTextarea(textarea) {
@@ -279,14 +273,27 @@ class AIChatPanel {
 document.addEventListener('DOMContentLoaded', function() {
     console.log('AI Chat: DOM loaded, initializing...');
     
-    // Wait a bit for other scripts to load
+    // Try multiple times to ensure initialization
     setTimeout(() => {
         try {
+            console.log('AI Chat: First attempt...');
             new AIChatPanel();
         } catch (error) {
-            console.error('AI Chat: Failed to initialize:', error);
+            console.error('AI Chat: Failed to initialize (attempt 1):', error);
         }
     }, 500);
+    
+    // Try again if first attempt failed
+    setTimeout(() => {
+        if (!document.querySelector('.ai-panel')) {
+            try {
+                console.log('AI Chat: Second attempt...');
+                new AIChatPanel();
+            } catch (error) {
+                console.error('AI Chat: Failed to initialize (attempt 2):', error);
+            }
+        }
+    }, 2000);
 });
 
 // Handle dynamic content loading
