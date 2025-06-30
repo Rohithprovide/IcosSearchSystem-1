@@ -1,152 +1,242 @@
-/**
- * Voice Search Functionality for Whoogle Search
- * Enables voice input via the microphone icon
- */
+// Voice Search Implementation for Whoogle Search
+// Provides Google-like voice search functionality with UI transformation
 
-let recognition;
-let isRecording = false;
+class VoiceSearch {
+    constructor() {
+        this.isListening = false;
+        this.recognition = null;
+        this.searchBar = null;
+        this.micButton = null;
+        this.originalSearchContainer = null;
+        this.voiceSearchContainer = null;
+        this.isVoiceMode = false;
+        
+        this.init();
+    }
 
-function initVoiceSearch() {
-    // Check if Web Speech API is supported
-    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+    init() {
+        // Wait for DOM to be ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => this.setupVoiceSearch());
+        } else {
+            this.setupVoiceSearch();
+        }
+    }
+
+    setupVoiceSearch() {
+        this.searchBar = document.getElementById('search-bar');
+        this.micButton = document.querySelector('.fa-microphone');
+        
+        if (!this.searchBar || !this.micButton) {
+            console.log('Voice search elements not found, retrying...');
+            setTimeout(() => this.setupVoiceSearch(), 100);
+            return;
+        }
+
+        // Check for speech recognition support
+        if (!this.checkSpeechRecognitionSupport()) {
+            console.warn('Speech recognition not supported in this browser');
+            return;
+        }
+
+        // Setup speech recognition
+        this.setupSpeechRecognition();
+        
+        // Add click handler to microphone button
+        this.micButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            this.toggleVoiceSearch();
+        });
+
+        // Create voice search UI elements
+        this.createVoiceSearchUI();
+        
+        console.log('Voice search initialized successfully');
+    }
+
+    checkSpeechRecognitionSupport() {
+        return 'webkitSpeechRecognition' in window || 'SpeechRecognition' in window;
+    }
+
+    setupSpeechRecognition() {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        recognition = new SpeechRecognition();
+        this.recognition = new SpeechRecognition();
         
-        // Configure speech recognition
-        recognition.continuous = false;
-        recognition.interimResults = false;
-        recognition.lang = 'en-US';
+        this.recognition.continuous = false;
+        this.recognition.interimResults = true;
+        this.recognition.lang = 'en-US';
         
-        // Handle speech recognition results
-        recognition.onresult = function(event) {
-            const transcript = event.results[0][0].transcript;
-            const searchInput = document.getElementById('search-bar');
-            const micIcon = document.querySelector('.search-icon-right');
-            
-            if (searchInput && transcript.trim()) {
-                searchInput.value = transcript;
-                searchInput.focus();
-            }
-            
-            // Reset microphone icon if it exists
-            if (micIcon) {
-                micIcon.classList.remove('recording');
-                // Reset inline styles
-                micIcon.style.backgroundColor = '';
-                micIcon.style.color = '';
-                micIcon.style.transform = '';
-                micIcon.style.borderRadius = '';
-            }
-            isRecording = false;
+        this.recognition.onstart = () => {
+            this.isListening = true;
+            this.updateVoiceUI('listening');
         };
         
-        // Handle speech recognition errors
-        recognition.onerror = function(event) {
-            console.log('Speech recognition error:', event.error);
-            const micIcon = document.querySelector('.search-icon-right');
-            if (micIcon) {
-                micIcon.classList.remove('recording');
-                // Reset inline styles
-                micIcon.style.backgroundColor = '';
-                micIcon.style.color = '';
-                micIcon.style.transform = '';
-                micIcon.style.borderRadius = '';
+        this.recognition.onresult = (event) => {
+            let transcript = '';
+            for (let i = event.resultIndex; i < event.results.length; i++) {
+                transcript += event.results[i][0].transcript;
             }
-            isRecording = false;
             
-            // Show user-friendly error message
-            if (event.error === 'not-allowed') {
-                alert('Microphone access denied. Please allow microphone access and try again.');
-            } else if (event.error === 'no-speech') {
-                alert('No speech detected. Please try again.');
-            } else {
-                alert('Voice recognition error. Please try again.');
-            }
-        };
-        
-        // Handle when speech recognition ends
-        recognition.onend = function() {
-            const micIcon = document.querySelector('.search-icon-right');
-            if (micIcon) {
-                micIcon.classList.remove('recording');
-            }
-            isRecording = false;
-        };
-        
-        // Add click event to microphone icon
-        const micIcon = document.querySelector('.search-icon-right');
-        if (micIcon) {
-            micIcon.addEventListener('click', function() {
-                if (!isRecording) {
-                    startVoiceRecognition();
-                } else {
-                    stopVoiceRecognition();
+            if (this.isVoiceMode) {
+                this.updateListeningText(transcript);
+                
+                // If result is final, perform search
+                if (event.results[event.results.length - 1].isFinal) {
+                    this.performVoiceSearch(transcript);
                 }
-            });
-            
-            // Add tooltip
-            micIcon.title = 'Voice search';
+            }
+        };
+        
+        this.recognition.onerror = (event) => {
+            console.error('Speech recognition error:', event.error);
+            this.stopVoiceSearch();
+            this.updateVoiceUI('error');
+        };
+        
+        this.recognition.onend = () => {
+            this.isListening = false;
+            if (this.isVoiceMode) {
+                this.updateVoiceUI('idle');
+            }
+        };
+    }
+
+    createVoiceSearchUI() {
+        // Create voice search overlay
+        this.voiceSearchContainer = document.createElement('div');
+        this.voiceSearchContainer.className = 'voice-search-overlay';
+        this.voiceSearchContainer.style.display = 'none';
+        
+        this.voiceSearchContainer.innerHTML = `
+            <div class="voice-search-content">
+                <div class="voice-search-header">
+                    <div class="voice-listening-text">Listening...</div>
+                    <button class="voice-close-btn" id="voice-close-btn">
+                        <i class="fa-solid fa-times"></i>
+                    </button>
+                </div>
+                <div class="voice-microphone-container">
+                    <div class="voice-microphone-icon">
+                        <i class="fa-solid fa-microphone"></i>
+                    </div>
+                    <div class="voice-pulse-animation"></div>
+                </div>
+                <div class="voice-transcript-text"></div>
+                <div class="voice-instructions">Try saying: "What's the weather today?"</div>
+            </div>
+        `;
+        
+        document.body.appendChild(this.voiceSearchContainer);
+        
+        // Add close button handler
+        const closeBtn = this.voiceSearchContainer.querySelector('#voice-close-btn');
+        closeBtn.addEventListener('click', () => this.stopVoiceSearch());
+        
+        // Add click outside to close
+        this.voiceSearchContainer.addEventListener('click', (e) => {
+            if (e.target === this.voiceSearchContainer) {
+                this.stopVoiceSearch();
+            }
+        });
+    }
+
+    toggleVoiceSearch() {
+        if (this.isVoiceMode) {
+            this.stopVoiceSearch();
+        } else {
+            this.startVoiceSearch();
         }
-    } else {
-        // Hide microphone icon if not supported
-        const micIcon = document.querySelector('.search-icon-right');
-        if (micIcon) {
-            micIcon.style.display = 'none';
+    }
+
+    startVoiceSearch() {
+        this.isVoiceMode = true;
+        this.voiceSearchContainer.style.display = 'flex';
+        
+        // Add body class to prevent scrolling
+        document.body.classList.add('voice-search-active');
+        
+        // Start speech recognition
+        try {
+            this.recognition.start();
+        } catch (error) {
+            console.error('Failed to start speech recognition:', error);
+            this.stopVoiceSearch();
         }
-        console.log('Web Speech API not supported in this browser');
+    }
+
+    stopVoiceSearch() {
+        this.isVoiceMode = false;
+        this.isListening = false;
+        
+        if (this.recognition) {
+            this.recognition.stop();
+        }
+        
+        this.voiceSearchContainer.style.display = 'none';
+        document.body.classList.remove('voice-search-active');
+        
+        // Reset UI
+        this.updateVoiceUI('idle');
+    }
+
+    updateVoiceUI(state) {
+        const listeningText = this.voiceSearchContainer.querySelector('.voice-listening-text');
+        const micIcon = this.voiceSearchContainer.querySelector('.voice-microphone-icon');
+        const pulseAnimation = this.voiceSearchContainer.querySelector('.voice-pulse-animation');
+        
+        switch (state) {
+            case 'listening':
+                listeningText.textContent = 'Listening...';
+                micIcon.classList.add('listening');
+                pulseAnimation.classList.add('active');
+                break;
+            case 'processing':
+                listeningText.textContent = 'Processing...';
+                micIcon.classList.remove('listening');
+                pulseAnimation.classList.remove('active');
+                break;
+            case 'error':
+                listeningText.textContent = 'Sorry, I didn\'t catch that. Try again.';
+                micIcon.classList.remove('listening');
+                pulseAnimation.classList.remove('active');
+                break;
+            default:
+                listeningText.textContent = 'Listening...';
+                micIcon.classList.remove('listening');
+                pulseAnimation.classList.remove('active');
+        }
+    }
+
+    updateListeningText(transcript) {
+        const transcriptElement = this.voiceSearchContainer.querySelector('.voice-transcript-text');
+        transcriptElement.textContent = transcript;
+    }
+
+    performVoiceSearch(query) {
+        if (!query.trim()) return;
+        
+        this.updateVoiceUI('processing');
+        
+        // Fill the search bar with the recognized text
+        this.searchBar.value = query;
+        
+        // Submit the search form
+        setTimeout(() => {
+            const searchForm = document.getElementById('search-form');
+            if (searchForm) {
+                searchForm.submit();
+            }
+        }, 500);
     }
 }
 
-function startVoiceRecognition() {
-    if (!recognition) return;
-    
-    const micIcon = document.querySelector('.search-icon-right');
-    
-    try {
-        recognition.start();
-        micIcon.classList.add('recording');
-        isRecording = true;
-        
-        // Force hover effect with inline styles as backup
-        micIcon.style.backgroundColor = '#f1f3f4';
-        micIcon.style.color = '#ea4335';
-        micIcon.style.transform = 'scale(1.1)';
-        micIcon.style.borderRadius = '50%';
-        
-        // Debug: Log to verify the class is added
-        console.log('Recording class added, element classes:', micIcon.className);
-        
-        // Clear existing search text
-        const searchInput = document.getElementById('search-bar');
-        if (searchInput) {
-            searchInput.value = '';
-        }
-    } catch (error) {
-        console.error('Error starting voice recognition:', error);
-        micIcon.classList.remove('recording');
-        // Reset inline styles
-        micIcon.style.backgroundColor = '';
-        micIcon.style.color = '';
-        micIcon.style.transform = '';
-        micIcon.style.borderRadius = '';
-        isRecording = false;
-    }
-}
+// Initialize voice search when script loads
+const voiceSearch = new VoiceSearch();
 
-function stopVoiceRecognition() {
-    if (recognition && isRecording) {
-        recognition.stop();
+// Handle ESC key to close voice search
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && voiceSearch.isVoiceMode) {
+        voiceSearch.stopVoiceSearch();
     }
-}
-
-// Initialize voice search when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    initVoiceSearch();
 });
-
-// Also initialize if DOM is already loaded
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initVoiceSearch);
-} else {
-    initVoiceSearch();
-}

@@ -1,0 +1,266 @@
+/* Voice Search Overlay Styles - Google-like Implementation */
+
+.voice-search-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.voice-search-content {
+    background: var(--whoogle-background);
+    border-radius: 20px;
+    padding: 40px;
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.3s ease-out;
+}
+
+.voice-search-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.voice-listening-text {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--whoogle-text);
+    flex: 1;
+    text-align: center;
+}
+
+.voice-close-btn {
+    background: none;
+    border: none;
+    color: var(--whoogle-text);
+    font-size: 20px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.voice-close-btn:hover {
+    background-color: var(--whoogle-element-bg);
+}
+
+.voice-microphone-container {
+    position: relative;
+    margin: 40px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.voice-microphone-icon {
+    width: 80px;
+    height: 80px;
+    background: #4285f4;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 32px;
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 16px rgba(66, 133, 244, 0.3);
+}
+
+.voice-microphone-icon.listening {
+    background: #ea4335;
+    box-shadow: 0 4px 16px rgba(234, 67, 53, 0.4);
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.voice-pulse-animation {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: transparent;
+    border: 3px solid #4285f4;
+    opacity: 0;
+    z-index: 1;
+}
+
+.voice-pulse-animation.active {
+    animation: pulseRing 2s ease-out infinite;
+}
+
+.voice-transcript-text {
+    font-size: 20px;
+    color: var(--whoogle-text);
+    margin: 20px 0;
+    min-height: 30px;
+    font-weight: 400;
+    line-height: 1.4;
+}
+
+.voice-instructions {
+    font-size: 14px;
+    color: var(--whoogle-secondary-text);
+    margin-top: 20px;
+    opacity: 0.8;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes pulseRing {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+/* Prevent body scroll when voice search is active */
+body.voice-search-active {
+    overflow: hidden;
+}
+
+/* Dark theme adjustments */
+[data-theme="dark"] .voice-search-content {
+    background: #1a1a1a;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="dark"] .voice-listening-text {
+    color: #e8eaed;
+}
+
+[data-theme="dark"] .voice-close-btn {
+    color: #e8eaed;
+}
+
+[data-theme="dark"] .voice-close-btn:hover {
+    background-color: #303030;
+}
+
+[data-theme="dark"] .voice-transcript-text {
+    color: #e8eaed;
+}
+
+[data-theme="dark"] .voice-instructions {
+    color: #9aa0a6;
+}
+
+/* Light theme adjustments */
+[data-theme="light"] .voice-search-content {
+    background: #ffffff;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="light"] .voice-listening-text {
+    color: #202124;
+}
+
+[data-theme="light"] .voice-close-btn {
+    color: #5f6368;
+}
+
+[data-theme="light"] .voice-close-btn:hover {
+    background-color: #f8f9fa;
+}
+
+[data-theme="light"] .voice-transcript-text {
+    color: #202124;
+}
+
+[data-theme="light"] .voice-instructions {
+    color: #5f6368;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .voice-search-content {
+        width: 95%;
+        padding: 30px 20px;
+        margin: 20px;
+    }
+    
+    .voice-microphone-icon {
+        width: 70px;
+        height: 70px;
+        font-size: 28px;
+    }
+    
+    .voice-pulse-animation {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .voice-listening-text {
+        font-size: 16px;
+    }
+    
+    .voice-transcript-text {
+        font-size: 18px;
+    }
+    
+    .voice-instructions {
+        font-size: 13px;
+    }
+}
+
+/* Microphone button hover effect enhancement */
+.search-icon-right:hover {
+    color: #4285f4 !important;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+/* Add visual feedback when mic is clicked */
+.search-icon-right:active {
+    transform: scale(0.95);
+    transition: transform 0.1s ease;
+}
