@@ -25,7 +25,8 @@ body.dark .voice-search-overlay {
 }
 
 .voice-search-content {
-    background: #ffffff;
+    background: #ffffff !important;
+    background-color: #ffffff !important;
     border-radius: 20px;
     padding: 30px;
     width: 90%;
@@ -34,6 +35,16 @@ body.dark .voice-search-overlay {
     animation: slideUp 0.3s ease-out;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(0, 0, 0, 0.1);
+    opacity: 1 !important;
+}
+
+/* Additional high-specificity rule to ensure white background */
+div.voice-search-overlay div.voice-search-content {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    opacity: 1 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
 }
 
 .voice-search-header {
@@ -183,9 +194,11 @@ body.voice-search-active {
 /* Dark theme adjustments */
 [data-theme="dark"] .voice-search-content,
 body.dark .voice-search-content {
-    background: #202124;
+    background: #202124 !important;
+    background-color: #202124 !important;
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    opacity: 1 !important;
 }
 
 [data-theme="dark"] .voice-listening-text,

@@ -129,6 +129,16 @@ class VoiceSearch {
         
         document.body.appendChild(this.voiceSearchContainer);
         
+        // Force white background on content with inline styles
+        const contentDiv = this.voiceSearchContainer.querySelector('.voice-search-content');
+        if (contentDiv) {
+            contentDiv.style.background = '#ffffff';
+            contentDiv.style.backgroundColor = '#ffffff';
+            contentDiv.style.opacity = '1';
+            contentDiv.style.backdropFilter = 'none';
+            contentDiv.style.webkitBackdropFilter = 'none';
+        }
+        
         // Add close button handler
         const closeBtn = this.voiceSearchContainer.querySelector('#voice-close-btn');
         closeBtn.addEventListener('click', () => this.stopVoiceSearch());
