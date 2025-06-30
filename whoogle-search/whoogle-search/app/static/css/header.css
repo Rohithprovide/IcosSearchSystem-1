@@ -62,6 +62,11 @@ header {
     background-color: #fff;
 }
 
+/* Add left padding when inside header search container */
+.header-search-container .search-bar-desktop {
+    padding-left: 50px !important;
+}
+
 .search-bar-desktop:hover {
     box-shadow: 0 2px 8px rgba(32,33,36,.28);
     border-color: rgba(223,225,229,0);
@@ -148,8 +153,9 @@ header {
     align-items: center !important;
 }
 
-/* Header search magnifying glass icon */
-.header-search-container .search-icon-left {
+/* Header search magnifying glass icon - override main.css with higher specificity */
+.header-search-container .search-icon-left,
+.header-autocomplete .search-icon-left {
     position: absolute !important;
     left: 18px !important;
     top: 50% !important;
