@@ -141,6 +141,13 @@ This repository contains a Whoogle Search deployment wrapper for Replit. Whoogle
   - Removed AI panel CSS and JavaScript references from display.html template
   - Cleaned up all AI-related code to restore original search functionality
   - Search engine now operates without AI integration, maintaining privacy focus
+- June 30, 2025. Added right sidebar to fill empty space on search results:
+  - Created right-sidebar.css with rounded corners and multiple box shadows
+  - Implemented right-sidebar.js for automatic sidebar initialization on search pages
+  - Fixed positioning on right side of search results with responsive design
+  - Added proper layout adjustments to prevent content overlap
+  - Sidebar appears only on larger screens (hidden on mobile/tablet for better UX)
+  - Clean, modern design with placeholder content and smooth scrolling
 
 ## User Preferences
 

@@ -1,0 +1,96 @@
+/* Right Sidebar for Search Results */
+.right-sidebar {
+    position: fixed;
+    top: 120px;
+    right: 20px;
+    width: 300px;
+    height: calc(100vh - 140px);
+    background: var(--whoogle-background);
+    border: 1px solid var(--whoogle-element-bg);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+                0 2px 4px -1px rgba(0, 0, 0, 0.06),
+                0 1px 3px rgba(0, 0, 0, 0.12),
+                0 1px 2px rgba(0, 0, 0, 0.24);
+    padding: 20px;
+    overflow-y: auto;
+    z-index: 100;
+}
+
+/* Dark theme adjustments */
+[data-dark="1"] .right-sidebar {
+    background: var(--whoogle-dark-background);
+    border-color: var(--whoogle-dark-element-bg);
+    box-shadow: 0 4px 6px -1px rgba(255, 255, 255, 0.1), 
+                0 2px 4px -1px rgba(255, 255, 255, 0.06),
+                0 1px 3px rgba(255, 255, 255, 0.12),
+                0 1px 2px rgba(255, 255, 255, 0.24);
+}
+
+/* Adjust main content to make room for sidebar */
+body.has-sidebar .main-column {
+    margin-right: 340px;
+}
+
+body.has-sidebar #main {
+    margin-right: 340px;
+}
+
+/* Sidebar content placeholder */
+.sidebar-content {
+    color: var(--whoogle-text);
+    font-family: var(--whoogle-font);
+}
+
+.sidebar-title {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 15px;
+    color: var(--whoogle-text);
+}
+
+.sidebar-placeholder {
+    color: var(--whoogle-secondary-text);
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: center;
+    padding: 40px 0;
+}
+
+/* Responsive design */
+@media (max-width: 1200px) {
+    .right-sidebar {
+        display: none;
+    }
+    
+    body.has-sidebar .main-column,
+    body.has-sidebar #main {
+        margin-right: 0;
+    }
+}
+
+/* Scrollbar styling for sidebar */
+.right-sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.right-sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.right-sidebar::-webkit-scrollbar-thumb {
+    background: var(--whoogle-element-bg);
+    border-radius: 3px;
+}
+
+.right-sidebar::-webkit-scrollbar-thumb:hover {
+    background: var(--whoogle-secondary-text);
+}
+
+[data-dark="1"] .right-sidebar::-webkit-scrollbar-thumb {
+    background: var(--whoogle-dark-element-bg);
+}
+
+[data-dark="1"] .right-sidebar::-webkit-scrollbar-thumb:hover {
+    background: var(--whoogle-dark-secondary-text);
+}
