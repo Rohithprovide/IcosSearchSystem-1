@@ -1,4 +1,4 @@
-/* Voice Search Overlay Styles - Google-like Implementation */
+/* Voice Search Overlay Styles - Clean Implementation */
 
 .voice-search-overlay {
     position: fixed;
@@ -6,8 +6,8 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(5px);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -15,14 +15,19 @@
     animation: fadeIn 0.3s ease-out;
 }
 
+/* Dark theme overlay */
+[data-theme="dark"] .voice-search-overlay,
+body.dark .voice-search-overlay {
+    background: rgba(0, 0, 0, 0.85);
+}
+
 .voice-search-content {
-    background: var(--whoogle-background);
+    background: transparent;
     border-radius: 20px;
-    padding: 40px;
+    padding: 30px;
     width: 90%;
-    max-width: 500px;
+    max-width: 400px;
     text-align: center;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     animation: slideUp 0.3s ease-out;
 }
 
@@ -35,21 +40,21 @@
 
 .voice-listening-text {
     font-size: 18px;
-    font-weight: 500;
-    color: var(--whoogle-text);
+    font-weight: 400;
+    color: #5f6368;
     flex: 1;
     text-align: center;
 }
 
 .voice-close-btn {
-    background: none;
+    background: rgba(95, 99, 104, 0.1);
     border: none;
-    color: var(--whoogle-text);
-    font-size: 20px;
+    color: #5f6368;
+    font-size: 18px;
     cursor: pointer;
-    padding: 8px;
+    padding: 10px;
     border-radius: 50%;
-    transition: background-color 0.2s ease;
+    transition: all 0.2s ease;
     width: 40px;
     height: 40px;
     display: flex;
@@ -58,7 +63,8 @@
 }
 
 .voice-close-btn:hover {
-    background-color: var(--whoogle-element-bg);
+    background: rgba(95, 99, 104, 0.2);
+    transform: scale(1.05);
 }
 
 .voice-microphone-container {
@@ -70,34 +76,34 @@
 }
 
 .voice-microphone-icon {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
     background: #4285f4;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
-    font-size: 32px;
+    font-size: 28px;
     position: relative;
     z-index: 2;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 16px rgba(66, 133, 244, 0.3);
+    box-shadow: 0 2px 12px rgba(66, 133, 244, 0.2);
 }
 
 .voice-microphone-icon.listening {
     background: #ea4335;
-    box-shadow: 0 4px 16px rgba(234, 67, 53, 0.4);
+    box-shadow: 0 2px 12px rgba(234, 67, 53, 0.3);
     animation: pulse 1.5s ease-in-out infinite;
 }
 
 .voice-pulse-animation {
     position: absolute;
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
     background: transparent;
-    border: 3px solid #4285f4;
+    border: 2px solid #4285f4;
     opacity: 0;
     z-index: 1;
 }
@@ -107,19 +113,20 @@
 }
 
 .voice-transcript-text {
-    font-size: 20px;
-    color: var(--whoogle-text);
-    margin: 20px 0;
-    min-height: 30px;
+    font-size: 24px;
+    color: #202124;
+    margin: 25px 0;
+    min-height: 35px;
     font-weight: 400;
-    line-height: 1.4;
+    line-height: 1.3;
+    text-align: center;
 }
 
 .voice-instructions {
     font-size: 14px;
-    color: var(--whoogle-secondary-text);
-    margin-top: 20px;
-    opacity: 0.8;
+    color: #5f6368;
+    margin-top: 15px;
+    opacity: 0.9;
 }
 
 /* Animations */
@@ -169,55 +176,30 @@ body.voice-search-active {
 }
 
 /* Dark theme adjustments */
-[data-theme="dark"] .voice-search-content {
-    background: #1a1a1a;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
-}
-
-[data-theme="dark"] .voice-listening-text {
+[data-theme="dark"] .voice-listening-text,
+body.dark .voice-listening-text {
     color: #e8eaed;
 }
 
-[data-theme="dark"] .voice-close-btn {
+[data-theme="dark"] .voice-close-btn,
+body.dark .voice-close-btn {
+    color: #e8eaed;
+    background: rgba(232, 234, 237, 0.1);
+}
+
+[data-theme="dark"] .voice-close-btn:hover,
+body.dark .voice-close-btn:hover {
+    background: rgba(232, 234, 237, 0.2);
+}
+
+[data-theme="dark"] .voice-transcript-text,
+body.dark .voice-transcript-text {
     color: #e8eaed;
 }
 
-[data-theme="dark"] .voice-close-btn:hover {
-    background-color: #303030;
-}
-
-[data-theme="dark"] .voice-transcript-text {
-    color: #e8eaed;
-}
-
-[data-theme="dark"] .voice-instructions {
+[data-theme="dark"] .voice-instructions,
+body.dark .voice-instructions {
     color: #9aa0a6;
-}
-
-/* Light theme adjustments */
-[data-theme="light"] .voice-search-content {
-    background: #ffffff;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-}
-
-[data-theme="light"] .voice-listening-text {
-    color: #202124;
-}
-
-[data-theme="light"] .voice-close-btn {
-    color: #5f6368;
-}
-
-[data-theme="light"] .voice-close-btn:hover {
-    background-color: #f8f9fa;
-}
-
-[data-theme="light"] .voice-transcript-text {
-    color: #202124;
-}
-
-[data-theme="light"] .voice-instructions {
-    color: #5f6368;
 }
 
 /* Mobile responsiveness */
@@ -229,14 +211,14 @@ body.voice-search-active {
     }
     
     .voice-microphone-icon {
-        width: 70px;
-        height: 70px;
-        font-size: 28px;
+        width: 60px;
+        height: 60px;
+        font-size: 24px;
     }
     
     .voice-pulse-animation {
-        width: 70px;
-        height: 70px;
+        width: 60px;
+        height: 60px;
     }
     
     .voice-listening-text {
