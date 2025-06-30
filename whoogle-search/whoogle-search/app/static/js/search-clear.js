@@ -8,10 +8,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to toggle clear icon visibility for homepage
     function toggleClearIcon() {
         if (searchBar && clearIcon) {
+            const divider = document.getElementById('search-divider');
             if (searchBar.value.trim().length > 0) {
                 clearIcon.style.display = 'block';
+                if (divider) divider.style.display = 'block';
             } else {
                 clearIcon.style.display = 'none';
+                if (divider) divider.style.display = 'none';
             }
         }
     }

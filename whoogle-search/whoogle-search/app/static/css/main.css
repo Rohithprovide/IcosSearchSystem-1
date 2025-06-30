@@ -132,6 +132,17 @@ body:has(header) #main {
     color: #202124;
 }
 
+.search-divider {
+    position: absolute;
+    right: 50px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1px;
+    height: 24px;
+    background-color: #dadce0;
+    z-index: 10;
+}
+
 /* High specificity selectors for microphone hover effect */
 .search-input-container .search-icon-right:hover,
 .search-input-container .search-icon-right.recording,
