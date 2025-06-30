@@ -150,6 +150,9 @@ header {
     font-size: 16px !important;
     z-index: 1001 !important;
     pointer-events: none !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
 /* Remove any blue borders/outlines from search inputs - but keep desktop search bar styling */
