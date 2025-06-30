@@ -70,6 +70,13 @@ class VoiceSearch {
         this.recognition.onstart = () => {
             this.isListening = true;
             this.updateVoiceUI('listening');
+            
+            // Set a timeout to show "no speech" message if no speech is detected
+            this.noSpeechTimeout = setTimeout(() => {
+                if (this.isVoiceMode && !this.hasTranscript) {
+                    this.showNoSpeechMessage();
+                }
+            }, 5000); // 5 seconds timeout
         };
         
         this.recognition.onresult = (event) => {
@@ -81,6 +88,12 @@ class VoiceSearch {
             if (this.isVoiceMode) {
                 this.updateListeningText(transcript);
                 this.hasTranscript = true; // Mark that we received some speech
+                
+                // Clear the no speech timeout since we got speech
+                if (this.noSpeechTimeout) {
+                    clearTimeout(this.noSpeechTimeout);
+                    this.noSpeechTimeout = null;
+                }
                 
                 // If result is final, perform search
                 if (event.results[event.results.length - 1].isFinal) {
@@ -201,6 +214,12 @@ class VoiceSearch {
     stopVoiceSearch() {
         this.isVoiceMode = false;
         this.isListening = false;
+        
+        // Clear any pending timeout
+        if (this.noSpeechTimeout) {
+            clearTimeout(this.noSpeechTimeout);
+            this.noSpeechTimeout = null;
+        }
         
         if (this.recognition) {
             this.recognition.stop();
