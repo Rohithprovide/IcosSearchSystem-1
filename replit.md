@@ -128,6 +128,13 @@ This repository contains a Whoogle Search deployment wrapper for Replit. Whoogle
   - Enhanced pagination with blue underline for current page and hover effects
   - Integrated both CSS and JavaScript files into display.html template for full functionality
   - Fixed core issue: "People also ask" sections now remain expanded and visible instead of being auto-collapsed
+- June 30, 2025. Enhanced "Related searches" to match Google's "People also search for" design:
+  - Created related-searches.css with Google-style grid layout and bordered search boxes
+  - Implemented related-searches.js to transform existing text links into interactive grid items
+  - Changed header from "Related searches" to "People also search for" to match Google
+  - Added search icons and hover effects to each suggestion box
+  - Applied responsive design for mobile devices with single-column layout
+  - Added dark theme support for all related search elements
 
 ## User Preferences
 

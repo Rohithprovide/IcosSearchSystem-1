@@ -1,0 +1,129 @@
+/* Related searches styling to match Google's "People also search for" design */
+
+/* Main container for related searches section */
+.related-searches-container,
+details.related-searches {
+    font-family: Google Sans, arial, sans-serif !important;
+    margin: 20px 0 !important;
+}
+
+/* Related searches header */
+.related-searches-header,
+details.related-searches summary {
+    font-size: 20px !important;
+    font-weight: 400 !important;
+    color: #202124 !important;
+    margin: 16px 0 12px 0 !important;
+    font-family: Google Sans, arial, sans-serif !important;
+    display: block !important;
+}
+
+/* Transform the related searches into a grid layout */
+.related-searches-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+    gap: 8px !important;
+    margin: 16px 0 !important;
+}
+
+/* Individual search suggestion boxes */
+.related-search-item {
+    background: #f8f9fa !important;
+    border: 1px solid #dadce0 !important;
+    border-radius: 8px !important;
+    padding: 12px 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    transition: all 0.2s ease !important;
+    cursor: pointer !important;
+    text-decoration: none !important;
+    color: #202124 !important;
+    font-size: 14px !important;
+    line-height: 20px !important;
+    min-height: 44px !important;
+    box-sizing: border-box !important;
+}
+
+.related-search-item:hover {
+    background: #f1f3f4 !important;
+    border-color: #dadce0 !important;
+    box-shadow: 0 1px 6px rgba(32,33,36,.28) !important;
+    text-decoration: none !important;
+}
+
+/* Search icon */
+.related-search-item::after {
+    content: "🔍" !important;
+    font-size: 16px !important;
+    color: #5f6368 !important;
+    margin-left: auto !important;
+    opacity: 0.8 !important;
+}
+
+.related-search-item:hover::after {
+    opacity: 1 !important;
+}
+
+/* Text styling within search items */
+.related-search-item span,
+.related-search-item strong {
+    font-weight: 400 !important;
+    color: #202124 !important;
+}
+
+/* Dark theme support */
+.dark .related-searches-header,
+.dark details.related-searches summary {
+    color: #e8eaed !important;
+}
+
+.dark .related-search-item {
+    background: #303134 !important;
+    border-color: #5f6368 !important;
+    color: #e8eaed !important;
+}
+
+.dark .related-search-item:hover {
+    background: #3c4043 !important;
+    border-color: #5f6368 !important;
+}
+
+.dark .related-search-item span,
+.dark .related-search-item strong {
+    color: #e8eaed !important;
+}
+
+.dark .related-search-item::after {
+    color: #9aa0a6 !important;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .related-searches-grid {
+        grid-template-columns: 1fr !important;
+        gap: 6px !important;
+    }
+    
+    .related-search-item {
+        padding: 10px 12px !important;
+        font-size: 13px !important;
+        min-height: 40px !important;
+    }
+}
+
+/* Override any existing related searches styling */
+details summary {
+    list-style: none !important;
+    outline: none !important;
+}
+
+details summary::-webkit-details-marker {
+    display: none !important;
+}
+
+/* Hide the default arrow for related searches details */
+details.related-searches summary::before,
+details.related-searches summary::after {
+    display: none !important;
+}
