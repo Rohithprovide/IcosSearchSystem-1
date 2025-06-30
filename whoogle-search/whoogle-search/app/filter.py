@@ -21,7 +21,7 @@ from app.models.config import Config
 
 MAPS_ARGS = ['q', 'daddr']
 
-minimal_mode_sections = ['Top stories', 'Images', 'People also ask']
+minimal_mode_sections = ['Top stories', 'Images']
 unsupported_g_pages = [
     'support.google.com',
     'accounts.google.com',

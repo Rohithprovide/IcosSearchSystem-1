@@ -1,0 +1,200 @@
+/* People also ask section styling */
+
+/* Main container for People also ask section */
+.people-also-ask-container,
+div[role="group"]:has(div[role="heading"]),
+.g .people-also-ask {
+    font-family: Google Sans, arial, sans-serif !important;
+    margin: 20px 0 !important;
+}
+
+/* People also ask header */
+.people-also-ask-header,
+div[role="heading"][aria-level="2"],
+h2.people-also-ask-title {
+    font-size: 20px !important;
+    font-weight: 400 !important;
+    color: #202124 !important;
+    margin: 16px 0 12px 0 !important;
+    font-family: Google Sans, arial, sans-serif !important;
+}
+
+/* Question container styling */
+div[data-q]:not([data-q=""]),
+.people-also-ask-question,
+.question-container {
+    border: 1px solid #dadce0 !important;
+    border-radius: 8px !important;
+    margin: 8px 0 !important;
+    background: #fff !important;
+    overflow: hidden !important;
+    transition: box-shadow 0.2s ease !important;
+}
+
+div[data-q]:hover,
+.people-also-ask-question:hover,
+.question-container:hover {
+    box-shadow: 0 1px 6px rgba(32,33,36,.28) !important;
+}
+
+/* Question text styling */
+div[data-q] > div:first-child,
+.question-text,
+.people-also-ask-question > div:first-child {
+    padding: 12px 16px !important;
+    font-size: 16px !important;
+    color: #202124 !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    font-weight: 400 !important;
+    line-height: 24px !important;
+    min-height: 48px !important;
+    box-sizing: border-box !important;
+}
+
+/* Arrow icon for questions */
+div[data-q] > div:first-child::after,
+.question-text::after,
+.people-also-ask-question > div:first-child::after {
+    content: "⌄" !important;
+    font-size: 18px !important;
+    color: #5f6368 !important;
+    transition: transform 0.2s ease !important;
+    margin-left: auto !important;
+    transform: rotate(0deg) !important;
+}
+
+/* Expanded state arrow */
+div[data-q].expanded > div:first-child::after,
+.question-text.expanded::after,
+.people-also-ask-question.expanded > div:first-child::after {
+    transform: rotate(180deg) !important;
+}
+
+/* Answer content styling */
+div[data-q] > div:last-child,
+.answer-content,
+.people-also-ask-answer {
+    padding: 0 16px 16px 16px !important;
+    font-size: 14px !important;
+    color: #5f6368 !important;
+    line-height: 20px !important;
+    display: none !important;
+    border-top: 1px solid #f0f0f0 !important;
+    background: #fafafa !important;
+}
+
+/* Expanded state content */
+div[data-q].expanded > div:last-child,
+.answer-content.expanded,
+.people-also-ask-answer.expanded {
+    display: block !important;
+    animation: slideDown 0.3s ease !important;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+    to {
+        opacity: 1;
+        max-height: 200px;
+        padding-top: 16px;
+        padding-bottom: 16px;
+    }
+}
+
+/* Question hover effects */
+div[data-q] > div:first-child:hover,
+.question-text:hover,
+.people-also-ask-question > div:first-child:hover {
+    background: #f8f9fa !important;
+}
+
+/* Make sure links in answers are properly styled */
+div[data-q] a,
+.answer-content a,
+.people-also-ask-answer a {
+    color: #1a73e8 !important;
+    text-decoration: none !important;
+}
+
+div[data-q] a:hover,
+.answer-content a:hover,
+.people-also-ask-answer a:hover {
+    text-decoration: underline !important;
+}
+
+/* Dark theme support */
+.dark div[data-q],
+.dark .people-also-ask-question,
+.dark .question-container {
+    border-color: #5f6368 !important;
+    background: #303134 !important;
+}
+
+.dark div[role="heading"][aria-level="2"],
+.dark h2,
+.dark .people-also-ask-header {
+    color: #e8eaed !important;
+}
+
+.dark div[data-q] > div:first-child,
+.dark .question-text {
+    color: #e8eaed !important;
+}
+
+.dark div[data-q] > div:first-child:hover,
+.dark .question-text:hover {
+    background: #3c4043 !important;
+}
+
+.dark div[data-q] > div:last-child,
+.dark .answer-content,
+.dark .people-also-ask-answer {
+    color: #9aa0a6 !important;
+    background: #3c4043 !important;
+    border-top-color: #5f6368 !important;
+}
+
+.dark div[data-q] a,
+.dark .answer-content a,
+.dark .people-also-ask-answer a {
+    color: #8ab4f8 !important;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    div[data-q] > div:first-child,
+    .question-text {
+        padding: 10px 12px !important;
+        font-size: 15px !important;
+        min-height: 44px !important;
+    }
+    
+    div[data-q] > div:last-child,
+    .answer-content,
+    .people-also-ask-answer {
+        padding: 0 12px 12px 12px !important;
+        font-size: 13px !important;
+    }
+}
+
+/* Override any existing details/summary styling that might interfere */
+details[open] summary {
+    border-bottom: none !important;
+}
+
+details summary {
+    list-style: none !important;
+    outline: none !important;
+}
+
+details summary::-webkit-details-marker {
+    display: none !important;
+}
