@@ -157,6 +157,7 @@ class Filter:
         self.soup = soup
         self.main_divs = self.soup.find('div', {'id': 'main'})
         self.remove_ads()
+        self.remove_images_section()
         self.remove_block_titles()
         self.remove_block_url()
         self.collapse_sections()
@@ -385,6 +386,29 @@ class Filter:
             div_ads = [_ for _ in div.find_all('span', recursive=True)
                        if has_ad_content(_.text)]
             _ = div.decompose() if len(div_ads) else None
+
+    def remove_images_section(self) -> None:
+        """Removes the Images section from search results in the All tab
+
+        Returns:
+            None (The soup object is modified directly)
+        """
+        # Find all divs with class "ezO2md" that contain "Images" text
+        for div in self.soup.find_all('div', class_='ezO2md'):
+            div_text = div.get_text() if div else ''
+            if 'Images' in div_text and 'View all' in div_text:
+                div.decompose()
+                continue
+        
+        # Also check for other possible containers with Images section
+        for div in self.soup.find_all('div'):
+            if not div.get_text():
+                continue
+            div_text = div.get_text().strip()
+            # Check if this div contains the images section header
+            if (div_text.startswith('Images') and 'View all' in div_text and 
+                len(div.find_all('img', recursive=True)) > 2):
+                div.decompose()
 
     def remove_block_titles(self) -> None:
         if not self.main_divs or not self.config.block_title:
