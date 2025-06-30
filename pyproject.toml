@@ -16,6 +16,7 @@ dependencies = [
     "cssutils==2.7.0",
     "defusedxml==0.7.1",
     "flask==2.3.2",
+    "google-genai>=1.23.0",
     "idna==3.7",
     "itsdangerous==2.1.2",
     "jinja2==3.1.5",
