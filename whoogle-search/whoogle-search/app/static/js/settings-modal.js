@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to close modal
     function closeModalFunc() {
         if (modal) {
-            modal.style.display = 'none';
+            modal.classList.remove('modal-open');
             document.body.style.overflow = 'auto';
         }
     }
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (settingsIcon && modal) {
         settingsIcon.addEventListener('click', function(e) {
             e.preventDefault();
-            modal.style.display = 'block';
+            modal.classList.add('modal-open');
             document.body.style.overflow = 'hidden';
         });
     }

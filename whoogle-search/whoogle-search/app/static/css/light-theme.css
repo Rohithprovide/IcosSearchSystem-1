@@ -260,19 +260,19 @@ path {
 /* Light Theme Modal Overrides */
 .modal-content {
     background: #ffffff !important;
-    border: 1px solid rgba(226, 232, 240, 0.5) !important;
+    border: 1px solid rgba(0, 0, 0, 0.06) !important;
     box-shadow: 
-        0 20px 60px rgba(0, 0, 0, 0.1),
-        0 8px 24px rgba(0, 0, 0, 0.05) !important;
+        0 20px 40px rgba(0, 0, 0, 0.1),
+        0 8px 16px rgba(0, 0, 0, 0.05) !important;
 }
 
 .modal-header {
-    background: #f8fafc !important;
-    border-bottom: 1px solid rgba(226, 232, 240, 0.8) !important;
+    background: #ffffff !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
 }
 
 .modal-header h2 {
-    color: #4285f4 !important;
+    color: #1f2937 !important;
 }
 
 .close-modal {
@@ -281,7 +281,19 @@ path {
 
 .close-modal:hover {
     color: #374151 !important;
-    background-color: rgba(243, 244, 246, 0.8) !important;
+    background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+.setting-item {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+.setting-item:hover {
+    background-color: rgba(0, 0, 0, 0.02) !important;
+}
+
+.setting-icon {
+    color: #6b7280 !important;
 }
 
 .setting-title {
@@ -294,7 +306,7 @@ path {
 
 .theme-select {
     background: #ffffff !important;
-    border: 2px solid #d1d5db !important;
+    border: 1px solid #d1d5db !important;
     color: #1f2937 !important;
 }
 
@@ -303,26 +315,30 @@ path {
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
 }
 
+.toggle-slider {
+    background: #e5e7eb !important;
+}
+
 .toggle-switch input:checked + .toggle-slider {
-    background: #4285f4 !important;
+    background: #10b981 !important;
 }
 
 .modal-buttons {
-    border-top: 1px solid rgba(226, 232, 240, 0.8) !important;
+    border-top: 1px solid rgba(0, 0, 0, 0.08) !important;
 }
 
 .modal-buttons .cancel-btn {
     color: #6b7280 !important;
-    border: 2px solid #d1d5db !important;
+    border: 1px solid #d1d5db !important;
 }
 
 .modal-buttons .apply-btn {
-    background: #4285f4 !important;
+    background: #3b82f6 !important;
     color: #ffffff !important;
 }
 
 .modal-buttons .apply-btn:hover {
-    background: #3367d6 !important;
+    background: #2563eb !important;
 }
 
 .modal-buttons .cancel-btn:hover {
