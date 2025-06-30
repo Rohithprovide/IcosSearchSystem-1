@@ -63,7 +63,6 @@ div.voice-search-overlay div.voice-search-content {
     text-align: center;
     margin: 0;
     letter-spacing: 0.5px;
-    text-transform: uppercase;
     opacity: 0.8;
     animation: fadeInOut 2s ease-in-out infinite;
 }
