@@ -4,7 +4,16 @@
  */
 
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('People Also Ask: Initializing...');
     initializePeopleAlsoAsk();
+    
+    // Debug: Show all elements containing "people" or "ask"
+    const allElements = document.querySelectorAll('*');
+    allElements.forEach(el => {
+        if (el.textContent && (el.textContent.toLowerCase().includes('people') || el.textContent.toLowerCase().includes('ask'))) {
+            console.log('People Also Ask Debug: Found element with people/ask:', el.textContent.trim(), el);
+        }
+    });
 });
 
 function initializePeopleAlsoAsk() {

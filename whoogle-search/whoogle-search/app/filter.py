@@ -477,7 +477,9 @@ class Filter:
                 continue
             
             # Never collapse "People also ask" sections - preserve them expanded
-            if any("People also ask" in str(s) or "people also ask" in str(s) for s in result_children):
+            people_also_ask_found = any("People also ask" in str(s) or "people also ask" in str(s) for s in result_children)
+            if people_also_ask_found:
+                print(f"DEBUG: Found People also ask section, preserving it: {[str(s)[:100] for s in result_children]}")
                 continue
             
             if minimal_mode:
