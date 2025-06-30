@@ -140,9 +140,16 @@ header {
     opacity: 1 !important;
 }
 
+/* Header search container */
+.header-search-container {
+    position: relative !important;
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
 /* Header search magnifying glass icon */
-.header-autocomplete .search-icon-left,
-.header-search-icon {
+.header-search-container .search-icon-left {
     position: absolute !important;
     left: 18px !important;
     top: 50% !important;

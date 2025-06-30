@@ -77,19 +77,21 @@
                             {% if config.preferences %}
                                 <input type="hidden" name="preferences" value="{{ config.preferences }}" />
                             {% endif %}
-
-                            <input
-                                    id="search-bar"
-                                    autocapitalize="none"
-                                    autocomplete="off"
-                                    autocorrect="off"
-                                    class="search-bar-desktop search-bar-input"
-                                    name="q"
-                                    spellcheck="false"
-                                    type="text"
-                                    value="{{ clean_query(query) }}"
-                                    dir="auto">
-                            <i class="fa-solid fa-xmark header-search-clear" id="search-clear" onclick="clearSearch()"></i>
+                            <div class="search-input-container header-search-container">
+                                <i class="fa-solid fa-magnifying-glass search-icon-left"></i>
+                                <input
+                                        id="search-bar"
+                                        autocapitalize="none"
+                                        autocomplete="off"
+                                        autocorrect="off"
+                                        class="search-bar-desktop search-bar-input"
+                                        name="q"
+                                        spellcheck="false"
+                                        type="text"
+                                        value="{{ clean_query(query) }}"
+                                        dir="auto">
+                                <i class="fa-solid fa-xmark header-search-clear" id="search-clear" onclick="clearSearch()"></i>
+                            </div>
                             <input name="tbm" value="{{ search_type }}" style="display: none">
                             <input name="country" value="{{ config.country }}" style="display: none;">
                             <input name="tbs" value="{{ config.tbs }}" style="display: none;">
