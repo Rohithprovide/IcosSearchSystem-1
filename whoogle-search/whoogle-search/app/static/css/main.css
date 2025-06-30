@@ -629,8 +629,8 @@ footer {
 #autocomplete-list div {
     background-color: #fff !important;
     border-bottom: none !important;
-    padding: 8px 14px !important;
-    font-size: 14px !important;
+    padding: 12px 20px !important;
+    font-size: 16px !important;
     color: #202124 !important;
     cursor: pointer !important;
     display: flex !important;
@@ -639,6 +639,7 @@ footer {
     white-space: nowrap !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
+    min-height: 44px !important;
 }
 
 #autocomplete-list div:hover {
