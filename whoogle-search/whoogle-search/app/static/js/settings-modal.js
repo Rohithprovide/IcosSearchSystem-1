@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const settingsIcon = document.getElementById('settings-icon');
     const modal = document.getElementById('settings-modal');
     const closeModal = document.getElementById('close-modal');
-    const cancelBtn = document.getElementById('cancel-btn');
 
     // Function to close modal
     function closeModalFunc() {
@@ -25,14 +24,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Close modal when X is clicked
     if (closeModal) {
         closeModal.addEventListener('click', function(e) {
-            e.preventDefault();
-            closeModalFunc();
-        });
-    }
-
-    // Close modal when Cancel button is clicked
-    if (cancelBtn) {
-        cancelBtn.addEventListener('click', function(e) {
             e.preventDefault();
             closeModalFunc();
         });

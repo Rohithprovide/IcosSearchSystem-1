@@ -478,7 +478,7 @@ button::-moz-focus-inner {
 }
 
 .toggle-switch input:checked + .toggle-slider {
-    background: #10b981;
+    background: #4285f4;
 }
 
 .toggle-switch input:checked + .toggle-slider:before {
@@ -511,23 +511,7 @@ button::-moz-focus-inner {
     transform: translateY(-1px);
 }
 
-.modal-buttons .cancel-btn {
-    background: transparent;
-    color: #94a3b8;
-    border: 2px solid #475569;
-    padding: 10px 24px;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
 
-.modal-buttons .cancel-btn:hover {
-    background-color: #374151;
-    border-color: #6b7280;
-    color: #e5e7eb;
-}
 
 footer {
     position: fixed;

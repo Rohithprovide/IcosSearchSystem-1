@@ -137,7 +137,7 @@ div span {
 }
 
 .toggle-switch input:checked + .toggle-slider {
-    background: #10b981 !important;
+    background: #4285f4 !important;
 }
 
 .toggle-slider:before {
@@ -148,15 +148,13 @@ div span {
     border-top: 1px solid rgba(75, 85, 99, 0.3) !important;
 }
 
-.modal-buttons .cancel-btn {
-    border: 2px solid rgba(75, 85, 99, 0.5) !important;
-    color: var(--whoogle-dark-contrast-text) !important;
+.modal-buttons .apply-btn {
+    background: #4285f4 !important;
+    color: #ffffff !important;
 }
 
-.modal-buttons .cancel-btn:hover {
-    background-color: rgba(75, 85, 99, 0.2) !important;
-    border-color: rgba(99, 102, 241, 0.5) !important;
-    color: var(--whoogle-dark-text) !important;
+.modal-buttons .apply-btn:hover {
+    background: #3367d6 !important;
 }
 
 .settings-menu-icon {
