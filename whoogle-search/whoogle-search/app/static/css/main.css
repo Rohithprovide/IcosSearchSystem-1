@@ -143,6 +143,25 @@ body:has(header) #main {
     z-index: 10;
 }
 
+.header-clear-icon {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #70757a;
+    font-size: 16px;
+    z-index: 10;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.header-clear-icon:hover {
+    background-color: #f1f3f4;
+    color: #202124;
+}
+
 /* High specificity selectors for microphone hover effect */
 .search-input-container .search-icon-right:hover,
 .search-input-container .search-icon-right.recording,

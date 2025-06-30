@@ -88,7 +88,7 @@
                                     type="text"
                                     value="{{ clean_query(query) }}"
                                     dir="auto">
-                            <i class="fa-regular fa-xmark search-clear-icon" id="search-clear" onclick="clearSearch()" style="position: absolute; right: 60px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #70757a; font-size: 16px; z-index: 10; display: {{ 'block' if query else 'none' }};"></i>
+                            <i class="fa-solid fa-xmark search-clear-icon header-clear-icon" id="search-clear" onclick="clearSearch()" style="display: {{ 'block' if query else 'none' }};"></i>
                             <input name="tbm" value="{{ search_type }}" style="display: none">
                             <input name="country" value="{{ config.country }}" style="display: none;">
                             <input name="tbs" value="{{ config.tbs }}" style="display: none;">
