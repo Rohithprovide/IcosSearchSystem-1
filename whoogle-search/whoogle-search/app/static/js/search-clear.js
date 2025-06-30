@@ -23,9 +23,9 @@ document.addEventListener('DOMContentLoaded', function() {
     function toggleHeaderClearIcon() {
         if (headerSearchBar && headerClearIcon) {
             if (headerSearchBar.value.trim().length > 0) {
-                headerClearIcon.style.display = 'block';
+                headerClearIcon.classList.add('show');
             } else {
-                headerClearIcon.style.display = 'none';
+                headerClearIcon.classList.remove('show');
             }
         }
     }
