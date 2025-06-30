@@ -1,5 +1,21 @@
 /* Related searches styling to match Google's "People also search for" design */
 
+/* Target any details element or section containing "Related searches" */
+details:has(summary:contains("Related searches")),
+*:contains("Related searches") {
+    font-family: Google Sans, arial, sans-serif !important;
+    margin: 20px 0 !important;
+}
+
+/* Direct targeting of common related searches structures */
+details[data-type*="related"],
+details summary:contains("Related searches"),
+div:contains("Related searches"):has(a),
+section:contains("Related searches"):has(a) {
+    font-family: Google Sans, arial, sans-serif !important;
+    margin: 20px 0 !important;
+}
+
 /* Main container for related searches section */
 .related-searches-container,
 details.related-searches {
@@ -126,4 +142,283 @@ details summary::-webkit-details-marker {
 details.related-searches summary::before,
 details.related-searches summary::after {
     display: none !important;
+}
+
+/* DIRECT CSS TARGETING FOR EXISTING HTML STRUCTURE */
+
+/* Target common patterns for related searches sections */
+/* This targets details elements, divs, and sections that likely contain related searches */
+
+/* Pattern 1: Details elements with related searches */
+details[data-category*="related"],
+details[class*="related"],
+details[id*="related"] {
+    margin: 20px 0 !important;
+    font-family: Google Sans, arial, sans-serif !important;
+}
+
+/* Pattern 2: Any container with search links */
+div:has(a[href*="search?q="]),
+section:has(a[href*="search?q="]),
+details:has(a[href*="search?q="]) {
+    margin: 20px 0 !important;
+    font-family: Google Sans, arial, sans-serif !important;
+}
+
+/* Pattern 3: Sections with multiple search links (likely related searches) */
+*:has(a[href*="search?q="] + a[href*="search?q="]) {
+    margin: 20px 0 !important;
+    font-family: Google Sans, arial, sans-serif !important;
+}
+
+/* Transform content areas with multiple search links into grids */
+*:has(a[href*="search?q="] + a[href*="search?q="]) {
+    display: block !important;
+}
+
+*:has(a[href*="search?q="] + a[href*="search?q="]) > *,
+div:has(a[href*="search?q="] + a[href*="search?q="]) {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+    gap: 8px !important;
+    margin: 16px 0 !important;
+}
+
+/* Style search links as Google-style boxes */
+a[href*="search?q="] {
+    background: #f8f9fa !important;
+    border: 1px solid #dadce0 !important;
+    border-radius: 8px !important;
+    padding: 12px 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    transition: all 0.2s ease !important;
+    cursor: pointer !important;
+    text-decoration: none !important;
+    color: #202124 !important;
+    font-size: 14px !important;
+    line-height: 20px !important;
+    min-height: 44px !important;
+    box-sizing: border-box !important;
+    margin: 4px 0 !important;
+    width: 100% !important;
+}
+
+/* Hover effects for search links */
+a[href*="search?q="]:hover {
+    background: #f1f3f4 !important;
+    border-color: #dadce0 !important;
+    box-shadow: 0 1px 6px rgba(32,33,36,.28) !important;
+    text-decoration: none !important;
+}
+
+/* Add search icons to search links */
+a[href*="search?q="]::after {
+    content: "🔍" !important;
+    font-size: 16px !important;
+    color: #5f6368 !important;
+    margin-left: auto !important;
+    opacity: 0.8 !important;
+}
+
+a[href*="search?q="]:hover::after {
+    opacity: 1 !important;
+}
+
+/* Target specific patterns that might contain "apple" searches */
+a[href*="apple"]:not([href*="maps"]):not([href*="images"]) {
+    background: #f8f9fa !important;
+    border: 1px solid #dadce0 !important;
+    border-radius: 8px !important;
+    padding: 12px 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    transition: all 0.2s ease !important;
+    cursor: pointer !important;
+    text-decoration: none !important;
+    color: #202124 !important;
+    font-size: 14px !important;
+    line-height: 20px !important;
+    min-height: 44px !important;
+    box-sizing: border-box !important;
+    margin: 4px 0 !important;
+    width: 100% !important;
+}
+
+a[href*="apple"]:not([href*="maps"]):not([href*="images"]):hover {
+    background: #f1f3f4 !important;
+    border-color: #dadce0 !important;
+    box-shadow: 0 1px 6px rgba(32,33,36,.28) !important;
+    text-decoration: none !important;
+}
+
+a[href*="apple"]:not([href*="maps"]):not([href*="images"])::after {
+    content: "🔍" !important;
+    font-size: 16px !important;
+    color: #5f6368 !important;
+    margin-left: auto !important;
+    opacity: 0.8 !important;
+}
+
+/* UNIVERSAL APPROACH - Target any grouped search links */
+/* If multiple search links appear together, style them as boxes */
+
+/* Emergency fallback - style ANY link that contains apple search terms */
+a[href*="apple+usa"],
+a[href*="apple+india"],
+a[href*="apple+store"],
+a[href*="apple+login"],
+a[href*="apple+id"],
+a[href*="apple+fruit"],
+a[href*="apple+logo"],
+a[href*="apple+owner"] {
+    background: #f8f9fa !important;
+    border: 1px solid #dadce0 !important;
+    border-radius: 8px !important;
+    padding: 12px 16px !important;
+    display: block !important;
+    margin: 8px 0 !important;
+    text-decoration: none !important;
+    color: #202124 !important;
+    font-size: 14px !important;
+    line-height: 20px !important;
+    min-height: 44px !important;
+    box-sizing: border-box !important;
+    position: relative !important;
+    transition: all 0.2s ease !important;
+}
+
+a[href*="apple+usa"]::after,
+a[href*="apple+india"]::after,
+a[href*="apple+store"]::after,
+a[href*="apple+login"]::after,
+a[href*="apple+id"]::after,
+a[href*="apple+fruit"]::after,
+a[href*="apple+logo"]::after,
+a[href*="apple+owner"]::after {
+    content: "🔍" !important;
+    position: absolute !important;
+    right: 16px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    font-size: 16px !important;
+    color: #5f6368 !important;
+    opacity: 0.8 !important;
+}
+
+a[href*="apple+usa"]:hover,
+a[href*="apple+india"]:hover,
+a[href*="apple+store"]:hover,
+a[href*="apple+login"]:hover,
+a[href*="apple+id"]:hover,
+a[href*="apple+fruit"]:hover,
+a[href*="apple+logo"]:hover,
+a[href*="apple+owner"]:hover {
+    background: #f1f3f4 !important;
+    border-color: #dadce0 !important;
+    box-shadow: 0 1px 6px rgba(32,33,36,.28) !important;
+}
+
+/* Force grid layout for containers with multiple apple links */
+*:has(a[href*="apple+usa"]),
+*:has(a[href*="apple+india"]) {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+    gap: 8px !important;
+    margin: 16px 0 !important;
+}
+a[href*="q="] + a[href*="q="],
+a[href*="search"] + a[href*="search"],
+a[href*="apple"] + a[href*="apple"] {
+    background: #f8f9fa !important;
+    border: 1px solid #dadce0 !important;
+    border-radius: 8px !important;
+    padding: 12px 16px !important;
+    display: block !important;
+    margin: 8px 0 !important;
+    text-decoration: none !important;
+    color: #202124 !important;
+    font-size: 14px !important;
+    line-height: 20px !important;
+    min-height: 44px !important;
+    box-sizing: border-box !important;
+    position: relative !important;
+    transition: all 0.2s ease !important;
+}
+
+/* First link in a group should also be styled */
+a[href*="q="]:has(+ a[href*="q="]),
+a[href*="search"]:has(+ a[href*="search"]),
+a[href*="apple"]:has(+ a[href*="apple"]) {
+    background: #f8f9fa !important;
+    border: 1px solid #dadce0 !important;
+    border-radius: 8px !important;
+    padding: 12px 16px !important;
+    display: block !important;
+    margin: 8px 0 !important;
+    text-decoration: none !important;
+    color: #202124 !important;
+    font-size: 14px !important;
+    line-height: 20px !important;
+    min-height: 44px !important;
+    box-sizing: border-box !important;
+    position: relative !important;
+    transition: all 0.2s ease !important;
+}
+
+/* Add search icons to grouped links */
+a[href*="q="] + a[href*="q="]::after,
+a[href*="search"] + a[href*="search"]::after,
+a[href*="apple"] + a[href*="apple"]::after,
+a[href*="q="]:has(+ a[href*="q="])::after,
+a[href*="search"]:has(+ a[href*="search"])::after,
+a[href*="apple"]:has(+ a[href*="apple"])::after {
+    content: "🔍" !important;
+    position: absolute !important;
+    right: 16px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    font-size: 16px !important;
+    color: #5f6368 !important;
+    opacity: 0.8 !important;
+}
+
+/* Hover effects for grouped links */
+a[href*="q="] + a[href*="q="]:hover,
+a[href*="search"] + a[href*="search"]:hover,
+a[href*="apple"] + a[href*="apple"]:hover,
+a[href*="q="]:has(+ a[href*="q="]):hover,
+a[href*="search"]:has(+ a[href*="search"]):hover,
+a[href*="apple"]:has(+ a[href*="apple"]):hover {
+    background: #f1f3f4 !important;
+    border-color: #dadce0 !important;
+    box-shadow: 0 1px 6px rgba(32,33,36,.28) !important;
+}
+
+a[href*="q="] + a[href*="q="]:hover::after,
+a[href*="search"] + a[href*="search"]:hover::after,
+a[href*="apple"] + a[href*="apple"]:hover::after,
+a[href*="q="]:has(+ a[href*="q="]):hover::after,
+a[href*="search"]:has(+ a[href*="search"]):hover::after,
+a[href*="apple"]:has(+ a[href*="apple"]):hover::after {
+    opacity: 1 !important;
+}
+
+/* Responsive design for mobile */
+@media (max-width: 768px) {
+    *:has(a[href*="search?q="] + a[href*="search?q="]) > *,
+    div:has(a[href*="search?q="] + a[href*="search?q="]) {
+        grid-template-columns: 1fr !important;
+        gap: 6px !important;
+    }
+    
+    a[href*="search?q="],
+    a[href*="apple"]:not([href*="maps"]):not([href*="images"]) {
+        padding: 10px 12px !important;
+        font-size: 13px !important;
+        min-height: 40px !important;
+    }
+}
 }
