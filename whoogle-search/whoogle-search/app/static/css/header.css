@@ -107,7 +107,7 @@ header {
 
 .header-search-clear {
     position: absolute !important;
-    right: 50px !important;
+    right: 20px !important;
     top: 50% !important;
     transform: translateY(-50%) !important;
     color: #70757a !important;
