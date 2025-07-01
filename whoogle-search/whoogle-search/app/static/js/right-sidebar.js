@@ -115,7 +115,7 @@ class RightSidebar {
         
         // Calculate positioning based on actual search results area
         const searchResultsLeft = 120; // Based on CSS margin-left
-        const rightMargin = 20; // Proper margin from page edge to prevent scrolling
+        const rightMargin = 15; // Minimal right margin
         
         // Find the actual search results container width
         let searchResultsWidth = 600; // Default fallback
@@ -128,10 +128,10 @@ class RightSidebar {
             console.log('Right Sidebar: Search results area:', { width: searchResultsWidth, right: searchResultsRight });
         }
         
-        // Calculate sidebar to fill ALL remaining space from search results to page edge
+        // Calculate sidebar positioning with fixed width
         const availableRightSpace = window.innerWidth - searchResultsRight - rightMargin;
-        const sidebarGap = 5; // Smaller gap from search results to move sidebar left
-        const sidebarWidth = availableRightSpace - sidebarGap; // Use ALL available space
+        const sidebarGap = 20; // Gap from search results
+        const sidebarWidth = Math.max(300, availableRightSpace - 20); // Take most of the available space
         const sidebarLeft = searchResultsRight + sidebarGap;
         
         // Ensure minimum width but use maximum available space
@@ -210,8 +210,8 @@ class RightSidebar {
                 const resultsRect = searchResults.getBoundingClientRect();
                 const newSearchResultsRight = resultsRect.right;
                 const newAvailableRightSpace = window.innerWidth - newSearchResultsRight - rightMargin;
-                const newSidebarWidth = Math.max(300, newAvailableRightSpace - 5); // Calculated space with proper margins
-                const newSidebarLeft = newSearchResultsRight + 5; // Smaller gap to move sidebar left
+                const newSidebarWidth = Math.max(300, newAvailableRightSpace - 20); // Take most of the available space
+                const newSidebarLeft = newSearchResultsRight + 20; // Gap from search results
                 
                 sidebar.style.width = `${newSidebarWidth}px`;
                 sidebar.style.left = `${newSidebarLeft}px`;
@@ -254,10 +254,10 @@ function forceCreateSidebar() {
         searchResultsRight = resultsRect.right;
     }
     
-    const rightMargin = 20; // Proper margin from page edge to prevent scrolling
-    const sidebarGap = 5; // Smaller gap from search results to move sidebar left
+    const rightMargin = 200; // Adjusted margin for proper positioning
+    const sidebarGap = 10; // Small gap from search results
     const availableSpace = window.innerWidth - searchResultsRight - rightMargin - sidebarGap;
-    const sidebarWidth = Math.max(300, availableSpace); // Use ALL available space
+    const sidebarWidth = 450; // Fixed width
     const leftPosition = searchResultsRight + sidebarGap;
     
     sidebar.style.cssText = `
@@ -310,11 +310,8 @@ function forceCreateSidebar() {
             newSearchResultsRight = resultsRect.right;
         }
         
-        const newAvailableSpace = window.innerWidth - newSearchResultsRight - 20 - 5; // Use proper margin and smaller gap
-        const newSidebarWidth = Math.max(300, newAvailableSpace);
-        const newLeftPosition = newSearchResultsRight + 5; // Smaller gap to move sidebar left
-        
-        sidebar.style.width = `${newSidebarWidth}px`;
+        const newLeftPosition = window.innerWidth - 450 - 200;
+        sidebar.style.width = '450px';
         sidebar.style.left = `${newLeftPosition}px`;
     };
     window.addEventListener('resize', updatePosition);
