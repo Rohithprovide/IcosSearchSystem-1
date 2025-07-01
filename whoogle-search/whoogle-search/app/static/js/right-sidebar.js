@@ -241,7 +241,7 @@ function forceCreateSidebar() {
     sidebar.className = 'right-sidebar standalone-sidebar forced-sidebar';
     sidebar.id = `forced-sidebar-${Date.now()}`;
     sidebar.style.cssText = `
-        position: fixed !important;
+        position: absolute !important;
         top: 160px !important;
         right: 20px !important;
         width: 350px !important;
@@ -258,7 +258,7 @@ function forceCreateSidebar() {
     sidebar.innerHTML = `
         <div style="color: #333; font-family: Arial; height: 100%;">
             <h3 style="margin: 0 0 10px 0; color: #007acc;">Quick Info Panel</h3>
-            <p style="margin: 0 0 10px 0; font-size: 14px;">Positioned below header, full height</p>
+            <p style="margin: 0 0 10px 0; font-size: 14px;">Scrolls with page content</p>
             <div style="background: #f0f8ff; padding: 10px; border-radius: 6px; margin: 10px 0;">
                 <strong>Search Tools</strong><br>
                 <small>Enhanced functionality panel</small>
