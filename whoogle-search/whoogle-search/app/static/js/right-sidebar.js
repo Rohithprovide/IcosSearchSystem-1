@@ -102,18 +102,26 @@ class RightSidebar {
         const firstResult = document.querySelector('.result') || document.querySelector('[data-ved]') || document.querySelector('div[jscontroller]') || document.querySelector('h3') || document.querySelector('a[href*="http"]');
         const searchResults = document.querySelector('#main') || document.querySelector('.main-column') || document.querySelector('body > div:last-child');
         
-        // Force sidebar to appear much lower to align with search results content
-        let topPosition = 350; // Force much lower position
+        // Force sidebar to appear much lower - debug positioning
+        let topPosition = 400; // Start with 400px from top
         
-        // Try to find the exact position of search content and force it lower
+        console.log('Right Sidebar: Current window scroll:', window.scrollY);
+        console.log('Right Sidebar: Window inner height:', window.innerHeight);
+        
+        // Check if we can find any search result to align with
         if (firstResult) {
             const resultRect = firstResult.getBoundingClientRect();
-            topPosition = Math.max(350, resultRect.top + window.scrollY + 80); // Force minimum 350px with big buffer
-            console.log('Right Sidebar: Forcing lower position with search result reference:', topPosition);
+            console.log('Right Sidebar: First result position:', {
+                top: resultRect.top,
+                bottom: resultRect.bottom,
+                scrollY: window.scrollY
+            });
+            // Use the actual position but ensure it's at least 350px down
+            topPosition = Math.max(400, resultRect.top + window.scrollY);
+            console.log('Right Sidebar: Calculated position from search result:', topPosition);
         } else {
-            // Force much lower fallback position
-            topPosition = 350;
-            console.log('Right Sidebar: Using forced lower fallback position:', topPosition);
+            console.log('Right Sidebar: No search result found, using fallback 400px');
+            topPosition = 400;
         }
         
         // Calculate positioning based on actual search results area
@@ -167,6 +175,9 @@ class RightSidebar {
             <div class="sidebar-content">
                 <div style="font-size: 16px; font-weight: 500; margin-bottom: 10px; color: var(--whoogle-text);">Quick Info</div>
                 <div style="color: var(--whoogle-text); font-size: 14px; line-height: 1.4;">
+                    <div style="background: #f0f0f0; padding: 8px; border-radius: 4px; margin-bottom: 10px; font-size: 12px;">
+                        Position: ${topPosition}px | Width: ${finalWidth}px | Time: ${new Date().toLocaleTimeString()}
+                    </div>
                     <p>Enhanced search experience</p>
                     <div style="margin-top: 15px; padding: 10px; background: var(--whoogle-element-bg); border-radius: 8px;">
                         <div style="font-weight: 500; margin-bottom: 5px;">Search Tools</div>
