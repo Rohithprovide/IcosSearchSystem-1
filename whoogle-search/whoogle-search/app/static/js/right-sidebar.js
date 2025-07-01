@@ -91,51 +91,55 @@ class RightSidebar {
     }
     
     createStandaloneSidebar() {
-        // Find the exact position where search results start
-        const header = document.querySelector('header') || document.querySelector('.header-container');
-        const tabs = document.querySelector('.header-tab-div') || document.querySelector('.desktop-header');
-        const searchResults = document.querySelector('#main') || document.querySelector('.main-column') || document.querySelector('body > div');
+        // Find where search results actually start by looking for the first search result
+        const firstResult = document.querySelector('.result') || document.querySelector('[data-ved]') || document.querySelector('div[jscontroller]') || document.querySelector('h3') || document.querySelector('a[href*="http"]');
+        const searchResults = document.querySelector('#main') || document.querySelector('.main-column') || document.querySelector('body > div:last-child');
         
-        let topPosition = 140; // Default fallback
+        let topPosition = 200; // Start lower by default
         
-        // Calculate exact top position based on header and tabs
-        if (header && tabs) {
-            const headerRect = header.getBoundingClientRect();
-            const tabsRect = tabs.getBoundingClientRect();
-            topPosition = headerRect.height + tabsRect.height + 10;
-        } else if (header) {
-            const headerRect = header.getBoundingClientRect();
-            topPosition = headerRect.height + 40;
-        } else if (tabs) {
-            const tabsRect = tabs.getBoundingClientRect();
-            topPosition = tabsRect.bottom + 10;
+        // Use the first search result position if available
+        if (firstResult) {
+            const resultRect = firstResult.getBoundingClientRect();
+            topPosition = resultRect.top + window.scrollY;
+            console.log('Right Sidebar: Using first search result position:', topPosition);
+        } else {
+            // Fallback: estimate based on typical header + tabs + autocomplete height
+            topPosition = 180;
+            console.log('Right Sidebar: Using fallback position:', topPosition);
         }
         
-        // More accurate width calculation
-        const searchResultsLeft = 120; // Based on the CSS margin-left for search results
-        const rightMargin = 20; // Right margin for sidebar
-        const gapBetweenContent = 30; // Gap between search results and sidebar
+        // Calculate positioning based on actual search results area
+        const searchResultsLeft = 120; // Based on CSS margin-left
+        const rightMargin = 15; // Minimal right margin
         
-        // Calculate search results actual width
-        let searchResultsWidth = 600; // Default
+        // Find the actual search results container width
+        let searchResultsWidth = 600; // Default fallback
+        let searchResultsRight = searchResultsLeft + searchResultsWidth;
+        
         if (searchResults) {
             const resultsRect = searchResults.getBoundingClientRect();
-            searchResultsWidth = resultsRect.width || 600;
+            searchResultsWidth = resultsRect.width;
+            searchResultsRight = resultsRect.right;
+            console.log('Right Sidebar: Search results area:', { width: searchResultsWidth, right: searchResultsRight });
         }
         
-        // Calculate available space for sidebar
-        const totalAvailableWidth = window.innerWidth - searchResultsLeft - rightMargin;
-        const sidebarWidth = Math.max(250, totalAvailableWidth - searchResultsWidth - gapBetweenContent);
+        // Calculate sidebar to fill remaining space
+        const availableRightSpace = window.innerWidth - searchResultsRight - rightMargin;
+        const sidebarWidth = Math.max(300, availableRightSpace - 20); // Take most of the available space
+        const sidebarLeft = searchResultsRight + 20; // Small gap from search results
         
-        const finalWidth = Math.max(250, Math.min(450, sidebarWidth));
+        const finalWidth = Math.max(300, sidebarWidth);
         
         console.log('Right Sidebar: Positioning calculations:', {
             topPosition,
             searchResultsLeft,
             searchResultsWidth,
+            searchResultsRight,
+            sidebarLeft,
             sidebarWidth,
             finalWidth,
-            windowWidth: window.innerWidth
+            windowWidth: window.innerWidth,
+            availableRightSpace
         });
         
         // Create sidebar that attaches to body
@@ -144,7 +148,7 @@ class RightSidebar {
         sidebar.style.cssText = `
             position: fixed;
             top: ${topPosition}px;
-            right: ${rightMargin}px;
+            left: ${sidebarLeft}px;
             width: ${finalWidth}px;
             height: calc(100vh - ${topPosition + 40}px);
             z-index: 1000;
@@ -173,14 +177,18 @@ class RightSidebar {
         
         document.body.appendChild(sidebar);
         
-        // Update sidebar size on window resize
+        // Update sidebar size and position on window resize
         const updateSidebarSize = () => {
-            const newSearchResultsWidth = searchResults ? searchResults.getBoundingClientRect().width : 600;
-            const newTotalAvailableWidth = window.innerWidth - searchResultsLeft - rightMargin;
-            const newSidebarWidth = Math.max(250, newTotalAvailableWidth - newSearchResultsWidth - gapBetweenContent);
-            const newFinalWidth = Math.max(250, Math.min(450, newSidebarWidth));
-            
-            sidebar.style.width = `${newFinalWidth}px`;
+            if (searchResults) {
+                const resultsRect = searchResults.getBoundingClientRect();
+                const newSearchResultsRight = resultsRect.right;
+                const newAvailableRightSpace = window.innerWidth - newSearchResultsRight - rightMargin;
+                const newSidebarWidth = Math.max(300, newAvailableRightSpace - 20);
+                const newSidebarLeft = newSearchResultsRight + 20;
+                
+                sidebar.style.width = `${newSidebarWidth}px`;
+                sidebar.style.left = `${newSidebarLeft}px`;
+            }
         };
         
         window.addEventListener('resize', updateSidebarSize);
@@ -201,26 +209,31 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Try multiple times to ensure we catch the search results page
     let attempts = 0;
-    const maxAttempts = 10;
+    const maxAttempts = 15;
     
     const tryInitialize = () => {
         attempts++;
         try {
             const sidebar = new RightSidebar();
             if (!document.querySelector('.right-sidebar') && attempts < maxAttempts) {
-                console.log(`Right Sidebar: Attempt ${attempts}, retrying...`);
-                setTimeout(tryInitialize, 300);
+                console.log(`Right Sidebar: Attempt ${attempts}, retrying in 200ms...`);
+                setTimeout(tryInitialize, 200);
+            } else if (document.querySelector('.right-sidebar')) {
+                console.log('Right Sidebar: Successfully initialized!');
             }
         } catch (error) {
             console.error('Right Sidebar: Failed to initialize:', error);
             if (attempts < maxAttempts) {
-                setTimeout(tryInitialize, 300);
+                setTimeout(tryInitialize, 200);
             }
         }
     };
     
-    // Start initialization
-    setTimeout(tryInitialize, 200);
+    // Start initialization immediately and with multiple intervals
+    tryInitialize();
+    setTimeout(tryInitialize, 100);
+    setTimeout(tryInitialize, 500);
+    setTimeout(tryInitialize, 1000);
     
     // Also try when the page URL changes (for single-page app behavior)
     let currentURL = window.location.href;
