@@ -18,7 +18,7 @@
 /* Right Sidebar for Search Results */
 .right-sidebar {
     position: static;
-    width: 300px;
+    width: 700px;
     min-width: 300px;
     min-height: 300px;
     max-height: fit-content;
