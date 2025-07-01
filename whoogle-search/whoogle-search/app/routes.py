@@ -651,6 +651,38 @@ def internal_error(e):
             params=g.user_config.to_params(keys=['preferences'])), 500
 
 
+@app.route('/ai-query', methods=['POST'])
+def ai_query():
+    """Handle AI queries from the chat interface"""
+    try:
+        data = request.get_json()
+        if not data or 'query' not in data:
+            return jsonify({'error': 'No query provided'}), 400
+        
+        query = data['query']
+        
+        # Import and use Gemini AI
+        import os
+        from google import genai
+        
+        client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
+        
+        # Create a focused prompt for search-related queries
+        prompt = f"Provide a helpful and concise answer to this search query: {query}"
+        
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=prompt
+        )
+        
+        ai_response = response.text if response.text else "I couldn't generate a response for that query."
+        
+        return jsonify({'response': ai_response})
+        
+    except Exception as e:
+        print(f"AI query error: {e}")
+        return jsonify({'error': 'Failed to process AI query'}), 500
+
 
 def run_app() -> None:
     parser = argparse.ArgumentParser(

@@ -163,24 +163,23 @@ class RightSidebar {
             overflow-y: auto !important;
         `;
         sidebar.innerHTML = `
-            <div class="sidebar-content">
-                <div style="font-size: 16px; font-weight: 500; margin-bottom: 10px; color: var(--whoogle-text);">Quick Info</div>
-                <div style="color: var(--whoogle-text); font-size: 14px; line-height: 1.4;">
-                    <div style="background: #f0f0f0; padding: 8px; border-radius: 4px; margin-bottom: 10px; font-size: 12px;">
-                        Position: ${topPosition}px | Width: ${finalWidth}px | Time: ${new Date().toLocaleTimeString()}
+            <div class="ai-chat-interface">
+                <div class="chat-header">
+                    <div style="font-size: 16px; font-weight: 500; color: var(--whoogle-text);">AI Assistant</div>
+                    <div style="font-size: 12px; color: var(--whoogle-secondary-text);">Powered by Gemini</div>
+                </div>
+                <div class="chat-messages" id="chat-messages">
+                    <div class="welcome-message">
+                        <div style="padding: 12px; background: #f8f9fa; border-radius: 8px; margin-bottom: 10px;">
+                            <div style="font-size: 14px; color: #5f6368;">Welcome! I'll provide AI insights for your searches.</div>
+                        </div>
                     </div>
-                    <p>Enhanced search experience</p>
-                    <div style="margin-top: 15px; padding: 10px; background: var(--whoogle-element-bg); border-radius: 8px;">
-                        <div style="font-weight: 500; margin-bottom: 5px;">Search Tools</div>
-                        <div style="font-size: 13px; opacity: 0.8;">Quick access panel for enhanced functionality</div>
-                    </div>
-                    <div style="margin-top: 15px; padding: 10px; background: var(--whoogle-element-bg); border-radius: 8px;">
-                        <div style="font-weight: 500; margin-bottom: 5px;">Related Info</div>
-                        <div style="font-size: 13px; opacity: 0.8;">Additional context and suggestions will appear here</div>
-                    </div>
-                    <div style="margin-top: 15px; padding: 10px; background: var(--whoogle-element-bg); border-radius: 8px;">
-                        <div style="font-weight: 500; margin-bottom: 5px;">Quick Links</div>
-                        <div style="font-size: 13px; opacity: 0.8;">Useful shortcuts and related content</div>
+                </div>
+                <div class="chat-input-container">
+                    <div class="loading-indicator" id="loading-indicator" style="display: none;">
+                        <div style="padding: 8px; text-align: center; color: #5f6368; font-size: 12px;">
+                            AI is thinking...
+                        </div>
                     </div>
                 </div>
             </div>
@@ -229,6 +228,128 @@ class RightSidebar {
         document.body.classList.add('has-sidebar');
         console.log('Right Sidebar: Layout adjusted for sidebar');
     }
+    
+    initializeChatFunctionality() {
+        // Capture search queries and send to AI
+        this.captureSearchQueries();
+        console.log('Right Sidebar: Chat functionality initialized');
+    }
+    
+    captureSearchQueries() {
+        // Monitor when searches are performed
+        const originalSubmit = HTMLFormElement.prototype.submit;
+        const self = this;
+        
+        HTMLFormElement.prototype.submit = function() {
+            const searchInput = this.querySelector('input[name="q"], input[type="search"], #search-bar');
+            if (searchInput && searchInput.value.trim()) {
+                self.handleSearchQuery(searchInput.value.trim());
+            }
+            return originalSubmit.apply(this, arguments);
+        };
+        
+        // Also monitor form submissions
+        document.addEventListener('submit', function(e) {
+            const form = e.target;
+            const searchInput = form.querySelector('input[name="q"], input[type="search"], #search-bar');
+            if (searchInput && searchInput.value.trim()) {
+                self.handleSearchQuery(searchInput.value.trim());
+            }
+        });
+        
+        // Monitor search button clicks
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.search-button') || e.target.closest('button[type="submit"]')) {
+                const form = e.target.closest('form');
+                if (form) {
+                    const searchInput = form.querySelector('input[name="q"], input[type="search"], #search-bar');
+                    if (searchInput && searchInput.value.trim()) {
+                        self.handleSearchQuery(searchInput.value.trim());
+                    }
+                }
+            }
+        });
+    }
+    
+    async handleSearchQuery(query) {
+        console.log('Search query captured:', query);
+        await this.sendToAI(query);
+    }
+    
+    async sendToAI(query) {
+        const chatMessages = document.getElementById('chat-messages');
+        const loadingIndicator = document.getElementById('loading-indicator');
+        
+        if (!chatMessages) return;
+        
+        // Add user query to chat
+        this.addMessageToChat('user', query);
+        
+        // Show loading
+        if (loadingIndicator) {
+            loadingIndicator.style.display = 'block';
+        }
+        
+        try {
+            const response = await fetch('/ai-query', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ query: query })
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                this.addMessageToChat('ai', data.response);
+            } else {
+                this.addMessageToChat('ai', 'Sorry, I encountered an error processing your request.');
+            }
+        } catch (error) {
+            console.error('AI request failed:', error);
+            this.addMessageToChat('ai', 'Sorry, I couldn\'t process your request at the moment.');
+        } finally {
+            // Hide loading
+            if (loadingIndicator) {
+                loadingIndicator.style.display = 'none';
+            }
+        }
+    }
+    
+    addMessageToChat(sender, message) {
+        const chatMessages = document.getElementById('chat-messages');
+        if (!chatMessages) return;
+        
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `chat-message ${sender}-message`;
+        
+        if (sender === 'user') {
+            messageDiv.innerHTML = `
+                <div style="text-align: right; margin-bottom: 10px;">
+                    <div style="display: inline-block; background: #1a73e8; color: white; padding: 8px 12px; border-radius: 12px; max-width: 80%; font-size: 14px;">
+                        ${this.escapeHtml(message)}
+                    </div>
+                </div>
+            `;
+        } else {
+            messageDiv.innerHTML = `
+                <div style="text-align: left; margin-bottom: 10px;">
+                    <div style="display: inline-block; background: #f8f9fa; color: #202124; padding: 8px 12px; border-radius: 12px; max-width: 80%; font-size: 14px; border: 1px solid #e8eaed;">
+                        ${this.escapeHtml(message)}
+                    </div>
+                </div>
+            `;
+        }
+        
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+    
+    escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
 }
 
 // FORCE sidebar creation - more aggressive approach
@@ -276,24 +397,24 @@ function forceCreateSidebar() {
     `;
     
     sidebar.innerHTML = `
-        <div style="color: #333; font-family: Arial; height: 100%;">
-            <h3 style="margin: 0 0 10px 0; color: #007acc;">Quick Info Panel</h3>
-            <p style="margin: 0 0 10px 0; font-size: 14px;">Scrolls with page content</p>
-            <div style="background: #f0f8ff; padding: 10px; border-radius: 6px; margin: 10px 0;">
-                <strong>Search Tools</strong><br>
-                <small>Enhanced functionality panel</small>
+        <div class="ai-chat-interface" style="height: 100%; display: flex; flex-direction: column;">
+            <div class="chat-header" style="padding: 15px; border-bottom: 1px solid #e8eaed; flex-shrink: 0;">
+                <div style="font-size: 16px; font-weight: 500; color: #202124;">AI Assistant</div>
+                <div style="font-size: 12px; color: #5f6368;">Powered by Gemini</div>
             </div>
-            <div style="background: #f0f8ff; padding: 10px; border-radius: 6px; margin: 10px 0;">
-                <strong>Related Info</strong><br>
-                <small>Additional context area</small>
+            <div class="chat-messages" id="chat-messages" style="flex: 1; padding: 15px; overflow-y: auto;">
+                <div class="welcome-message">
+                    <div style="padding: 12px; background: #f8f9fa; border-radius: 8px; margin-bottom: 10px;">
+                        <div style="font-size: 14px; color: #5f6368;">Welcome! I'll provide AI insights for your searches.</div>
+                    </div>
+                </div>
             </div>
-            <div style="background: #f0f8ff; padding: 10px; border-radius: 6px; margin: 10px 0;">
-                <strong>Quick Access</strong><br>
-                <small>Useful shortcuts and tools</small>
-            </div>
-            <div style="background: #f0f8ff; padding: 10px; border-radius: 6px; margin: 10px 0;">
-                <strong>Extended Content</strong><br>
-                <small>Additional space for more content and features</small>
+            <div class="chat-input-container" style="padding: 15px; border-top: 1px solid #e8eaed; flex-shrink: 0;">
+                <div class="loading-indicator" id="loading-indicator" style="display: none;">
+                    <div style="padding: 8px; text-align: center; color: #5f6368; font-size: 12px;">
+                        AI is thinking...
+                    </div>
+                </div>
             </div>
         </div>
     `;
@@ -317,6 +438,10 @@ function forceCreateSidebar() {
     window.addEventListener('resize', updatePosition);
     
     console.log('FORCE CREATE SIDEBAR: Sidebar created with right positioning that scrolls with page');
+    
+    // Initialize chat functionality
+    const rightSidebarInstance = new RightSidebar();
+    rightSidebarInstance.initializeChatFunctionality();
     
     return sidebar;
 }

@@ -148,6 +148,15 @@ This repository contains a Whoogle Search deployment wrapper for Replit. Whoogle
   - Added proper layout adjustments to prevent content overlap
   - Sidebar appears only on larger screens (hidden on mobile/tablet for better UX)
   - Clean, modern design with placeholder content and smooth scrolling
+- July 1, 2025. Transformed sidebar into AI-powered chat interface:
+  - Removed static placeholder content and created ChatGPT-style chat interface
+  - Integrated Gemini AI API for intelligent responses to search queries
+  - Added automatic search query capture and AI processing functionality
+  - Created /ai-query Flask route to handle backend AI requests securely
+  - Implemented real-time chat messages with user/AI message styling
+  - Chat interface automatically captures search queries and provides AI insights
+  - Added loading indicators and error handling for robust user experience
+  - Sidebar dimensions: 550px width x 550px height with proper positioning
 
 ## User Preferences
 
