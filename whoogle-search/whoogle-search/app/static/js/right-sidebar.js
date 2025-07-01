@@ -265,7 +265,7 @@ function forceCreateSidebar() {
         top: 160px !important;
         left: ${leftPosition}px !important;
         width: ${sidebarWidth}px !important;
-        height: calc(100vh - 180px) !important;
+        height: 400px !important;
         background: white !important;
         border: 2px solid #007acc !important;
         border-radius: 12px !important;
