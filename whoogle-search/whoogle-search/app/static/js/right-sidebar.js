@@ -241,15 +241,15 @@ function forceCreateSidebar() {
     sidebar.className = 'right-sidebar standalone-sidebar forced-sidebar';
     sidebar.id = `forced-sidebar-${Date.now()}`;
     // Calculate left position to keep it on the right side but within viewport
-    const sidebarWidth = 350;
-    const rightMargin = 50; // Increased margin to move sidebar more to the left
+    const sidebarWidth = 450; // Increased width to extend more toward search results
+    const rightMargin = 50; // Adjusted margin for proper positioning
     const leftPosition = window.innerWidth - sidebarWidth - rightMargin;
     
     sidebar.style.cssText = `
         position: absolute !important;
         top: 160px !important;
         left: ${leftPosition}px !important;
-        width: 350px !important;
+        width: 450px !important;
         height: calc(100vh - 180px) !important;
         background: white !important;
         border: 2px solid #007acc !important;
