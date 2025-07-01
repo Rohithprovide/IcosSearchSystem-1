@@ -240,10 +240,13 @@ function forceCreateSidebar() {
     const sidebar = document.createElement('div');
     sidebar.className = 'right-sidebar standalone-sidebar forced-sidebar';
     sidebar.id = `forced-sidebar-${Date.now()}`;
+    // Calculate left position to keep it on the right side
+    const leftPosition = window.innerWidth - 370 - 20; // 370px width + 20px margin
+    
     sidebar.style.cssText = `
         position: absolute !important;
         top: 160px !important;
-        right: 20px !important;
+        left: ${leftPosition}px !important;
         width: 350px !important;
         height: calc(100vh - 180px) !important;
         background: white !important;
@@ -279,7 +282,15 @@ function forceCreateSidebar() {
     `;
     
     document.body.appendChild(sidebar);
-    console.log('FORCE CREATE SIDEBAR: Forced sidebar created at 300px');
+    
+    // Add resize listener to maintain right positioning
+    const updatePosition = () => {
+        const newLeftPosition = window.innerWidth - 370 - 20;
+        sidebar.style.left = `${newLeftPosition}px`;
+    };
+    window.addEventListener('resize', updatePosition);
+    
+    console.log('FORCE CREATE SIDEBAR: Sidebar created with right positioning that scrolls with page');
     
     return sidebar;
 }
