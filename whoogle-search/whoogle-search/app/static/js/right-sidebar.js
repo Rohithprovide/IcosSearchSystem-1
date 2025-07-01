@@ -242,10 +242,10 @@ function forceCreateSidebar() {
     sidebar.id = `forced-sidebar-${Date.now()}`;
     sidebar.style.cssText = `
         position: fixed !important;
-        top: 300px !important;
+        top: 160px !important;
         right: 20px !important;
         width: 350px !important;
-        height: 400px !important;
+        height: calc(100vh - 180px) !important;
         background: white !important;
         border: 2px solid #007acc !important;
         border-radius: 12px !important;
@@ -256,9 +256,9 @@ function forceCreateSidebar() {
     `;
     
     sidebar.innerHTML = `
-        <div style="color: #333; font-family: Arial;">
+        <div style="color: #333; font-family: Arial; height: 100%;">
             <h3 style="margin: 0 0 10px 0; color: #007acc;">Quick Info Panel</h3>
-            <p style="margin: 0 0 10px 0; font-size: 14px;">FORCED POSITION: 300px from top</p>
+            <p style="margin: 0 0 10px 0; font-size: 14px;">Positioned below header, full height</p>
             <div style="background: #f0f8ff; padding: 10px; border-radius: 6px; margin: 10px 0;">
                 <strong>Search Tools</strong><br>
                 <small>Enhanced functionality panel</small>
@@ -266,6 +266,14 @@ function forceCreateSidebar() {
             <div style="background: #f0f8ff; padding: 10px; border-radius: 6px; margin: 10px 0;">
                 <strong>Related Info</strong><br>
                 <small>Additional context area</small>
+            </div>
+            <div style="background: #f0f8ff; padding: 10px; border-radius: 6px; margin: 10px 0;">
+                <strong>Quick Access</strong><br>
+                <small>Useful shortcuts and tools</small>
+            </div>
+            <div style="background: #f0f8ff; padding: 10px; border-radius: 6px; margin: 10px 0;">
+                <strong>Extended Content</strong><br>
+                <small>Additional space for more content and features</small>
             </div>
         </div>
     `;
