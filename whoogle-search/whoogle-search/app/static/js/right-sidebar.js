@@ -242,7 +242,7 @@ function forceCreateSidebar() {
     sidebar.id = `forced-sidebar-${Date.now()}`;
     // Calculate left position to keep it on the right side but within viewport
     const sidebarWidth = 350;
-    const rightMargin = 20;
+    const rightMargin = 50; // Increased margin to move sidebar more to the left
     const leftPosition = window.innerWidth - sidebarWidth - rightMargin;
     
     sidebar.style.cssText = `
