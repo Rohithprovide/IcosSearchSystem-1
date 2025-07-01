@@ -91,21 +91,29 @@ class RightSidebar {
     }
     
     createStandaloneSidebar() {
+        // Remove any existing sidebar first - try multiple selectors
+        const existingSidebars = document.querySelectorAll('.right-sidebar, .standalone-sidebar');
+        existingSidebars.forEach(sidebar => {
+            sidebar.remove();
+            console.log('Right Sidebar: Removed existing sidebar');
+        });
+        
         // Find where search results actually start by looking for the first search result
         const firstResult = document.querySelector('.result') || document.querySelector('[data-ved]') || document.querySelector('div[jscontroller]') || document.querySelector('h3') || document.querySelector('a[href*="http"]');
         const searchResults = document.querySelector('#main') || document.querySelector('.main-column') || document.querySelector('body > div:last-child');
         
-        let topPosition = 280; // Start lower by default
+        // Force sidebar to appear much lower to align with search results content
+        let topPosition = 350; // Force much lower position
         
-        // Use the first search result position if available
+        // Try to find the exact position of search content and force it lower
         if (firstResult) {
             const resultRect = firstResult.getBoundingClientRect();
-            topPosition = resultRect.top + window.scrollY + 40; // Add 40px buffer
-            console.log('Right Sidebar: Using first search result position:', topPosition);
+            topPosition = Math.max(350, resultRect.top + window.scrollY + 80); // Force minimum 350px with big buffer
+            console.log('Right Sidebar: Forcing lower position with search result reference:', topPosition);
         } else {
-            // Fallback: estimate based on typical header + tabs + autocomplete height
-            topPosition = 260; // Moved down more
-            console.log('Right Sidebar: Using fallback position:', topPosition);
+            // Force much lower fallback position
+            topPosition = 350;
+            console.log('Right Sidebar: Using forced lower fallback position:', topPosition);
         }
         
         // Calculate positioning based on actual search results area
@@ -142,17 +150,18 @@ class RightSidebar {
             availableRightSpace
         });
         
-        // Create sidebar that attaches to body
+        // Create sidebar that attaches to body with timestamp for uniqueness
         const sidebar = document.createElement('div');
         sidebar.className = 'right-sidebar standalone-sidebar';
+        sidebar.id = `sidebar-${Date.now()}`; // Force unique ID
         sidebar.style.cssText = `
-            position: fixed;
-            top: ${topPosition}px;
-            left: ${sidebarLeft}px;
-            width: ${finalWidth}px;
-            height: calc(100vh - ${topPosition + 40}px);
-            z-index: 1000;
-            overflow-y: auto;
+            position: fixed !important;
+            top: ${topPosition}px !important;
+            left: ${sidebarLeft}px !important;
+            width: ${finalWidth}px !important;
+            height: calc(100vh - ${topPosition + 40}px) !important;
+            z-index: 1000 !important;
+            overflow-y: auto !important;
         `;
         sidebar.innerHTML = `
             <div class="sidebar-content">
