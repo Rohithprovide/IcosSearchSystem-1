@@ -102,27 +102,13 @@ class RightSidebar {
         const firstResult = document.querySelector('.result') || document.querySelector('[data-ved]') || document.querySelector('div[jscontroller]') || document.querySelector('h3') || document.querySelector('a[href*="http"]');
         const searchResults = document.querySelector('#main') || document.querySelector('.main-column') || document.querySelector('body > div:last-child');
         
-        // Force sidebar to appear much lower - debug positioning
-        let topPosition = 400; // Start with 400px from top
+        // FORCE sidebar to appear MUCH lower - override everything
+        let topPosition = 600; // Force it VERY low - 600px from top
         
-        console.log('Right Sidebar: Current window scroll:', window.scrollY);
-        console.log('Right Sidebar: Window inner height:', window.innerHeight);
+        console.log('Right Sidebar: FORCING position to 600px from top');
         
-        // Check if we can find any search result to align with
-        if (firstResult) {
-            const resultRect = firstResult.getBoundingClientRect();
-            console.log('Right Sidebar: First result position:', {
-                top: resultRect.top,
-                bottom: resultRect.bottom,
-                scrollY: window.scrollY
-            });
-            // Use the actual position but ensure it's at least 350px down
-            topPosition = Math.max(400, resultRect.top + window.scrollY);
-            console.log('Right Sidebar: Calculated position from search result:', topPosition);
-        } else {
-            console.log('Right Sidebar: No search result found, using fallback 400px');
-            topPosition = 400;
-        }
+        // Ignore all calculations, just force it lower
+        topPosition = 600;
         
         // Calculate positioning based on actual search results area
         const searchResultsLeft = 120; // Based on CSS margin-left
@@ -197,6 +183,22 @@ class RightSidebar {
         
         document.body.appendChild(sidebar);
         
+        // FORCE repositioning after creation with multiple attempts
+        setTimeout(() => {
+            sidebar.style.top = '600px !important';
+            console.log('Right Sidebar: Force repositioned to 600px after 100ms');
+        }, 100);
+        
+        setTimeout(() => {
+            sidebar.style.top = '600px !important';
+            console.log('Right Sidebar: Force repositioned to 600px after 500ms');
+        }, 500);
+        
+        setTimeout(() => {
+            sidebar.style.top = '600px !important';
+            console.log('Right Sidebar: Force repositioned to 600px after 1000ms');
+        }, 1000);
+        
         // Update sidebar size and position on window resize
         const updateSidebarSize = () => {
             if (searchResults) {
@@ -208,12 +210,13 @@ class RightSidebar {
                 
                 sidebar.style.width = `${newSidebarWidth}px`;
                 sidebar.style.left = `${newSidebarLeft}px`;
+                sidebar.style.top = '600px'; // Force position on resize too
             }
         };
         
         window.addEventListener('resize', updateSidebarSize);
         
-        console.log('Right Sidebar: Standalone sidebar created with dynamic sizing');
+        console.log('Right Sidebar: Standalone sidebar created with FORCED 600px positioning');
     }
     
     adjustLayout() {

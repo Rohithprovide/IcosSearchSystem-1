@@ -66,6 +66,8 @@
 /* Standalone sidebar positioning */
 .right-sidebar.standalone-sidebar {
     display: block !important;
+    position: fixed !important;
+    top: 600px !important;
     background: var(--whoogle-background, #ffffff);
     border: 1px solid var(--whoogle-element-bg, #e8eaed);
     border-radius: 12px;
