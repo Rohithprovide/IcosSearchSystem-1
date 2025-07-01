@@ -3,8 +3,9 @@
     position: relative !important;
     display: flex !important;
     gap: 20px !important;
-    max-width: 1200px !important;
-    margin: 0 auto !important;
+    max-width: none !important;
+    width: 100% !important;
+    margin: 0 !important;
     align-items: flex-start !important;
 }
 
@@ -18,7 +19,7 @@
 /* Right Sidebar for Search Results */
 .right-sidebar {
     position: static;
-    width: 700px;
+    width: 100%;
     min-width: 300px;
     min-height: 300px;
     max-height: fit-content;
