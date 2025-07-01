@@ -91,15 +91,64 @@ class RightSidebar {
     }
     
     createStandaloneSidebar() {
+        // Find the exact position where search results start
+        const header = document.querySelector('header') || document.querySelector('.header-container');
+        const tabs = document.querySelector('.header-tab-div') || document.querySelector('.desktop-header');
+        const searchResults = document.querySelector('#main') || document.querySelector('.main-column') || document.querySelector('body > div');
+        
+        let topPosition = 140; // Default fallback
+        
+        // Calculate exact top position based on header and tabs
+        if (header && tabs) {
+            const headerRect = header.getBoundingClientRect();
+            const tabsRect = tabs.getBoundingClientRect();
+            topPosition = headerRect.height + tabsRect.height + 10;
+        } else if (header) {
+            const headerRect = header.getBoundingClientRect();
+            topPosition = headerRect.height + 40;
+        } else if (tabs) {
+            const tabsRect = tabs.getBoundingClientRect();
+            topPosition = tabsRect.bottom + 10;
+        }
+        
+        // More accurate width calculation
+        const searchResultsLeft = 120; // Based on the CSS margin-left for search results
+        const rightMargin = 20; // Right margin for sidebar
+        const gapBetweenContent = 30; // Gap between search results and sidebar
+        
+        // Calculate search results actual width
+        let searchResultsWidth = 600; // Default
+        if (searchResults) {
+            const resultsRect = searchResults.getBoundingClientRect();
+            searchResultsWidth = resultsRect.width || 600;
+        }
+        
+        // Calculate available space for sidebar
+        const totalAvailableWidth = window.innerWidth - searchResultsLeft - rightMargin;
+        const sidebarWidth = Math.max(250, totalAvailableWidth - searchResultsWidth - gapBetweenContent);
+        
+        const finalWidth = Math.max(250, Math.min(450, sidebarWidth));
+        
+        console.log('Right Sidebar: Positioning calculations:', {
+            topPosition,
+            searchResultsLeft,
+            searchResultsWidth,
+            sidebarWidth,
+            finalWidth,
+            windowWidth: window.innerWidth
+        });
+        
         // Create sidebar that attaches to body
         const sidebar = document.createElement('div');
-        sidebar.className = 'right-sidebar';
+        sidebar.className = 'right-sidebar standalone-sidebar';
         sidebar.style.cssText = `
             position: fixed;
-            top: 150px;
-            right: 20px;
-            width: 280px;
+            top: ${topPosition}px;
+            right: ${rightMargin}px;
+            width: ${finalWidth}px;
+            height: calc(100vh - ${topPosition + 40}px);
             z-index: 1000;
+            overflow-y: auto;
         `;
         sidebar.innerHTML = `
             <div class="sidebar-content">
@@ -110,12 +159,33 @@ class RightSidebar {
                         <div style="font-weight: 500; margin-bottom: 5px;">Search Tools</div>
                         <div style="font-size: 13px; opacity: 0.8;">Quick access panel for enhanced functionality</div>
                     </div>
+                    <div style="margin-top: 15px; padding: 10px; background: var(--whoogle-element-bg); border-radius: 8px;">
+                        <div style="font-weight: 500; margin-bottom: 5px;">Related Info</div>
+                        <div style="font-size: 13px; opacity: 0.8;">Additional context and suggestions will appear here</div>
+                    </div>
+                    <div style="margin-top: 15px; padding: 10px; background: var(--whoogle-element-bg); border-radius: 8px;">
+                        <div style="font-weight: 500; margin-bottom: 5px;">Quick Links</div>
+                        <div style="font-size: 13px; opacity: 0.8;">Useful shortcuts and related content</div>
+                    </div>
                 </div>
             </div>
         `;
         
         document.body.appendChild(sidebar);
-        console.log('Right Sidebar: Standalone sidebar created');
+        
+        // Update sidebar size on window resize
+        const updateSidebarSize = () => {
+            const newSearchResultsWidth = searchResults ? searchResults.getBoundingClientRect().width : 600;
+            const newTotalAvailableWidth = window.innerWidth - searchResultsLeft - rightMargin;
+            const newSidebarWidth = Math.max(250, newTotalAvailableWidth - newSearchResultsWidth - gapBetweenContent);
+            const newFinalWidth = Math.max(250, Math.min(450, newSidebarWidth));
+            
+            sidebar.style.width = `${newFinalWidth}px`;
+        };
+        
+        window.addEventListener('resize', updateSidebarSize);
+        
+        console.log('Right Sidebar: Standalone sidebar created with dynamic sizing');
     }
     
     adjustLayout() {
@@ -129,11 +199,36 @@ class RightSidebar {
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Right Sidebar: DOM loaded, initializing...');
     
-    setTimeout(() => {
+    // Try multiple times to ensure we catch the search results page
+    let attempts = 0;
+    const maxAttempts = 10;
+    
+    const tryInitialize = () => {
+        attempts++;
         try {
-            new RightSidebar();
+            const sidebar = new RightSidebar();
+            if (!document.querySelector('.right-sidebar') && attempts < maxAttempts) {
+                console.log(`Right Sidebar: Attempt ${attempts}, retrying...`);
+                setTimeout(tryInitialize, 300);
+            }
         } catch (error) {
             console.error('Right Sidebar: Failed to initialize:', error);
+            if (attempts < maxAttempts) {
+                setTimeout(tryInitialize, 300);
+            }
         }
-    }, 500);
+    };
+    
+    // Start initialization
+    setTimeout(tryInitialize, 200);
+    
+    // Also try when the page URL changes (for single-page app behavior)
+    let currentURL = window.location.href;
+    setInterval(() => {
+        if (window.location.href !== currentURL) {
+            currentURL = window.location.href;
+            console.log('Right Sidebar: URL changed, reinitializing...');
+            setTimeout(() => new RightSidebar(), 300);
+        }
+    }, 1000);
 });
