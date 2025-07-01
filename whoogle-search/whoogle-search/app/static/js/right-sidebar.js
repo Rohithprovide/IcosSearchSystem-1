@@ -130,7 +130,7 @@ class RightSidebar {
         
         // Calculate sidebar to fill ALL remaining space from search results to page edge
         const availableRightSpace = window.innerWidth - searchResultsRight - rightMargin;
-        const sidebarGap = 10; // Small gap from search results
+        const sidebarGap = 5; // Smaller gap from search results to move sidebar left
         const sidebarWidth = availableRightSpace - sidebarGap; // Use ALL available space
         const sidebarLeft = searchResultsRight + sidebarGap;
         
@@ -210,8 +210,8 @@ class RightSidebar {
                 const resultsRect = searchResults.getBoundingClientRect();
                 const newSearchResultsRight = resultsRect.right;
                 const newAvailableRightSpace = window.innerWidth - newSearchResultsRight - rightMargin;
-                const newSidebarWidth = Math.max(300, newAvailableRightSpace - sidebarGap); // Use ALL available space
-                const newSidebarLeft = newSearchResultsRight + sidebarGap;
+                const newSidebarWidth = Math.max(300, newAvailableRightSpace - 5); // Use ALL available space with smaller gap
+                const newSidebarLeft = newSearchResultsRight + 5; // Smaller gap to move sidebar left
                 
                 sidebar.style.width = `${newSidebarWidth}px`;
                 sidebar.style.left = `${newSidebarLeft}px`;
@@ -255,7 +255,7 @@ function forceCreateSidebar() {
     }
     
     const rightMargin = 10; // Minimal margin to page edge
-    const sidebarGap = 10; // Small gap from search results
+    const sidebarGap = 5; // Smaller gap from search results to move sidebar left
     const availableSpace = window.innerWidth - searchResultsRight - rightMargin - sidebarGap;
     const sidebarWidth = Math.max(300, availableSpace); // Use ALL available space
     const leftPosition = searchResultsRight + sidebarGap;
@@ -310,9 +310,9 @@ function forceCreateSidebar() {
             newSearchResultsRight = resultsRect.right;
         }
         
-        const newAvailableSpace = window.innerWidth - newSearchResultsRight - rightMargin - sidebarGap;
+        const newAvailableSpace = window.innerWidth - newSearchResultsRight - rightMargin - 5; // Use smaller gap
         const newSidebarWidth = Math.max(300, newAvailableSpace);
-        const newLeftPosition = newSearchResultsRight + sidebarGap;
+        const newLeftPosition = newSearchResultsRight + 5; // Smaller gap to move sidebar left
         
         sidebar.style.width = `${newSidebarWidth}px`;
         sidebar.style.left = `${newLeftPosition}px`;
