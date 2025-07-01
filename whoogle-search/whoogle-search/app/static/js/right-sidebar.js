@@ -95,16 +95,16 @@ class RightSidebar {
         const firstResult = document.querySelector('.result') || document.querySelector('[data-ved]') || document.querySelector('div[jscontroller]') || document.querySelector('h3') || document.querySelector('a[href*="http"]');
         const searchResults = document.querySelector('#main') || document.querySelector('.main-column') || document.querySelector('body > div:last-child');
         
-        let topPosition = 240; // Start lower by default
+        let topPosition = 280; // Start lower by default
         
         // Use the first search result position if available
         if (firstResult) {
             const resultRect = firstResult.getBoundingClientRect();
-            topPosition = resultRect.top + window.scrollY + 20; // Add 20px buffer
+            topPosition = resultRect.top + window.scrollY + 40; // Add 40px buffer
             console.log('Right Sidebar: Using first search result position:', topPosition);
         } else {
             // Fallback: estimate based on typical header + tabs + autocomplete height
-            topPosition = 220; // Moved down more
+            topPosition = 260; // Moved down more
             console.log('Right Sidebar: Using fallback position:', topPosition);
         }
         
