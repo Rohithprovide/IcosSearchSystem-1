@@ -240,8 +240,10 @@ function forceCreateSidebar() {
     const sidebar = document.createElement('div');
     sidebar.className = 'right-sidebar standalone-sidebar forced-sidebar';
     sidebar.id = `forced-sidebar-${Date.now()}`;
-    // Calculate left position to keep it on the right side
-    const leftPosition = window.innerWidth - 370 - 20; // 370px width + 20px margin
+    // Calculate left position to keep it on the right side but within viewport
+    const sidebarWidth = 350;
+    const rightMargin = 20;
+    const leftPosition = window.innerWidth - sidebarWidth - rightMargin;
     
     sidebar.style.cssText = `
         position: absolute !important;
@@ -285,7 +287,7 @@ function forceCreateSidebar() {
     
     // Add resize listener to maintain right positioning
     const updatePosition = () => {
-        const newLeftPosition = window.innerWidth - 370 - 20;
+        const newLeftPosition = window.innerWidth - sidebarWidth - rightMargin;
         sidebar.style.left = `${newLeftPosition}px`;
     };
     window.addEventListener('resize', updatePosition);
