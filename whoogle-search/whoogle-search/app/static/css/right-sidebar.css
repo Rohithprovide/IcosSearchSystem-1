@@ -20,10 +20,10 @@
     position: static;
     width: 300px;
     min-width: 300px;
-    min-height: 400px;
+    min-height: 300px;
     max-height: fit-content;
-    background: var(--whoogle-background);
-    border: 1px solid var(--whoogle-element-bg);
+    background: var(--whoogle-background, #ffffff);
+    border: 1px solid var(--whoogle-element-bg, #e8eaed);
     border-radius: 12px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 
                 0 2px 4px -1px rgba(0, 0, 0, 0.06),
@@ -33,6 +33,7 @@
     overflow-y: auto;
     z-index: 100;
     align-self: flex-start;
+    flex-shrink: 0;
 }
 
 /* Dark theme adjustments */
@@ -47,8 +48,30 @@
 
 /* Sidebar content placeholder */
 .sidebar-content {
-    color: var(--whoogle-text);
-    font-family: var(--whoogle-font);
+    color: var(--whoogle-text, #202124);
+    font-family: var(--whoogle-font, 'Google Sans', Arial, sans-serif);
+}
+
+/* Hide sidebar on smaller screens to maintain usability */
+@media (max-width: 1200px) {
+    .right-sidebar {
+        display: none;
+    }
+    
+    .search-content-wrapper {
+        display: block !important;
+    }
+}
+
+/* Fixed sidebar positioning for standalone mode */
+.right-sidebar[style*="position: fixed"] {
+    display: block;
+}
+
+@media (max-width: 1024px) {
+    .right-sidebar[style*="position: fixed"] {
+        display: none;
+    }
 }
 
 .sidebar-title {
