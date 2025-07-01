@@ -257,7 +257,7 @@ function forceCreateSidebar() {
     const rightMargin = 200; // Adjusted margin for proper positioning
     const sidebarGap = 10; // Small gap from search results
     const availableSpace = window.innerWidth - searchResultsRight - rightMargin - sidebarGap;
-    const sidebarWidth = 450; // Fixed width
+    const sidebarWidth = 500; // Increased width to fill the gap
     const leftPosition = searchResultsRight + sidebarGap;
     
     sidebar.style.cssText = `
@@ -310,8 +310,8 @@ function forceCreateSidebar() {
             newSearchResultsRight = resultsRect.right;
         }
         
-        const newLeftPosition = window.innerWidth - 450 - 200;
-        sidebar.style.width = '450px';
+        const newLeftPosition = window.innerWidth - 500 - 200;
+        sidebar.style.width = '500px';
         sidebar.style.left = `${newLeftPosition}px`;
     };
     window.addEventListener('resize', updatePosition);
