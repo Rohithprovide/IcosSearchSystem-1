@@ -226,45 +226,71 @@ class RightSidebar {
     }
 }
 
+// FORCE sidebar creation - more aggressive approach
+function forceCreateSidebar() {
+    console.log('FORCE CREATE SIDEBAR: Starting forced creation');
+    
+    // Remove ALL existing sidebars
+    document.querySelectorAll('.right-sidebar, .standalone-sidebar, [id*="sidebar"]').forEach(el => {
+        el.remove();
+        console.log('FORCE CREATE SIDEBAR: Removed existing element');
+    });
+    
+    // Create sidebar directly without class logic
+    const sidebar = document.createElement('div');
+    sidebar.className = 'right-sidebar standalone-sidebar forced-sidebar';
+    sidebar.id = `forced-sidebar-${Date.now()}`;
+    sidebar.style.cssText = `
+        position: fixed !important;
+        top: 300px !important;
+        right: 20px !important;
+        width: 350px !important;
+        height: 400px !important;
+        background: white !important;
+        border: 2px solid #007acc !important;
+        border-radius: 12px !important;
+        padding: 20px !important;
+        z-index: 9999 !important;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.3) !important;
+        overflow-y: auto !important;
+    `;
+    
+    sidebar.innerHTML = `
+        <div style="color: #333; font-family: Arial;">
+            <h3 style="margin: 0 0 10px 0; color: #007acc;">Quick Info Panel</h3>
+            <p style="margin: 0 0 10px 0; font-size: 14px;">FORCED POSITION: 300px from top</p>
+            <div style="background: #f0f8ff; padding: 10px; border-radius: 6px; margin: 10px 0;">
+                <strong>Search Tools</strong><br>
+                <small>Enhanced functionality panel</small>
+            </div>
+            <div style="background: #f0f8ff; padding: 10px; border-radius: 6px; margin: 10px 0;">
+                <strong>Related Info</strong><br>
+                <small>Additional context area</small>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(sidebar);
+    console.log('FORCE CREATE SIDEBAR: Forced sidebar created at 300px');
+    
+    return sidebar;
+}
+
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Right Sidebar: DOM loaded, initializing...');
+    console.log('Right Sidebar: DOM loaded, starting FORCED initialization...');
     
-    // Try multiple times to ensure we catch the search results page
-    let attempts = 0;
-    const maxAttempts = 15;
+    // Force create immediately
+    forceCreateSidebar();
     
-    const tryInitialize = () => {
-        attempts++;
-        try {
-            const sidebar = new RightSidebar();
-            if (!document.querySelector('.right-sidebar') && attempts < maxAttempts) {
-                console.log(`Right Sidebar: Attempt ${attempts}, retrying in 200ms...`);
-                setTimeout(tryInitialize, 200);
-            } else if (document.querySelector('.right-sidebar')) {
-                console.log('Right Sidebar: Successfully initialized!');
-            }
-        } catch (error) {
-            console.error('Right Sidebar: Failed to initialize:', error);
-            if (attempts < maxAttempts) {
-                setTimeout(tryInitialize, 200);
-            }
-        }
-    };
-    
-    // Start initialization immediately and with multiple intervals
-    tryInitialize();
-    setTimeout(tryInitialize, 100);
-    setTimeout(tryInitialize, 500);
-    setTimeout(tryInitialize, 1000);
-    
-    // Also try when the page URL changes (for single-page app behavior)
-    let currentURL = window.location.href;
-    setInterval(() => {
-        if (window.location.href !== currentURL) {
-            currentURL = window.location.href;
-            console.log('Right Sidebar: URL changed, reinitializing...');
-            setTimeout(() => new RightSidebar(), 300);
-        }
-    }, 1000);
+    // Force create with delays
+    setTimeout(forceCreateSidebar, 500);
+    setTimeout(forceCreateSidebar, 1000);
+    setTimeout(forceCreateSidebar, 2000);
+});
+
+// Also try on window load
+window.addEventListener('load', function() {
+    console.log('Right Sidebar: Window loaded, forcing sidebar...');
+    setTimeout(forceCreateSidebar, 100);
 });
