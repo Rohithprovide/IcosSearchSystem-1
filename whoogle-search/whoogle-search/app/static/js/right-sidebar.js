@@ -163,24 +163,31 @@ class RightSidebar {
             overflow-y: auto !important;
         `;
         sidebar.innerHTML = `
-            <div class="ai-chat-interface">
-                <div class="chat-header">
-                    <div style="font-size: 16px; font-weight: 500; color: var(--whoogle-text);">AI Assistant</div>
-                    <div style="font-size: 12px; color: var(--whoogle-secondary-text);">Powered by Gemini</div>
+            <div class="ai-overview-container">
+                <div class="ai-overview-header">
+                    <h3>
+                        <div class="gemini-logo">G</div>
+                        AI Overview
+                    </h3>
                 </div>
-                <div class="chat-messages" id="chat-messages">
-                    <div class="welcome-message">
-                        <div style="padding: 12px; background: #f8f9fa; border-radius: 8px; margin-bottom: 10px;">
-                            <div style="font-size: 14px; color: #5f6368;">Welcome! I'll provide AI insights for your searches.</div>
+                <div class="ai-overview-content" id="ai-overview-content">
+                    <div class="loading-state" id="loading-state" style="display: none;">
+                        <div>Generating response...</div>
+                        <div class="loading-dots">
+                            <div></div>
+                            <div></div>
+                            <div></div>
                         </div>
                     </div>
-                </div>
-                <div class="chat-input-container">
-                    <div class="loading-indicator" id="loading-indicator" style="display: none;">
-                        <div style="padding: 8px; text-align: center; color: #5f6368; font-size: 12px;">
-                            AI is thinking...
-                        </div>
+                    <div class="ai-response" id="ai-response" style="display: none;">
+                        <!-- AI response will be inserted here -->
                     </div>
+                    <div class="error-state" id="error-state" style="display: none;">
+                        Unable to generate AI overview
+                    </div>
+                </div>
+                <div class="ai-disclaimer">
+                    AI is experimental. <a href="#">Learn more</a>
                 </div>
             </div>
         `;
@@ -221,6 +228,9 @@ class RightSidebar {
         window.addEventListener('resize', updateSidebarSize);
         
         console.log('Right Sidebar: Standalone sidebar created with FORCED 600px positioning');
+        
+        // Initialize AI functionality
+        this.initializeChatFunctionality();
     }
     
     adjustLayout() {
@@ -236,39 +246,52 @@ class RightSidebar {
     }
     
     captureSearchQueries() {
-        // Monitor when searches are performed
-        const originalSubmit = HTMLFormElement.prototype.submit;
         const self = this;
         
-        HTMLFormElement.prototype.submit = function() {
-            const searchInput = this.querySelector('input[name="q"], input[type="search"], #search-bar');
-            if (searchInput && searchInput.value.trim()) {
-                self.handleSearchQuery(searchInput.value.trim());
-            }
-            return originalSubmit.apply(this, arguments);
-        };
-        
-        // Also monitor form submissions
+        // Method 1: Intercept form submissions immediately before navigation
         document.addEventListener('submit', function(e) {
             const form = e.target;
             const searchInput = form.querySelector('input[name="q"], input[type="search"], #search-bar');
             if (searchInput && searchInput.value.trim()) {
+                // Send AI request immediately on search submission
                 self.handleSearchQuery(searchInput.value.trim());
             }
         });
         
-        // Monitor search button clicks
+        // Method 2: Monitor search button clicks
         document.addEventListener('click', function(e) {
             if (e.target.closest('.search-button') || e.target.closest('button[type="submit"]')) {
                 const form = e.target.closest('form');
                 if (form) {
                     const searchInput = form.querySelector('input[name="q"], input[type="search"], #search-bar');
                     if (searchInput && searchInput.value.trim()) {
+                        // Send AI request immediately on search button click
                         self.handleSearchQuery(searchInput.value.trim());
                     }
                 }
             }
         });
+        
+        // Method 3: Monitor Enter key on search input
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const searchInput = e.target;
+                if ((searchInput.name === 'q' || searchInput.type === 'search' || searchInput.id === 'search-bar') && searchInput.value.trim()) {
+                    // Send AI request immediately on Enter key
+                    self.handleSearchQuery(searchInput.value.trim());
+                }
+            }
+        });
+        
+        // Method 4: For search results pages, check URL parameters on page load
+        if (window.location.search.includes('q=')) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const query = urlParams.get('q');
+            if (query && query.trim()) {
+                // This handles cases where user navigates to search results directly
+                self.handleSearchQuery(query.trim());
+            }
+        }
     }
     
     async handleSearchQuery(query) {
@@ -277,17 +300,17 @@ class RightSidebar {
     }
     
     async sendToAI(query) {
-        const chatMessages = document.getElementById('chat-messages');
-        const loadingIndicator = document.getElementById('loading-indicator');
+        const loadingState = document.getElementById('loading-state');
+        const aiResponse = document.getElementById('ai-response');
+        const errorState = document.getElementById('error-state');
         
-        if (!chatMessages) return;
-        
-        // Add user query to chat
-        this.addMessageToChat('user', query);
+        // Hide previous states
+        if (aiResponse) aiResponse.style.display = 'none';
+        if (errorState) errorState.style.display = 'none';
         
         // Show loading
-        if (loadingIndicator) {
-            loadingIndicator.style.display = 'block';
+        if (loadingState) {
+            loadingState.style.display = 'block';
         }
         
         try {
@@ -301,49 +324,41 @@ class RightSidebar {
             
             if (response.ok) {
                 const data = await response.json();
-                this.addMessageToChat('ai', data.response);
+                this.showAIResponse(data.response);
             } else {
-                this.addMessageToChat('ai', 'Sorry, I encountered an error processing your request.');
+                this.showError();
             }
         } catch (error) {
             console.error('AI request failed:', error);
-            this.addMessageToChat('ai', 'Sorry, I couldn\'t process your request at the moment.');
+            this.showError();
         } finally {
             // Hide loading
-            if (loadingIndicator) {
-                loadingIndicator.style.display = 'none';
+            if (loadingState) {
+                loadingState.style.display = 'none';
             }
         }
     }
     
-    addMessageToChat(sender, message) {
-        const chatMessages = document.getElementById('chat-messages');
-        if (!chatMessages) return;
+    showAIResponse(response) {
+        const aiResponse = document.getElementById('ai-response');
+        if (!aiResponse) return;
         
-        const messageDiv = document.createElement('div');
-        messageDiv.className = `chat-message ${sender}-message`;
+        // Format the response into paragraphs
+        const paragraphs = response.split('\n').filter(p => p.trim());
+        const formattedResponse = paragraphs.map(p => `<p>${this.escapeHtml(p)}</p>`).join('');
         
-        if (sender === 'user') {
-            messageDiv.innerHTML = `
-                <div style="text-align: right; margin-bottom: 10px;">
-                    <div style="display: inline-block; background: #1a73e8; color: white; padding: 8px 12px; border-radius: 12px; max-width: 80%; font-size: 14px;">
-                        ${this.escapeHtml(message)}
-                    </div>
-                </div>
-            `;
-        } else {
-            messageDiv.innerHTML = `
-                <div style="text-align: left; margin-bottom: 10px;">
-                    <div style="display: inline-block; background: #f8f9fa; color: #202124; padding: 8px 12px; border-radius: 12px; max-width: 80%; font-size: 14px; border: 1px solid #e8eaed;">
-                        ${this.escapeHtml(message)}
-                    </div>
-                </div>
-            `;
-        }
-        
-        chatMessages.appendChild(messageDiv);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
+        aiResponse.innerHTML = formattedResponse;
+        aiResponse.style.display = 'block';
     }
+    
+    showError() {
+        const errorState = document.getElementById('error-state');
+        if (errorState) {
+            errorState.style.display = 'block';
+        }
+    }
+    
+
     
     escapeHtml(text) {
         const div = document.createElement('div');

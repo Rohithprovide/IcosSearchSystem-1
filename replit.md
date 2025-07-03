@@ -157,6 +157,15 @@ This repository contains a Whoogle Search deployment wrapper for Replit. Whoogle
   - Chat interface automatically captures search queries and provides AI insights
   - Added loading indicators and error handling for robust user experience
   - Sidebar dimensions: 550px width x 550px height with proper positioning
+- July 3, 2025. Redesigned AI interface with Google-style AI Overview:
+  - Changed timing mechanism: AI requests now sent immediately when user searches (not after page load)
+  - Implemented Google-style AI Overview design matching official Google search AI panels
+  - Replaced ChatGPT-style chat with Google's clean, professional AI overview layout
+  - Added Google-style header with colorful Gemini logo and "AI Overview" title
+  - Implemented proper loading states with animated dots and error handling
+  - Updated API configuration to use GOOGLE_API_KEY instead of GEMINI_API_KEY
+  - Enhanced search query capture with multiple methods: form submission, button clicks, Enter key
+  - AI responses now display in Google's signature left-border style with proper typography
 
 ## User Preferences
 

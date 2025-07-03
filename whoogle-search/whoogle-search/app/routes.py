@@ -665,7 +665,19 @@ def ai_query():
         import os
         from google import genai
         
-        client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
+        # Debug: Check if API key is available
+        api_key = os.environ.get("GOOGLE_API_KEY")
+        print(f"GOOGLE_API_KEY found: {api_key is not None}")
+        
+        if not api_key:
+            print("No GOOGLE_API_KEY found in environment")
+            return jsonify({'error': 'API key not configured'}), 500
+            
+        try:
+            client = genai.Client(api_key=api_key)
+        except Exception as init_error:
+            print(f"Client initialization error: {init_error}")
+            return jsonify({'error': f'Failed to initialize AI client: {str(init_error)}'}), 500
         
         # Create a focused prompt for search-related queries
         prompt = f"Provide a helpful and concise answer to this search query: {query}"
