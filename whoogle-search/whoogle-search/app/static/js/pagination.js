@@ -6,6 +6,12 @@ document.addEventListener('DOMContentLoaded', function() {
     transformPagination();
 });
 
+// Also run when the page URL changes (for single-page navigation)
+window.addEventListener('popstate', function() {
+    // Small delay to ensure DOM is updated
+    setTimeout(transformPagination, 100);
+});
+
 function transformPagination() {
     // Find the pagination container (usually table.uZgmoc)
     const paginationTable = document.querySelector('table.uZgmoc');
@@ -74,6 +80,16 @@ function createGoogleStylePagination(currentPage, originalTable, resultsPerPage 
         }
     }
     
+    // Add debugging info (remove later)
+    console.log('Pagination Debug:', {
+        currentPage,
+        resultsPerPage,
+        currentStart: parseInt(new URLSearchParams(window.location.search).get('start')) || 0,
+        isImagesTab: new URLSearchParams(window.location.search).get('tbm') === 'isch',
+        startPage,
+        endPage
+    });
+    
     // Add "Next" button if available
     const nextLink = links.find(link => 
         link.text.toLowerCase().includes('next') || 
@@ -81,7 +97,7 @@ function createGoogleStylePagination(currentPage, originalTable, resultsPerPage 
     );
     
     if (nextLink) {
-        const nextElement = createNextElement(nextLink);
+        const nextElement = createNextElement(nextLink, currentPage, resultsPerPage);
         paginationDiv.appendChild(nextElement);
     }
     
@@ -151,13 +167,24 @@ function createPageElement(pageNum, currentPage, links, resultsPerPage = 10) {
             this.style.backgroundColor = 'transparent';
         });
         
+        // Add click handler to ensure proper navigation
+        link.addEventListener('click', function(e) {
+            console.log('Navigating to page:', pageNum, 'start:', start);
+        });
+        
         return link;
     }
 }
 
-function createNextElement(nextLink) {
+function createNextElement(nextLink, currentPage, resultsPerPage) {
     const link = document.createElement('a');
-    link.href = nextLink.href;
+    
+    // Calculate next page URL properly
+    const nextPageStart = currentPage * resultsPerPage;
+    const currentUrl = new URL(window.location);
+    currentUrl.searchParams.set('start', nextPageStart);
+    
+    link.href = currentUrl.toString();
     link.textContent = '>';
     link.className = 'next-link';
     link.style.cssText = `
@@ -184,6 +211,11 @@ function createNextElement(nextLink) {
     
     link.addEventListener('mouseleave', function() {
         this.style.backgroundColor = 'transparent';
+    });
+    
+    // Add click handler for debugging
+    link.addEventListener('click', function(e) {
+        console.log('Next button clicked. Current page:', currentPage, 'Next start:', nextPageStart);
     });
     
     return link;
