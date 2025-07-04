@@ -204,38 +204,80 @@ class InfiniteScrollImages {
             return;
         }
 
-        // Get all existing rows
-        const existingRows = imageTable.querySelectorAll('tr');
-        let lastRow = existingRows[existingRows.length - 1];
-        let currentRowCellCount = lastRow ? lastRow.querySelectorAll('td').length : 4;
+        console.log('InfiniteScrollImages: Appending', images.length, 'new images');
+
+        // Get all existing cells to understand current layout
+        const allExistingCells = imageTable.querySelectorAll('td.e3goi');
+        console.log('InfiniteScrollImages: Found', allExistingCells.length, 'existing image cells');
         
         const imagesPerRow = 4;
-        let imageIndex = 0;
+        const totalImages = allExistingCells.length + images.length;
         
-        // If the last row is not complete, fill it first
-        if (currentRowCellCount < imagesPerRow && lastRow) {
-            while (currentRowCellCount < imagesPerRow && imageIndex < images.length) {
-                const image = images[imageIndex];
-                const cell = this.createImageCell(image);
-                lastRow.appendChild(cell);
-                currentRowCellCount++;
-                imageIndex++;
+        // Calculate how many complete rows we should have
+        const totalCompleteRows = Math.ceil(totalImages / imagesPerRow);
+        
+        // Remove any incomplete rows and rebuild the grid properly
+        const existingRows = imageTable.querySelectorAll('tr');
+        const lastRowIndex = existingRows.length - 1;
+        const lastRow = existingRows[lastRowIndex];
+        
+        if (lastRow) {
+            const cellsInLastRow = lastRow.querySelectorAll('td.e3goi').length;
+            console.log('InfiniteScrollImages: Last row has', cellsInLastRow, 'cells');
+            
+            // If last row is incomplete, we'll rebuild from that row
+            if (cellsInLastRow < imagesPerRow && cellsInLastRow > 0) {
+                // Extract existing images from the incomplete row
+                const existingCellsInLastRow = Array.from(lastRow.querySelectorAll('td.e3goi'));
+                lastRow.remove();
+                
+                // Merge existing cells with new images
+                let combinedImages = [];
+                
+                // Add existing cells as image objects
+                existingCellsInLastRow.forEach(cell => {
+                    const img = cell.querySelector('img');
+                    const links = cell.querySelectorAll('a');
+                    if (img && links.length >= 2) {
+                        combinedImages.push({
+                            imgThumbnail: img.src,
+                            webPageUrl: links[0].href,
+                            imgUrl: links[1].href,
+                            alt: img.alt,
+                            domain: this.extractDomain(links[0].href)
+                        });
+                    }
+                });
+                
+                // Add new images
+                combinedImages = combinedImages.concat(images);
+                
+                // Create complete rows with the combined images
+                this.createCompleteRows(imageTable, combinedImages);
+                return;
             }
         }
         
-        // Create new complete rows for remaining images
-        while (imageIndex < images.length) {
+        // If last row is complete or doesn't exist, just add new rows
+        this.createCompleteRows(imageTable, images);
+    }
+    
+    createCompleteRows(imageTable, images) {
+        const imagesPerRow = 4;
+        
+        for (let i = 0; i < images.length; i += imagesPerRow) {
             const row = document.createElement('tr');
             
-            for (let j = 0; j < imagesPerRow && imageIndex < images.length; j++) {
-                const image = images[imageIndex];
+            for (let j = 0; j < imagesPerRow && (i + j) < images.length; j++) {
+                const image = images[i + j];
                 const cell = this.createImageCell(image);
                 row.appendChild(cell);
-                imageIndex++;
             }
             
             imageTable.appendChild(row);
         }
+        
+        console.log('InfiniteScrollImages: Added', Math.ceil(images.length / imagesPerRow), 'new rows');
     }
 
     createImageCell(image) {
