@@ -210,6 +210,9 @@ This repository contains a Whoogle Search deployment wrapper for Replit. Whoogle
   - Configuration now shows 30 images per page (5 full rows of 6 images each)
   - Further increased to 100 images per page per user request for more comprehensive results
   - Layout now displays approximately 16-17 rows of 6 images each (100 total images)
+  - Fixed environment variable inheritance issue by modifying request.py directly
+  - Changed default from 10 to 100 results and created .env file for persistence
+  - Hardcoded 100 results per page to ensure consistent behavior across all searches
 
 ## User Preferences
 

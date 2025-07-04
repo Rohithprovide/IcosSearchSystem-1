@@ -190,8 +190,9 @@ class Request:
     """
 
     def __init__(self, normal_ua, root_path, config: Config):
-        self.search_url = 'https://www.google.com/search?gbv=1&num=' + str(
-            os.getenv('WHOOGLE_RESULTS_PER_PAGE', 10)) + '&q='
+        # Force 100 results per page for better user experience
+        results_per_page = int(os.getenv('WHOOGLE_RESULTS_PER_PAGE', 100))
+        self.search_url = 'https://www.google.com/search?gbv=1&num=' + str(results_per_page) + '&q='
         # Send heartbeat to Tor, used in determining if the user can or cannot
         # enable Tor for future requests
         send_tor_signal(Signal.HEARTBEAT)
