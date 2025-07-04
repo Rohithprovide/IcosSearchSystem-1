@@ -209,12 +209,14 @@ function toggleAISidebar() {
         if (aiSidebar.style.display === 'none' || window.getComputedStyle(aiSidebar).display === 'none') {
             aiSidebar.style.display = 'block';
             aiSidebar.style.visibility = 'visible';
+            aiSidebar.classList.add('visible');
             if (aiToggleIcon) {
                 aiToggleIcon.classList.add('active');
             }
         } else {
             aiSidebar.style.display = 'none';
             aiSidebar.style.visibility = 'hidden';
+            aiSidebar.classList.remove('visible');
             if (aiToggleIcon) {
                 aiToggleIcon.classList.remove('active');
             }

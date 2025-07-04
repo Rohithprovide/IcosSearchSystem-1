@@ -65,7 +65,6 @@
 
 /* Standalone sidebar positioning */
 .right-sidebar.standalone-sidebar {
-    display: block !important;
     position: fixed !important;
     top: 600px !important;
     background: var(--whoogle-background, #ffffff);
@@ -95,9 +94,9 @@
     }
 }
 
-/* Show on large screens only */
+/* Show on large screens only - but start hidden for toggle control */
 @media (min-width: 1201px) {
-    .right-sidebar.standalone-sidebar {
+    .right-sidebar.standalone-sidebar.visible {
         display: block !important;
     }
 }

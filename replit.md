@@ -238,6 +238,9 @@ This repository contains a Whoogle Search deployment wrapper for Replit. Whoogle
   - Toggle function works with dynamically created sidebar using class selector (.right-sidebar)
   - Added visual feedback with active state styling when sidebar is open
   - Functionality works on both desktop and mobile versions of the interface
+  - Fixed CSS conflicts by removing forced display:block rules that prevented hiding
+  - Removed automatic sidebar initialization to ensure sidebar stays hidden until toggled
+  - Updated CSS to use 'visible' class for proper show/hide control via toggle button
 
 ## User Preferences
 

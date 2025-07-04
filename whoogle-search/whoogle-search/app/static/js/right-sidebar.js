@@ -669,21 +669,10 @@ function forceCreateSidebar() {
     return sidebar;
 }
 
-// Initialize when DOM is ready
+// Initialize sidebar but keep it hidden for toggle control
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Right Sidebar: DOM loaded, starting FORCED initialization...');
+    console.log('Right Sidebar: DOM loaded, initializing sidebar (hidden)...');
     
-    // Force create immediately
-    forceCreateSidebar();
-    
-    // Force create with delays
-    setTimeout(forceCreateSidebar, 500);
-    setTimeout(forceCreateSidebar, 1000);
-    setTimeout(forceCreateSidebar, 2000);
-});
-
-// Also try on window load
-window.addEventListener('load', function() {
-    console.log('Right Sidebar: Window loaded, forcing sidebar...');
-    setTimeout(forceCreateSidebar, 100);
+    // Only initialize, don't force show
+    new RightSidebar();
 });
