@@ -665,7 +665,7 @@ def ai_query():
         import requests
         
         # Get API key
-        api_key = "AIzaSyBI76TEGdNUfrQH4IIr45HYIl9H5nglVs8"
+        api_key = "AIzaSyCsCSz2_Rpo4eDbw-iPlmg5aR4vhsA7KBQ"
         
         print(f"Using Google API key for Gemini")
         
