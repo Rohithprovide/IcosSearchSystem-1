@@ -186,6 +186,11 @@ This repository contains a Whoogle Search deployment wrapper for Replit. Whoogle
   - Added loading threshold at 80% scroll position for optimal user experience
   - Fixed grid layout issue where new images created gaps instead of filling rows continuously
   - Enhanced appendImages function to properly fill incomplete rows before creating new ones
+- July 4, 2025. Removed infinite scroll from Images tab per user request:
+  - Deleted infinite-scroll-images.js file completely
+  - Removed script reference from imageresults.html template
+  - Restored standard pagination functionality for image search results
+  - Images tab now uses traditional page-by-page navigation instead of continuous scrolling
 
 ## User Preferences
 
