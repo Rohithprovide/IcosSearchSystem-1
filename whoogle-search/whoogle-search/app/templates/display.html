@@ -33,6 +33,49 @@
             width: 100% !important;
         }
         
+        /* Full width layout for images tab - detect via URL parameters */
+        body {
+            --is-images-tab: 0;
+        }
+        
+        /* Apply full width when tbm=isch is in URL (images tab) */
+        body.images-tab,
+        body[data-images-fullscreen="true"] {
+            --is-images-tab: 1;
+        }
+        
+        /* Force full width layout for images */
+        body.images-tab,
+        body[data-images-fullscreen="true"] {
+            max-width: 100% !important;
+            padding: 0 !important;
+        }
+        
+        body.images-tab .header-tab-div,
+        body[data-images-fullscreen="true"] .header-tab-div {
+            max-width: 100% !important;
+            margin: 0 !important;
+            padding: 0 20px !important;
+        }
+        
+        body.images-tab #main,
+        body[data-images-fullscreen="true"] #main {
+            max-width: 100% !important;
+            width: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        
+        /* Override any existing constraints */
+        body.images-tab:has(.search-results-logo) #main,
+        body.images-tab:has(header) #main,
+        body[data-images-fullscreen="true"]:has(.search-results-logo) #main,
+        body[data-images-fullscreen="true"]:has(header) #main {
+            margin: 0 !important;
+            max-width: 100% !important;
+            width: 100% !important;
+        }
+        
         /* Ensure container matches */
         .header-container .search-div {
             max-width: 900px !important;
@@ -290,4 +333,55 @@
 <script src="static/js/favicons.js"></script>
 <script src="static/js/infinite-scroll-images.js"></script>
 <script src="static/js/images-fullscreen.js"></script>
+
+<script>
+// Immediate images tab detection and full-screen layout application
+(function() {
+    // Check if we're on images tab by URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const isImagesTab = urlParams.get('tbm') === 'isch';
+    
+    // Also check for Images tab in navigation
+    const imagesTabActive = document.querySelector('.EY24We') && 
+                           document.querySelector('.EY24We').textContent.includes('Images');
+    
+    if (isImagesTab || imagesTabActive) {
+        console.log('Images tab detected - applying full-screen layout');
+        document.body.classList.add('images-tab');
+        document.body.setAttribute('data-images-fullscreen', 'true');
+        
+        // Force immediate style application
+        const style = document.createElement('style');
+        style.textContent = `
+            body.images-tab,
+            body[data-images-fullscreen="true"] {
+                max-width: 100% !important;
+                padding: 0 !important;
+            }
+            
+            body.images-tab .header-tab-div,
+            body[data-images-fullscreen="true"] .header-tab-div {
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding: 0 20px !important;
+            }
+            
+            body.images-tab #main,
+            body[data-images-fullscreen="true"] #main {
+                max-width: 100% !important;
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            
+            /* Override sidebar positioning for images */
+            body.images-tab .right-sidebar,
+            body[data-images-fullscreen="true"] .right-sidebar {
+                right: 20px !important;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+})();
+</script>
 </html>
