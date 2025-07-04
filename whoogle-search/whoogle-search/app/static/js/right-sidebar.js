@@ -132,7 +132,7 @@ class RightSidebar {
         const availableRightSpace = window.innerWidth - searchResultsRight - rightMargin;
         const sidebarGap = 20; // Gap from search results
         const sidebarWidth = Math.max(300, availableRightSpace - 20); // Take most of the available space
-        const sidebarLeft = searchResultsRight + sidebarGap;
+        const sidebarLeft = searchResultsRight + sidebarGap + 30; // Move right by 30px
         
         // Ensure minimum width but use maximum available space
         const finalWidth = Math.max(300, sidebarWidth);
@@ -217,7 +217,7 @@ class RightSidebar {
                 const newSearchResultsRight = resultsRect.right;
                 const newAvailableRightSpace = window.innerWidth - newSearchResultsRight - rightMargin;
                 const newSidebarWidth = Math.max(300, newAvailableRightSpace - 20); // Take most of the available space
-                const newSidebarLeft = newSearchResultsRight + 20; // Gap from search results
+                const newSidebarLeft = newSearchResultsRight + 20 + 30; // Gap from search results, moved right by 30px
                 
                 sidebar.style.width = `${newSidebarWidth}px`;
                 sidebar.style.left = `${newSidebarLeft}px`;
@@ -394,7 +394,7 @@ function forceCreateSidebar() {
     const sidebarGap = 10; // Small gap from search results
     const availableSpace = window.innerWidth - searchResultsRight - rightMargin - sidebarGap;
     const sidebarWidth = 550; // Increased width further
-    const leftPosition = searchResultsRight + sidebarGap - 50; // Move left by 50px to expand to the left
+    const leftPosition = searchResultsRight + sidebarGap - 20; // Move right by 30px from original position
     
     sidebar.style.cssText = `
         position: absolute !important;
@@ -446,7 +446,7 @@ function forceCreateSidebar() {
             newSearchResultsRight = resultsRect.right;
         }
         
-        const newLeftPosition = window.innerWidth - 550 - 200;
+        const newLeftPosition = window.innerWidth - 550 - 200 + 30;
         sidebar.style.width = '550px';
         sidebar.style.left = `${newLeftPosition}px`;
     };
