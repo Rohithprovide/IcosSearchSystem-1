@@ -15,6 +15,28 @@ class RightSidebar {
         this.adjustLayout();
     }
     
+    clearContent() {
+        // Clear the sidebar content completely
+        if (this.sidebar) {
+            this.sidebar.innerHTML = `
+                <div class="ai-loading" style="display: block;">
+                    <div class="loading-dots">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                </div>
+                <div class="ai-content" style="display: none;"></div>
+            `;
+        }
+        
+        // Reset state
+        this.lastQuery = null;
+        this.lastQueryTime = null;
+        
+        console.log('Sidebar content cleared for new search');
+    }
+    
     isSearchResultsPage() {
         // Check if we're on a search results page
         const hasMain = document.querySelector('#main') !== null;
@@ -233,7 +255,38 @@ class RightSidebar {
     initializeChatFunctionality() {
         // Capture search queries and send to AI
         this.captureSearchQueries();
+        
+        // Add navigation monitoring to clear content on page changes
+        this.setupNavigationMonitoring();
+        
         console.log('Right Sidebar: Chat functionality initialized');
+    }
+    
+    setupNavigationMonitoring() {
+        // Clear content when page navigation starts
+        const self = this;
+        
+        // Monitor beforeunload to clear content
+        window.addEventListener('beforeunload', function() {
+            console.log('Page navigation detected, clearing sidebar content');
+            self.clearContent();
+        });
+        
+        // Monitor history changes (back/forward buttons)
+        window.addEventListener('popstate', function() {
+            console.log('History navigation detected, clearing sidebar content');
+            self.clearContent();
+        });
+        
+        // Monitor URL changes with a simple check
+        let currentUrl = window.location.href;
+        setInterval(() => {
+            if (window.location.href !== currentUrl) {
+                currentUrl = window.location.href;
+                console.log('URL change detected, clearing sidebar content');
+                self.clearContent();
+            }
+        }, 100);
     }
     
     captureSearchQueries() {
@@ -301,10 +354,13 @@ class RightSidebar {
     async handleSearchQuery(query) {
         console.log('Search query captured:', query);
         
-        // Rate limiting: prevent multiple requests for the same query within 10 seconds
+        // Clear previous content immediately for new search
+        this.clearContent();
+        
+        // Rate limiting: prevent multiple requests for the same query within 5 seconds (reduced time)
         const now = Date.now();
-        if (this.lastQuery === query && this.lastQueryTime && (now - this.lastQueryTime) < 10000) {
-            console.log('Rate limiting: skipping duplicate query within 10 seconds');
+        if (this.lastQuery === query && this.lastQueryTime && (now - this.lastQueryTime) < 5000) {
+            console.log('Rate limiting: skipping duplicate query within 5 seconds');
             return;
         }
         
