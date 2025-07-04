@@ -183,6 +183,27 @@
       transform: translateY(-2px) !important;
     }
     
+    /* Target the specific image classes found in HTML */
+    .DS1iW {
+      border-radius: 8px !important;
+      transition: all 0.2s ease !important;
+    }
+    
+    .DS1iW:hover {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+      transform: translateY(-2px) !important;
+    }
+    
+    .site-favicon {
+      border-radius: 8px !important;
+      transition: all 0.2s ease !important;
+    }
+    
+    .site-favicon:hover {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+      transform: translateY(-2px) !important;
+    }
+    
     /* Even more specific targeting */
     [role="img"], [role="image"] {
       border-radius: 8px !important;
@@ -232,27 +253,53 @@
   <script>
     // Apply image styling with JavaScript as backup
     function applyImageStyles() {
-        const images = document.querySelectorAll('img');
-        images.forEach(img => {
-            img.style.borderRadius = '8px';
-            img.style.transition = 'all 0.2s ease';
-            
-            img.addEventListener('mouseenter', function() {
-                this.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
-                this.style.transform = 'translateY(-2px)';
-            });
-            
-            img.addEventListener('mouseleave', function() {
-                this.style.boxShadow = 'none';
-                this.style.transform = 'translateY(0)';
+        // Target all images and specific classes
+        const selectors = ['img', '.DS1iW', '.site-favicon'];
+        
+        selectors.forEach(selector => {
+            const elements = document.querySelectorAll(selector);
+            elements.forEach(element => {
+                element.style.borderRadius = '8px';
+                element.style.transition = 'all 0.2s ease';
+                
+                // Remove existing listeners to prevent duplicates
+                element.removeEventListener('mouseenter', hoverIn);
+                element.removeEventListener('mouseleave', hoverOut);
+                
+                element.addEventListener('mouseenter', hoverIn);
+                element.addEventListener('mouseleave', hoverOut);
             });
         });
+        
+        console.log('Applied styles to', document.querySelectorAll('img').length, 'images');
+    }
+    
+    function hoverIn() {
+        this.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
+        this.style.transform = 'translateY(-2px)';
+    }
+    
+    function hoverOut() {
+        this.style.boxShadow = 'none';
+        this.style.transform = 'translateY(0)';
     }
     
     // Apply styles immediately and after page load
     document.addEventListener('DOMContentLoaded', applyImageStyles);
-    setTimeout(applyImageStyles, 1000); // Backup for dynamically loaded content
-    setTimeout(applyImageStyles, 3000); // Second backup
+    setTimeout(applyImageStyles, 500);  // Quick backup
+    setTimeout(applyImageStyles, 1500); // Medium backup  
+    setTimeout(applyImageStyles, 3000); // Final backup
+    
+    // Observer for dynamically added content
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.addedNodes.length > 0) {
+                setTimeout(applyImageStyles, 100);
+            }
+        });
+    });
+    
+    observer.observe(document.body, { childList: true, subtree: true });
   </script>
 
     .FbhRzb {
