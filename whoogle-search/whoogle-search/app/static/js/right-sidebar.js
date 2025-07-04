@@ -423,8 +423,11 @@ class RightSidebar {
             
             if (response.ok) {
                 const data = await response.json();
+                console.log('AI API response data:', data);
+                // Always show response, even if it's an error message
                 this.showAIResponse(data.response);
             } else {
+                console.error('AI API response not OK:', response.status, response.statusText);
                 this.showError();
             }
         } catch (error) {
@@ -439,16 +442,27 @@ class RightSidebar {
     }
     
     showAIResponse(response) {
+        console.log('showAIResponse called with response:', response);
         const aiResponse = document.getElementById('ai-response');
         const responseContent = document.getElementById('response-content');
-        if (!aiResponse || !responseContent) return;
+        
+        console.log('Elements found:', { aiResponse, responseContent });
+        
+        if (!aiResponse || !responseContent) {
+            console.error('Required elements not found! aiResponse:', aiResponse, 'responseContent:', responseContent);
+            return;
+        }
         
         // Format the response into paragraphs
         const paragraphs = response.split('\n').filter(p => p.trim());
         const formattedResponse = paragraphs.map(p => `<p>${this.escapeHtml(p)}</p>`).join('');
         
+        console.log('Formatted response:', formattedResponse);
+        
         responseContent.innerHTML = formattedResponse;
         aiResponse.style.display = 'block';
+        
+        console.log('AI response displayed successfully');
     }
     
     showError() {
@@ -523,7 +537,12 @@ function forceCreateSidebar() {
                     </div>
                 </div>
                 <div class="ai-response" id="ai-response" style="display: none;">
-                    <!-- AI response will be inserted here -->
+                    <div class="query-display" style="margin-bottom: 10px; padding: 8px; background: #f8f9fa; border-radius: 6px; font-size: 12px; color: #666;">
+                        <strong>Query:</strong> <span class="query-text" id="query-text"></span>
+                    </div>
+                    <div id="response-content" class="response-text">
+                        <!-- AI response will be inserted here -->
+                    </div>
                 </div>
                 <div class="error-state" id="error-state" style="display: none;">
                     Unable to generate response

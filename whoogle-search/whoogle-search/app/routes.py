@@ -665,8 +665,8 @@ def ai_query():
         # Use direct HTTP API approach (matching your working code)
         import requests
         
-        # Get API key
-        api_key = "AIzaSyCsCSz2_Rpo4eDbw-iPlmg5aR4vhsA7KBQ"
+        # Get API key from environment variable
+        api_key = os.getenv('GOOGLE_API_KEY')
         
         print(f"Using Google API key for Gemini")
         
