@@ -128,11 +128,11 @@ class RightSidebar {
             console.log('Right Sidebar: Search results area:', { width: searchResultsWidth, right: searchResultsRight });
         }
         
-        // Calculate sidebar positioning with fixed width
+        // Calculate sidebar positioning with increased width
         const availableRightSpace = window.innerWidth - searchResultsRight - rightMargin;
         const sidebarGap = 20; // Gap from search results
-        const sidebarWidth = Math.max(300, availableRightSpace - 20); // Take most of the available space
-        const sidebarLeft = searchResultsRight + sidebarGap + 80; // Move right by 80px
+        const sidebarWidth = Math.max(400, availableRightSpace + 100); // Increase width by 100px
+        const sidebarLeft = searchResultsRight + sidebarGap + 80 - 100; // Move left by 100px to expand leftward
         
         // Ensure minimum width but use maximum available space
         const finalWidth = Math.max(300, sidebarWidth);
@@ -216,8 +216,8 @@ class RightSidebar {
                 const resultsRect = searchResults.getBoundingClientRect();
                 const newSearchResultsRight = resultsRect.right;
                 const newAvailableRightSpace = window.innerWidth - newSearchResultsRight - rightMargin;
-                const newSidebarWidth = Math.max(300, newAvailableRightSpace - 20); // Take most of the available space
-                const newSidebarLeft = newSearchResultsRight + 20 + 80; // Gap from search results, moved right by 80px
+                const newSidebarWidth = Math.max(400, newAvailableRightSpace + 100); // Increased width by 100px
+                const newSidebarLeft = newSearchResultsRight + 20 + 80 - 100; // Expand leftward by 100px
                 
                 sidebar.style.width = `${newSidebarWidth}px`;
                 sidebar.style.left = `${newSidebarLeft}px`;
@@ -393,8 +393,8 @@ function forceCreateSidebar() {
     const rightMargin = 200; // Adjusted margin for proper positioning
     const sidebarGap = 10; // Small gap from search results
     const availableSpace = window.innerWidth - searchResultsRight - rightMargin - sidebarGap;
-    const sidebarWidth = 550; // Increased width further
-    const leftPosition = searchResultsRight + sidebarGap + 60; // Move right by 80px from original position
+    const sidebarWidth = 650; // Increased width further by 100px
+    const leftPosition = searchResultsRight + sidebarGap + 60 - 100; // Move left by 100px to expand width leftward
     
     sidebar.style.cssText = `
         position: absolute !important;
@@ -446,8 +446,8 @@ function forceCreateSidebar() {
             newSearchResultsRight = resultsRect.right;
         }
         
-        const newLeftPosition = window.innerWidth - 550 - 200 + 80;
-        sidebar.style.width = '550px';
+        const newLeftPosition = window.innerWidth - 650 - 200 + 80;
+        sidebar.style.width = '650px';
         sidebar.style.left = `${newLeftPosition}px`;
     };
     window.addEventListener('resize', updatePosition);
