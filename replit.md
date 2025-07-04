@@ -205,6 +205,8 @@ This repository contains a Whoogle Search deployment wrapper for Replit. Whoogle
   - Temporarily disabled images-fullscreen.css to eliminate CSS conflicts
   - Implemented simplified table-layout approach with fixed 16.66% column widths
   - Maintained aspect ratios and proper spacing for cleaner grid appearance
+  - Increased WHOOGLE_RESULTS_PER_PAGE from 10 to 30 for better image grid display
+  - Configuration now shows 30 images per page (5 full rows of 6 images each)
 
 ## User Preferences
 
