@@ -661,12 +661,11 @@ def ai_query():
         
         query = data['query']
         
-        # Import and use Gemini AI
-        import os
-        from google import genai
+        # Use direct HTTP API approach (matching your working code)
+        import requests
         
-        # Get API key from environment
-        api_key = "AIzaSyBI76TEGdNUfrQH4IIr45HYIl9H5nglVs8"  # Use the provided API key directly
+        # Get API key
+        api_key = "AIzaSyBI76TEGdNUfrQH4IIr45HYIl9H5nglVs8"
         
         print(f"Using Google API key for Gemini")
         
@@ -674,21 +673,35 @@ def ai_query():
             print("No API key available")
             return jsonify({'error': 'API key not configured'}), 500
             
-        try:
-            client = genai.Client(api_key=api_key)
-        except Exception as init_error:
-            print(f"Client initialization error: {init_error}")
-            return jsonify({'error': f'Failed to initialize AI client: {str(init_error)}'}), 500
+        # Use the same API URL structure as your working code
+        api_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
         
-        # Create a focused prompt for search-related queries
-        prompt = f"Provide a helpful and concise answer to this search query: {query}"
+        # Create request payload matching your working format
+        payload = {
+            "contents": [{
+                "role": "user",
+                "parts": [{"text": f"Provide a helpful and concise answer to this search query: {query}"}]
+            }]
+        }
         
-        response = client.models.generate_content(
-            model="gemini-1.5-flash",  # Use older model to potentially reduce quota usage
-            contents=prompt
+        # Make the API request
+        response = requests.post(
+            api_url,
+            headers={"Content-Type": "application/json"},
+            json=payload,
+            timeout=30
         )
         
-        ai_response = response.text if response.text else "I couldn't generate a response for that query."
+        if not response.ok:
+            raise Exception(f"API request failed: {response.text}")
+            
+        data = response.json()
+        
+        # Extract response text using the same structure as your code
+        ai_response = data["candidates"][0]["content"]["parts"][0]["text"]
+        
+        # Clean up the response (remove markdown formatting)
+        ai_response = ai_response.replace("**", "").strip()
         
         return jsonify({'response': ai_response})
         
