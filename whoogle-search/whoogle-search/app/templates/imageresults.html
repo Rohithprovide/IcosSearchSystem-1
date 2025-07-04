@@ -172,13 +172,24 @@
       border: 0;
     }
     
-    /* Apply rounded corners and hover effects to all images */
-    img {
+    /* Apply rounded corners and hover effects to all images - UNIVERSAL */
+    * img {
       border-radius: 8px !important;
       transition: all 0.2s ease !important;
     }
     
-    img:hover {
+    * img:hover {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+      transform: translateY(-2px) !important;
+    }
+    
+    /* Even more specific targeting */
+    [role="img"], [role="image"] {
+      border-radius: 8px !important;
+      transition: all 0.2s ease !important;
+    }
+    
+    [role="img"]:hover, [role="image"]:hover {
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
       transform: translateY(-2px) !important;
     }
@@ -216,6 +227,33 @@
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
       transform: translateY(-2px) !important;
     }
+  </style>
+  
+  <script>
+    // Apply image styling with JavaScript as backup
+    function applyImageStyles() {
+        const images = document.querySelectorAll('img');
+        images.forEach(img => {
+            img.style.borderRadius = '8px';
+            img.style.transition = 'all 0.2s ease';
+            
+            img.addEventListener('mouseenter', function() {
+                this.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
+                this.style.transform = 'translateY(-2px)';
+            });
+            
+            img.addEventListener('mouseleave', function() {
+                this.style.boxShadow = 'none';
+                this.style.transform = 'translateY(0)';
+            });
+        });
+    }
+    
+    // Apply styles immediately and after page load
+    document.addEventListener('DOMContentLoaded', applyImageStyles);
+    setTimeout(applyImageStyles, 1000); // Backup for dynamically loaded content
+    setTimeout(applyImageStyles, 3000); // Second backup
+  </script>
 
     .FbhRzb {
       border-left: thin solid #dadce0;
