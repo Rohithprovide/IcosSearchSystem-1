@@ -30,35 +30,18 @@
       max-width: 100% !important;
     }
     
-    /* Replace table layout with flexible grid */
-    body.images-tab .GpQGbf,
-    body[data-images-fullscreen="true"] .GpQGbf {
-      display: block !important;
+    /* Simple 6-column table layout */
+    .GpQGbf {
       width: 100% !important;
-      max-width: 100% !important;
-      border-collapse: initial !important;
-      border-spacing: initial !important;
+      table-layout: fixed !important;
+      border-collapse: collapse !important;
     }
     
-    /* Convert rows to flexible containers */
-    body.images-tab .GpQGbf tr,
-    body[data-images-fullscreen="true"] .GpQGbf tr {
-      display: flex !important;
-      flex-wrap: wrap !important;
-      gap: 8px !important;
-      margin-bottom: 8px !important;
-    }
-    
-    /* Make image cells flexible without fixed width */
-    body.images-tab .e3goi,
-    body[data-images-fullscreen="true"] .e3goi {
-      flex: 0 0 auto !important;
-      width: auto !important;
-      max-width: none !important;
-      padding: 0 !important;
-      box-sizing: border-box !important;
-      height: auto !important;
+    .e3goi {
+      width: 16.66% !important;
+      padding: 8px !important;
       vertical-align: top !important;
+      text-align: center !important;
     }
     
     /* Preserve image aspect ratios - optimized for 6 images per row */
