@@ -1,17 +1,88 @@
 /* Full screen images layout for Images tab */
 
 /* Override main container width constraints when on images tab */
-body.images-tab #main {
+body.images-tab #main,
+body[data-images-fullscreen="true"] #main {
     max-width: 100% !important;
     width: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
 }
 
+/* Force all main content containers to full width */
+body.images-tab,
+body[data-images-fullscreen="true"] {
+    --main-max-width: 100% !important;
+}
+
+body.images-tab > *,
+body[data-images-fullscreen="true"] > * {
+    max-width: 100% !important;
+}
+
 /* Remove left margin and width constraints on images tab */
 body.images-tab:has(.search-results-logo) #main,
-body.images-tab:has(header) #main {
+body.images-tab:has(header) #main,
+body[data-images-fullscreen="true"]:has(.search-results-logo) #main,
+body[data-images-fullscreen="true"]:has(header) #main {
     margin: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
+/* Override any existing layout constraints from main.css */
+body.images-tab:has(.search-results-logo) #main,
+body.images-tab:has(header) #main,
+body[data-images-fullscreen="true"]:has(.search-results-logo) #main,
+body[data-images-fullscreen="true"]:has(header) #main {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
+/* Override the specific margin from main.css that pushes content to the right */
+body.images-tab > div:not([class*="header"]):not([id*="header"]),
+body[data-images-fullscreen="true"] > div:not([class*="header"]):not([id*="header"]) {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
+/* Override the inline styles from display.html that force 120px left margin with highest specificity */
+body.images-tab > div:not([class*="header"]):not([id*="header"]),
+body[data-images-fullscreen="true"] > div:not([class*="header"]):not([id*="header"]),
+body.images-tab > main,
+body.images-tab > section,
+body.images-tab > article,
+body[data-images-fullscreen="true"] > main,
+body[data-images-fullscreen="true"] > section,
+body[data-images-fullscreen="true"] > article {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
+/* Add very high specificity override for the #main ID */
+html body.images-tab #main,
+html body[data-images-fullscreen="true"] #main {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+/* Target specific Google search result containers */
+body.images-tab .GpQGbf,
+body[data-images-fullscreen="true"] .GpQGbf,
+body.images-tab div[id*="d2md"],
+body[data-images-fullscreen="true"] div[id*="d2md"] {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
     max-width: 100% !important;
     width: 100% !important;
 }
