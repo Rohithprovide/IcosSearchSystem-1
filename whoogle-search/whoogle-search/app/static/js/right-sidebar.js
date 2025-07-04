@@ -164,15 +164,9 @@ class RightSidebar {
         `;
         sidebar.innerHTML = `
             <div class="ai-overview-container">
-                <div class="ai-overview-header">
-                    <h3>
-                        <div class="gemini-logo">G</div>
-                        AI Overview
-                    </h3>
-                </div>
                 <div class="ai-overview-content" id="ai-overview-content">
                     <div class="loading-state" id="loading-state" style="display: none;">
-                        <div>Generating response...</div>
+                        <div>Loading...</div>
                         <div class="loading-dots">
                             <div></div>
                             <div></div>
@@ -183,11 +177,8 @@ class RightSidebar {
                         <!-- AI response will be inserted here -->
                     </div>
                     <div class="error-state" id="error-state" style="display: none;">
-                        Unable to generate AI overview
+                        Unable to generate response
                     </div>
-                </div>
-                <div class="ai-disclaimer">
-                    AI is experimental. <a href="#">Learn more</a>
                 </div>
             </div>
         `;
@@ -289,9 +280,22 @@ class RightSidebar {
             const query = urlParams.get('q');
             if (query && query.trim()) {
                 // This handles cases where user navigates to search results directly
+                console.log('Search query found in URL:', query.trim());
                 self.handleSearchQuery(query.trim());
             }
         }
+        
+        // Method 5: Also check for query on page load with a slight delay to ensure sidebar is ready
+        setTimeout(() => {
+            if (window.location.search.includes('q=')) {
+                const urlParams = new URLSearchParams(window.location.search);
+                const query = urlParams.get('q');
+                if (query && query.trim()) {
+                    console.log('Delayed search query execution:', query.trim());
+                    self.handleSearchQuery(query.trim());
+                }
+            }
+        }, 500);
     }
     
     async handleSearchQuery(query) {
@@ -412,23 +416,21 @@ function forceCreateSidebar() {
     `;
     
     sidebar.innerHTML = `
-        <div class="ai-chat-interface" style="height: 100%; display: flex; flex-direction: column;">
-            <div class="chat-header" style="padding: 15px; border-bottom: 1px solid #e8eaed; flex-shrink: 0;">
-                <div style="font-size: 16px; font-weight: 500; color: #202124;">AI Assistant</div>
-                <div style="font-size: 12px; color: #5f6368;">Powered by Gemini</div>
-            </div>
-            <div class="chat-messages" id="chat-messages" style="flex: 1; padding: 15px; overflow-y: auto;">
-                <div class="welcome-message">
-                    <div style="padding: 12px; background: #f8f9fa; border-radius: 8px; margin-bottom: 10px;">
-                        <div style="font-size: 14px; color: #5f6368;">Welcome! I'll provide AI insights for your searches.</div>
+        <div class="ai-overview-container">
+            <div class="ai-overview-content" id="ai-overview-content">
+                <div class="loading-state" id="loading-state" style="display: none;">
+                    <div>Loading...</div>
+                    <div class="loading-dots">
+                        <div></div>
+                        <div></div>
+                        <div></div>
                     </div>
                 </div>
-            </div>
-            <div class="chat-input-container" style="padding: 15px; border-top: 1px solid #e8eaed; flex-shrink: 0;">
-                <div class="loading-indicator" id="loading-indicator" style="display: none;">
-                    <div style="padding: 8px; text-align: center; color: #5f6368; font-size: 12px;">
-                        AI is thinking...
-                    </div>
+                <div class="ai-response" id="ai-response" style="display: none;">
+                    <!-- AI response will be inserted here -->
+                </div>
+                <div class="error-state" id="error-state" style="display: none;">
+                    Unable to generate response
                 </div>
             </div>
         </div>
