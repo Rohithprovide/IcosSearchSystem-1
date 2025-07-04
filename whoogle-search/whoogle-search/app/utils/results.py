@@ -449,6 +449,15 @@ def get_tabs_content(tabs: dict,
 
         # update href with query
         query = full_query.replace(f'&tbm={search_type}', '')
+        
+        # Remove start parameter to ensure tabs always start from page 1
+        # This fixes the issue where switching tabs inherits page numbers
+        query = re.sub(r'&start=\d+', '', query)
+        query = re.sub(r'start=\d+&?', '', query)
+        
+        # Clean up any double ampersands that might result from parameter removal
+        query = re.sub(r'&+', '&', query)
+        query = query.strip('&')
 
         if tab_content['tbm'] is not None:
             query = f"{query}&tbm={tab_content['tbm']}"

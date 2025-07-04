@@ -80,15 +80,7 @@ function createGoogleStylePagination(currentPage, originalTable, resultsPerPage 
         }
     }
     
-    // Add debugging info (remove later)
-    console.log('Pagination Debug:', {
-        currentPage,
-        resultsPerPage,
-        currentStart: parseInt(new URLSearchParams(window.location.search).get('start')) || 0,
-        isImagesTab: new URLSearchParams(window.location.search).get('tbm') === 'isch',
-        startPage,
-        endPage
-    });
+
     
     // Add "Next" button if available
     const nextLink = links.find(link => 
@@ -167,10 +159,7 @@ function createPageElement(pageNum, currentPage, links, resultsPerPage = 10) {
             this.style.backgroundColor = 'transparent';
         });
         
-        // Add click handler to ensure proper navigation
-        link.addEventListener('click', function(e) {
-            console.log('Navigating to page:', pageNum, 'start:', start);
-        });
+
         
         return link;
     }
@@ -213,10 +202,7 @@ function createNextElement(nextLink, currentPage, resultsPerPage) {
         this.style.backgroundColor = 'transparent';
     });
     
-    // Add click handler for debugging
-    link.addEventListener('click', function(e) {
-        console.log('Next button clicked. Current page:', currentPage, 'Next start:', nextPageStart);
-    });
+
     
     return link;
 }
