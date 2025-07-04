@@ -660,6 +660,7 @@ def ai_query():
             return jsonify({'error': 'No query provided'}), 400
         
         query = data['query']
+        print(f"AI Query received: '{query}'")
         
         # Use direct HTTP API approach (matching your working code)
         import requests
@@ -680,7 +681,7 @@ def ai_query():
         payload = {
             "contents": [{
                 "role": "user",
-                "parts": [{"text": f"Provide a helpful and concise answer to this search query: {query}"}]
+                "parts": [{"text": f"You are an AI assistant integrated into a search engine. Provide a helpful, accurate, and concise answer specifically about: '{query}'. Focus only on answering this exact search query. Do not mention Google Drive, file links, or unrelated topics."}]
             }]
         }
         
