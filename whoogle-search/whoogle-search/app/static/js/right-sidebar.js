@@ -300,6 +300,17 @@ class RightSidebar {
     
     async handleSearchQuery(query) {
         console.log('Search query captured:', query);
+        
+        // Rate limiting: prevent multiple requests for the same query within 10 seconds
+        const now = Date.now();
+        if (this.lastQuery === query && this.lastQueryTime && (now - this.lastQueryTime) < 10000) {
+            console.log('Rate limiting: skipping duplicate query within 10 seconds');
+            return;
+        }
+        
+        this.lastQuery = query;
+        this.lastQueryTime = now;
+        
         await this.sendToAI(query);
     }
     

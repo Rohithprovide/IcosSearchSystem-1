@@ -684,7 +684,7 @@ def ai_query():
         prompt = f"Provide a helpful and concise answer to this search query: {query}"
         
         response = client.models.generate_content(
-            model="gemini-2.5-flash",
+            model="gemini-1.5-flash",  # Use older model to potentially reduce quota usage
             contents=prompt
         )
         
@@ -693,8 +693,16 @@ def ai_query():
         return jsonify({'response': ai_response})
         
     except Exception as e:
+        error_str = str(e)
         print(f"AI query error: {e}")
-        return jsonify({'error': 'Failed to process AI query'}), 500
+        
+        # Handle quota exceeded errors specifically
+        if "429" in error_str or "RESOURCE_EXHAUSTED" in error_str or "quota" in error_str.lower():
+            return jsonify({'response': 'AI service temporarily unavailable due to rate limits. Please try again in a few minutes.'}), 200
+        elif "401" in error_str or "403" in error_str:
+            return jsonify({'response': 'API authentication issue. Please check your API key configuration.'}), 200
+        else:
+            return jsonify({'response': 'AI service temporarily unavailable. Please try again later.'}), 200
 
 
 def run_app() -> None:
