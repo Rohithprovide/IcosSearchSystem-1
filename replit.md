@@ -194,6 +194,12 @@ This repository contains a Whoogle Search deployment wrapper for Replit. Whoogle
   - Verified no remaining infinite scroll code exists in templates or static files
   - Restored standard pagination functionality for image search results
   - Images tab now uses traditional page-by-page navigation instead of continuous scrolling
+- July 4, 2025. Enhanced image grid layout to display 6 images per row:
+  - Updated Jinja2 template logic to change from 4 images per row to 6 images per row
+  - Modified array indexing calculations (i*4)+j to (i*6)+j for proper image rendering
+  - Adjusted CSS image sizes from 110px to 95px for optimal 6-image layout
+  - Updated responsive media queries for different screen sizes (110px, 95px, 90px, 75px, 60px)
+  - Maintained aspect ratios and proper spacing for cleaner grid appearance
 
 ## User Preferences
 
