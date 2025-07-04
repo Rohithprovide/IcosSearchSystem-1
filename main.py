@@ -67,6 +67,7 @@ def run_whoogle():
         'WHOOGLE_CONFIG_SAFE_SEARCH': '0',
         'WHOOGLE_SHOW_FAVICONS': '1',
         'WHOOGLE_CONFIG_STYLE': '.site-favicon { display: inline-block !important; }',
+        'WHOOGLE_RESULTS_PER_PAGE': '30',
         'GOOGLE_API_KEY': api_key
     })
     
