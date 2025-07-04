@@ -230,6 +230,14 @@ This repository contains a Whoogle Search deployment wrapper for Replit. Whoogle
   - Corrected start parameter generation for proper sequential page navigation
   - Enhanced function signatures to pass results per page through pagination chain
   - Pagination now works correctly: All tab (0→10→20) and Images tab (0→100→200)
+- July 4, 2025. Added AI sidebar toggle functionality with microchip icon:
+  - Added microchip icon (fa-solid fa-microchip) to header navigation after News tab
+  - Created CSS styling for toggle icon with hover effects and active states
+  - Implemented JavaScript toggle functionality to show/hide AI sidebar dynamically
+  - AI sidebar starts hidden when page loads and only appears when icon is clicked
+  - Toggle function works with dynamically created sidebar using class selector (.right-sidebar)
+  - Added visual feedback with active state styling when sidebar is open
+  - Functionality works on both desktop and mobile versions of the interface
 
 ## User Preferences
 

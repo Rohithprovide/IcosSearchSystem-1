@@ -201,30 +201,59 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // AI Sidebar Toggle Functionality
 function toggleAISidebar() {
-    const aiSidebar = document.getElementById('ai-sidebar');
+    // Find the right sidebar (it has class 'right-sidebar')
+    const aiSidebar = document.querySelector('.right-sidebar');
     const aiToggleIcon = document.getElementById('ai-toggle') || document.getElementById('ai-toggle-mobile');
     
     if (aiSidebar) {
-        if (aiSidebar.style.display === 'none' || aiSidebar.style.display === '') {
+        if (aiSidebar.style.display === 'none' || window.getComputedStyle(aiSidebar).display === 'none') {
             aiSidebar.style.display = 'block';
+            aiSidebar.style.visibility = 'visible';
             if (aiToggleIcon) {
                 aiToggleIcon.classList.add('active');
             }
         } else {
             aiSidebar.style.display = 'none';
+            aiSidebar.style.visibility = 'hidden';
             if (aiToggleIcon) {
                 aiToggleIcon.classList.remove('active');
             }
         }
+    } else {
+        // If sidebar doesn't exist yet, try to create it or wait for it
+        console.log('Sidebar not found, checking again in 1 second...');
+        setTimeout(() => {
+            const delayedSidebar = document.querySelector('.right-sidebar');
+            if (delayedSidebar) {
+                toggleAISidebar();
+            } else {
+                console.log('No sidebar found to toggle');
+            }
+        }, 1000);
     }
 }
 
 // Initialize AI sidebar as hidden when page loads
-document.addEventListener('DOMContentLoaded', function() {
-    const aiSidebar = document.getElementById('ai-sidebar');
+let sidebarInitialized = false;
+
+function initializeSidebarVisibility() {
+    if (sidebarInitialized) return;
+    
+    const aiSidebar = document.querySelector('.right-sidebar');
     if (aiSidebar) {
         aiSidebar.style.display = 'none';
+        aiSidebar.style.visibility = 'hidden';
+        sidebarInitialized = true;
+        console.log('AI sidebar initialized as hidden');
+    } else {
+        // Keep trying until sidebar is created
+        setTimeout(initializeSidebarVisibility, 500);
     }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Start checking for sidebar after page load
+    setTimeout(initializeSidebarVisibility, 1000);
 });
 </script>
 
