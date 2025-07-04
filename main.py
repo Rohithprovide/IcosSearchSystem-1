@@ -50,6 +50,12 @@ def run_whoogle():
     
     # Set environment variables for Replit
     env = os.environ.copy()
+    
+    # Debug the API key
+    api_key = os.getenv('GOOGLE_API_KEY', '')
+    print(f"Main.py - API key found: {api_key is not None and len(api_key) > 0}")
+    print(f"Main.py - API key length: {len(api_key) if api_key else 0}")
+    
     env.update({
         'WHOOGLE_HOST': '0.0.0.0',
         'WHOOGLE_PORT': '5000',
@@ -61,7 +67,7 @@ def run_whoogle():
         'WHOOGLE_CONFIG_SAFE_SEARCH': '0',
         'WHOOGLE_SHOW_FAVICONS': '1',
         'WHOOGLE_CONFIG_STYLE': '.site-favicon { display: inline-block !important; }',
-        'GOOGLE_API_KEY': os.getenv('GOOGLE_API_KEY', '')
+        'GOOGLE_API_KEY': api_key
     })
     
     try:
