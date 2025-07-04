@@ -233,28 +233,8 @@ function toggleAISidebar() {
     }
 }
 
-// Initialize AI sidebar as hidden when page loads
-let sidebarInitialized = false;
-
-function initializeSidebarVisibility() {
-    if (sidebarInitialized) return;
-    
-    const aiSidebar = document.querySelector('.right-sidebar');
-    if (aiSidebar) {
-        aiSidebar.style.display = 'none';
-        aiSidebar.style.visibility = 'hidden';
-        sidebarInitialized = true;
-        console.log('AI sidebar initialized as hidden');
-    } else {
-        // Keep trying until sidebar is created
-        setTimeout(initializeSidebarVisibility, 500);
-    }
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    // Start checking for sidebar after page load
-    setTimeout(initializeSidebarVisibility, 1000);
-});
+// AI sidebar now starts hidden by default when created
+// No additional initialization needed
 </script>
 
 <script type="text/javascript" src="{{ cb_url('header.js') }}"></script>

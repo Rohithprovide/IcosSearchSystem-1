@@ -122,6 +122,10 @@ class RightSidebar {
         // Create the sidebar
         const sidebar = document.createElement('div');
         sidebar.className = 'right-sidebar';
+        sidebar.style.cssText = `
+            display: none !important;
+            visibility: hidden !important;
+        `;
         sidebar.innerHTML = `
             <div class="sidebar-content">
                 <div style="font-size: 16px; font-weight: 500; margin-bottom: 10px; color: var(--whoogle-text);">Quick Info</div>
@@ -215,6 +219,8 @@ class RightSidebar {
             height: calc(100vh - ${topPosition + 40}px) !important;
             z-index: 1000 !important;
             overflow-y: auto !important;
+            display: none !important;
+            visibility: hidden !important;
         `;
         sidebar.innerHTML = `
             <div class="ai-overview-container">
