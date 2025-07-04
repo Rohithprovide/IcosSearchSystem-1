@@ -26,7 +26,12 @@ class RightSidebar {
                         <div class="dot"></div>
                     </div>
                 </div>
-                <div class="ai-content" style="display: none;"></div>
+                <div class="ai-content" style="display: none;">
+                    <div class="query-display" style="margin-bottom: 10px; padding: 8px; background: #f8f9fa; border-radius: 6px; font-size: 12px; color: #666;">
+                        <strong>Query:</strong> <span class="query-text"></span>
+                    </div>
+                    <div class="response-text"></div>
+                </div>
             `;
         }
         
@@ -196,7 +201,12 @@ class RightSidebar {
                         </div>
                     </div>
                     <div class="ai-response" id="ai-response" style="display: none;">
-                        <!-- AI response will be inserted here -->
+                        <div class="query-display" style="margin-bottom: 10px; padding: 8px; background: #f8f9fa; border-radius: 6px; font-size: 12px; color: #666;">
+                            <strong>Query:</strong> <span class="query-text" id="query-text"></span>
+                        </div>
+                        <div id="response-content" class="response-text">
+                            <!-- AI response will be inserted here -->
+                        </div>
                     </div>
                     <div class="error-state" id="error-state" style="display: none;">
                         Unable to generate response
@@ -374,6 +384,12 @@ class RightSidebar {
         const loadingState = document.getElementById('loading-state');
         const aiResponse = document.getElementById('ai-response');
         const errorState = document.getElementById('error-state');
+        const queryText = document.getElementById('query-text');
+        
+        // Display the query first
+        if (queryText) {
+            queryText.textContent = query;
+        }
         
         // Hide previous states
         if (aiResponse) aiResponse.style.display = 'none';
@@ -412,13 +428,14 @@ class RightSidebar {
     
     showAIResponse(response) {
         const aiResponse = document.getElementById('ai-response');
-        if (!aiResponse) return;
+        const responseContent = document.getElementById('response-content');
+        if (!aiResponse || !responseContent) return;
         
         // Format the response into paragraphs
         const paragraphs = response.split('\n').filter(p => p.trim());
         const formattedResponse = paragraphs.map(p => `<p>${this.escapeHtml(p)}</p>`).join('');
         
-        aiResponse.innerHTML = formattedResponse;
+        responseContent.innerHTML = formattedResponse;
         aiResponse.style.display = 'block';
     }
     
