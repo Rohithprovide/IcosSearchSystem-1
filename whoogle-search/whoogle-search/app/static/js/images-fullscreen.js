@@ -167,12 +167,13 @@ class ImagesFullscreenHandler {
     
     getOptimalImageSize() {
         const screenWidth = window.innerWidth;
-        if (screenWidth >= 1920) return 220;
-        if (screenWidth >= 1400) return 200;
-        if (screenWidth >= 1024) return 180;
-        if (screenWidth >= 768) return 160;
-        if (screenWidth >= 480) return 140;
-        return 120;
+        // Reduced sizes to fit 6-7 images per row without stretching
+        if (screenWidth >= 1920) return 160;  // ~6-7 images per row
+        if (screenWidth >= 1400) return 140;  // ~6 images per row
+        if (screenWidth >= 1024) return 120;  // ~5-6 images per row
+        if (screenWidth >= 768) return 100;   // ~4-5 images per row
+        if (screenWidth >= 480) return 80;    // ~3-4 images per row
+        return 60;                            // ~2-3 images per row
     }
 
     monitorTabChanges() {

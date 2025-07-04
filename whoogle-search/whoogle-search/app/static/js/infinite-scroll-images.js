@@ -348,7 +348,56 @@ class InfiniteScrollImages {
             </div>
         `;
         
+        // Apply image optimization for quality preservation and proper sizing
+        this.optimizeImageCell(cell);
+        
         return cell;
+    }
+    
+    optimizeImageCell(cell) {
+        // Apply the same optimization as in images-fullscreen.js
+        const imageContainer = cell.querySelector('.RAyV4b');
+        const image = cell.querySelector('.t0fcAb');
+        
+        if (imageContainer && image) {
+            // Get optimal size for current screen
+            const maxSize = this.getOptimalImageSize();
+            
+            // Preserve original aspect ratio and reduce artificial sizing
+            image.style.width = 'auto';
+            image.style.height = 'auto';
+            image.style.maxWidth = maxSize + 'px';
+            image.style.maxHeight = maxSize + 'px';
+            image.style.objectFit = 'contain';
+            
+            imageContainer.style.width = 'auto';
+            imageContainer.style.height = 'auto';
+            imageContainer.style.maxWidth = maxSize + 'px';
+            imageContainer.style.maxHeight = maxSize + 'px';
+            imageContainer.style.lineHeight = 'normal';
+            imageContainer.style.overflow = 'visible';
+            imageContainer.style.display = 'flex';
+            imageContainer.style.alignItems = 'center';
+            imageContainer.style.justifyContent = 'center';
+            
+            // Reduce spacing between images
+            cell.style.padding = '4px';
+            cell.style.margin = '0';
+            cell.style.width = 'auto';
+            cell.style.height = 'auto';
+            cell.style.flex = '0 0 auto';
+        }
+    }
+    
+    getOptimalImageSize() {
+        const screenWidth = window.innerWidth;
+        // Same sizing logic as images-fullscreen.js
+        if (screenWidth >= 1920) return 160;  // ~6-7 images per row
+        if (screenWidth >= 1400) return 140;  // ~6 images per row
+        if (screenWidth >= 1024) return 120;  // ~5-6 images per row
+        if (screenWidth >= 768) return 100;   // ~4-5 images per row
+        if (screenWidth >= 480) return 80;    // ~3-4 images per row
+        return 60;                            // ~2-3 images per row
     }
 
     getImagesContainer() {
