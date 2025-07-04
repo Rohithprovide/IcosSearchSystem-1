@@ -241,6 +241,8 @@ This repository contains a Whoogle Search deployment wrapper for Replit. Whoogle
   - Fixed CSS conflicts by removing forced display:block rules that prevented hiding
   - Removed automatic sidebar initialization to ensure sidebar stays hidden until toggled
   - Updated CSS to use 'visible' class for proper show/hide control via toggle button
+  - Restored Google-style AI Overview interface with proper header and Gemini logo
+  - Fixed sidebar content to show proper AI Overview layout instead of basic placeholder
 
 ## User Preferences
 

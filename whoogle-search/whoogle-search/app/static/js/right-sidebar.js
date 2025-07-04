@@ -127,13 +127,32 @@ class RightSidebar {
             visibility: hidden !important;
         `;
         sidebar.innerHTML = `
-            <div class="sidebar-content">
-                <div style="font-size: 16px; font-weight: 500; margin-bottom: 10px; color: var(--whoogle-text);">Quick Info</div>
-                <div style="color: var(--whoogle-text); font-size: 14px; line-height: 1.4;">
-                    <p>Enhanced search experience</p>
-                    <div style="margin-top: 15px; padding: 10px; background: var(--whoogle-element-bg); border-radius: 8px;">
-                        <div style="font-weight: 500; margin-bottom: 5px;">Search Tools</div>
-                        <div style="font-size: 13px; opacity: 0.8;">Quick access panel for enhanced functionality</div>
+            <div class="ai-overview-container">
+                <div class="ai-overview-header">
+                    <h3>
+                        <span class="gemini-logo">G</span>
+                        AI Overview
+                    </h3>
+                </div>
+                <div class="ai-overview-content" id="ai-overview-content">
+                    <div class="loading-state" id="loading-state" style="display: none;">
+                        <div>Loading...</div>
+                        <div class="loading-dots">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                    </div>
+                    <div class="ai-response" id="ai-response" style="display: none;">
+                        <div class="query-display" style="margin-bottom: 10px; padding: 8px; background: #f8f9fa; border-radius: 6px; font-size: 12px; color: #666;">
+                            <strong>Query:</strong> <span class="query-text" id="query-text"></span>
+                        </div>
+                        <div id="response-content" class="response-text">
+                            <!-- AI response will be inserted here -->
+                        </div>
+                    </div>
+                    <div class="error-state" id="error-state" style="display: none;">
+                        Unable to generate response
                     </div>
                 </div>
             </div>
@@ -224,6 +243,12 @@ class RightSidebar {
         `;
         sidebar.innerHTML = `
             <div class="ai-overview-container">
+                <div class="ai-overview-header">
+                    <h3>
+                        <span class="gemini-logo">G</span>
+                        AI Overview
+                    </h3>
+                </div>
                 <div class="ai-overview-content" id="ai-overview-content">
                     <div class="loading-state" id="loading-state" style="display: none;">
                         <div>Loading...</div>
@@ -618,6 +643,12 @@ function forceCreateSidebar() {
     
     sidebar.innerHTML = `
         <div class="ai-overview-container">
+            <div class="ai-overview-header">
+                <h3>
+                    <span class="gemini-logo">G</span>
+                    AI Overview
+                </h3>
+            </div>
             <div class="ai-overview-content" id="ai-overview-content">
                 <div class="loading-state" id="loading-state" style="display: none;">
                     <div>Loading...</div>
