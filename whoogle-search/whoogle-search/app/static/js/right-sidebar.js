@@ -49,16 +49,43 @@ class RightSidebar {
         const hasSearchPath = window.location.pathname === '/search';
         const hasQueryParam = window.location.search.includes('q=');
         
+        // Check if we're on the "All" tab (not on Images, Maps, Videos, News tabs)
+        const isAllTab = this.isAllTab();
+        
         console.log('Right Sidebar: Checking page type:', {
             hasMain,
             hasMainColumn,
             hasSearchPath,
             hasQueryParam,
+            isAllTab,
             pathname: window.location.pathname,
             search: window.location.search
         });
         
-        return hasMain || hasMainColumn || hasSearchPath || hasQueryParam;
+        return (hasMain || hasMainColumn || hasSearchPath || hasQueryParam) && isAllTab;
+    }
+    
+    isAllTab() {
+        // Check if we're on the "All" tab by examining URL parameters and active tab state
+        const urlParams = new URLSearchParams(window.location.search);
+        const tbm = urlParams.get('tbm'); // tbm parameter indicates the tab type
+        
+        // If tbm is null or empty, we're on the "All" tab
+        // tbm=isch (Images), tbm=vid (Videos), tbm=nws (News), tbm=map (Maps)
+        const isAllTab = !tbm || tbm === '';
+        
+        // Also check for active tab in the DOM
+        const activeTab = document.querySelector('.header-tab.active, .tab.active, [aria-selected="true"]');
+        const isAllTabActive = activeTab && (activeTab.textContent.toLowerCase().includes('all') || activeTab.getAttribute('data-tab') === 'all');
+        
+        console.log('Right Sidebar: Tab detection:', {
+            tbm,
+            isAllTab,
+            activeTab: activeTab ? activeTab.textContent : null,
+            isAllTabActive
+        });
+        
+        return isAllTab || isAllTabActive;
     }
     
     createSidebar() {
@@ -269,7 +296,52 @@ class RightSidebar {
         // Add navigation monitoring to clear content on page changes
         this.setupNavigationMonitoring();
         
+        // Monitor tab changes to hide sidebar on non-All tabs
+        this.setupTabMonitoring();
+        
         console.log('Right Sidebar: Chat functionality initialized');
+    }
+    
+    setupTabMonitoring() {
+        // Monitor clicks on header tabs to hide sidebar when not on "All" tab
+        document.addEventListener('click', (e) => {
+            const target = e.target;
+            
+            // Check if clicked element is a tab link
+            if (target.closest('a[href*="tbm="]') || target.closest('[data-tab]')) {
+                console.log('Tab click detected, checking if sidebar should be hidden');
+                
+                // Delay check to allow URL to update
+                setTimeout(() => {
+                    if (!this.isAllTab()) {
+                        this.hideSidebar();
+                        console.log('Sidebar hidden - not on All tab');
+                    }
+                }, 100);
+            }
+        });
+        
+        // Also monitor URL changes directly
+        let currentUrl = window.location.href;
+        setInterval(() => {
+            if (window.location.href !== currentUrl) {
+                currentUrl = window.location.href;
+                
+                if (!this.isAllTab()) {
+                    this.hideSidebar();
+                    console.log('Sidebar hidden due to URL change - not on All tab');
+                }
+            }
+        }, 200);
+    }
+    
+    hideSidebar() {
+        // Remove all existing sidebars
+        const sidebars = document.querySelectorAll('.right-sidebar, .standalone-sidebar, [id*="sidebar"]');
+        sidebars.forEach(sidebar => {
+            sidebar.remove();
+            console.log('Removed sidebar element');
+        });
     }
     
     setupNavigationMonitoring() {
@@ -481,9 +553,22 @@ class RightSidebar {
     }
 }
 
+// Global function to check if we're on the All tab
+function isAllTabGlobal() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const tbm = urlParams.get('tbm');
+    return !tbm || tbm === '';
+}
+
 // FORCE sidebar creation - more aggressive approach
 function forceCreateSidebar() {
     console.log('FORCE CREATE SIDEBAR: Starting forced creation');
+    
+    // Check if we're on the "All" tab before creating sidebar
+    if (!isAllTabGlobal()) {
+        console.log('FORCE CREATE SIDEBAR: Not on All tab, skipping sidebar creation');
+        return null;
+    }
     
     // Remove ALL existing sidebars
     document.querySelectorAll('.right-sidebar, .standalone-sidebar, [id*="sidebar"]').forEach(el => {

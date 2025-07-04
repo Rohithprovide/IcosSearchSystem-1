@@ -166,6 +166,15 @@ This repository contains a Whoogle Search deployment wrapper for Replit. Whoogle
   - Updated API configuration to use GOOGLE_API_KEY instead of GEMINI_API_KEY
   - Enhanced search query capture with multiple methods: form submission, button clicks, Enter key
   - AI responses now display in Google's signature left-border style with proper typography
+- July 4, 2025. Fixed AI sidebar empty div issue and restricted to All tab only:
+  - Fixed JavaScript structure mismatch between HTML creation and element access
+  - Added proper response-content div to sidebar HTML structure
+  - Configured API key integration with environment variable fallback system
+  - Added comprehensive debugging logs for API response tracking
+  - Implemented tab detection to show AI sidebar only on "All" search tab
+  - Added automatic sidebar hiding when users navigate to Images, Maps, Videos, or News tabs
+  - Enhanced tab monitoring system with URL change detection and click event handling
+  - Sidebar now properly displays rate limit messages when API quota is exceeded
 
 ## User Preferences
 
