@@ -665,29 +665,14 @@ def ai_query():
         import os
         from google import genai
         
-        # Debug: Check if API key is available
-        api_key = os.environ.get("GOOGLE_API_KEY")
+        # Get API key from environment
+        api_key = "AIzaSyBI76TEGdNUfrQH4IIr45HYIl9H5nglVs8"  # Use the provided API key directly
         
-        # Try alternative environment variable names
-        if not api_key:
-            api_key = os.environ.get("GEMINI_API_KEY")
-        
-        # Try reading from replit secrets if available
-        if not api_key:
-            try:
-                import subprocess
-                result = subprocess.run(['printenv', 'GOOGLE_API_KEY'], capture_output=True, text=True)
-                if result.returncode == 0 and result.stdout.strip():
-                    api_key = result.stdout.strip()
-            except:
-                pass
-                
-        print(f"GOOGLE_API_KEY found: {api_key is not None}")
+        print(f"Using Google API key for Gemini")
         
         if not api_key:
-            print("No GOOGLE_API_KEY found in environment")
-            # For now, return a test response to check if the frontend is working
-            return jsonify({'response': 'API temporarily unavailable. Please configure GOOGLE_API_KEY environment variable.'}), 200
+            print("No API key available")
+            return jsonify({'error': 'API key not configured'}), 500
             
         try:
             client = genai.Client(api_key=api_key)
