@@ -391,13 +391,13 @@ class InfiniteScrollImages {
     
     getOptimalImageSize() {
         const screenWidth = window.innerWidth;
-        // Same sizing logic as images-fullscreen.js
-        if (screenWidth >= 1920) return 160;  // ~6-7 images per row
-        if (screenWidth >= 1400) return 140;  // ~6 images per row
-        if (screenWidth >= 1024) return 120;  // ~5-6 images per row
-        if (screenWidth >= 768) return 100;   // ~4-5 images per row
-        if (screenWidth >= 480) return 80;    // ~3-4 images per row
-        return 60;                            // ~2-3 images per row
+        // Same sizing logic as images-fullscreen.js - smaller for 6-7 images per row
+        if (screenWidth >= 1920) return 120;  // ~7-8 images per row
+        if (screenWidth >= 1400) return 110;  // ~6-7 images per row
+        if (screenWidth >= 1024) return 100;  // ~6 images per row
+        if (screenWidth >= 768) return 90;    // ~5 images per row
+        if (screenWidth >= 480) return 70;    // ~4 images per row
+        return 50;                            // ~3 images per row
     }
 
     getImagesContainer() {
