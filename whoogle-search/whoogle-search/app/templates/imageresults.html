@@ -171,6 +171,51 @@
     a img {
       border: 0;
     }
+    
+    /* Apply rounded corners and hover effects to all images */
+    img {
+      border-radius: 8px !important;
+      transition: all 0.2s ease !important;
+    }
+    
+    img:hover {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+      transform: translateY(-2px) !important;
+    }
+    
+    /* Specific targeting for image search results */
+    body[data-images-fullscreen="true"] img,
+    body.images-tab img,
+    .isv-r img,
+    .ivg-i img,
+    div[data-ved] img,
+    div[jsname] img {
+      border-radius: 8px !important;
+      transition: all 0.2s ease !important;
+    }
+    
+    body[data-images-fullscreen="true"] img:hover,
+    body.images-tab img:hover,
+    .isv-r img:hover,
+    .ivg-i img:hover,
+    div[data-ved] img:hover,
+    div[jsname] img:hover {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+      transform: translateY(-2px) !important;
+    }
+    
+    /* Target images within table cells */
+    td img,
+    .e3goi img {
+      border-radius: 8px !important;
+      transition: all 0.2s ease !important;
+    }
+    
+    td img:hover,
+    .e3goi img:hover {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+      transform: translateY(-2px) !important;
+    }
 
     .FbhRzb {
       border-left: thin solid #dadce0;
