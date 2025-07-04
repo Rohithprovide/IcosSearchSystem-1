@@ -88,18 +88,57 @@ class ImagesFullscreenHandler {
         }
         
         console.log('ImagesFullscreenHandler: Applied direct styles for full screen layout');
+        
+        // Force rebuild of image grid with proper columns
+        this.rebuildImageGrid();
+    }
+    
+    rebuildImageGrid() {
+        const imageTable = document.querySelector('.GpQGbf');
+        if (!imageTable) return;
+        
+        // Get all existing image cells
+        const imageCells = Array.from(imageTable.querySelectorAll('td.e3goi'));
+        if (imageCells.length === 0) return;
+        
+        // Calculate images per row based on screen size
+        const screenWidth = window.innerWidth;
+        let imagesPerRow;
+        if (screenWidth >= 1920) imagesPerRow = 7;
+        else if (screenWidth >= 1400) imagesPerRow = 6;
+        else if (screenWidth >= 1024) imagesPerRow = 5;
+        else if (screenWidth >= 768) imagesPerRow = 4;
+        else if (screenWidth >= 480) imagesPerRow = 3;
+        else imagesPerRow = 2;
+        
+        // Clear existing table rows
+        imageTable.innerHTML = '';
+        
+        // Rebuild with proper number of columns
+        for (let i = 0; i < imageCells.length; i += imagesPerRow) {
+            const row = document.createElement('tr');
+            
+            for (let j = 0; j < imagesPerRow && (i + j) < imageCells.length; j++) {
+                const cell = imageCells[i + j].cloneNode(true);
+                row.appendChild(cell);
+            }
+            
+            imageTable.appendChild(row);
+        }
+        
+        console.log('ImagesFullscreenHandler: Rebuilt image grid with', imagesPerRow, 'images per row');
     }
 
     monitorTabChanges() {
-        // Monitor clicks on navigation tabs
-        const navTabs = document.querySelectorAll('a[href*="tbm="], a[href*="search?"], .header-tab-div a');
-        
-        navTabs.forEach(tab => {
-            tab.addEventListener('click', () => {
+        // Monitor clicks on navigation tabs - be more specific about Images tab
+        document.addEventListener('click', (event) => {
+            const target = event.target.closest('a');
+            if (target && (target.href.includes('tbm=isch') || target.textContent.includes('Images'))) {
+                console.log('ImagesFullscreenHandler: Images tab clicked, applying layout');
                 setTimeout(() => {
                     this.checkAndApplyImagesLayout();
-                }, 100);
-            });
+                }, 200);
+            }
         });
 
         // Monitor URL changes for single page navigation
@@ -107,6 +146,7 @@ class ImagesFullscreenHandler {
         const urlObserver = new MutationObserver(() => {
             if (currentUrl !== window.location.href) {
                 currentUrl = window.location.href;
+                console.log('ImagesFullscreenHandler: URL changed, checking layout');
                 this.checkAndApplyImagesLayout();
             }
         });
@@ -120,7 +160,14 @@ class ImagesFullscreenHandler {
         window.addEventListener('popstate', () => {
             setTimeout(() => {
                 this.checkAndApplyImagesLayout();
-            }, 100);
+            }, 200);
+        });
+        
+        // Monitor window resize to rebuild grid
+        window.addEventListener('resize', () => {
+            if (document.body.classList.contains('images-tab')) {
+                this.rebuildImageGrid();
+            }
         });
     }
 }

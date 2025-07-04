@@ -192,15 +192,17 @@ class InfiniteScrollImages {
 
     calculateImagesPerRow() {
         // Check if fullscreen images layout is active
-        const isFullscreen = document.body.classList.contains('images-tab');
+        const isFullscreen = document.body.classList.contains('images-tab') || 
+                            document.body.hasAttribute('data-images-fullscreen');
         
         if (isFullscreen) {
             // In fullscreen mode, use more images per row based on screen size
             const screenWidth = window.innerWidth;
-            if (screenWidth >= 1920) return 6;  // Large screens
-            if (screenWidth >= 1400) return 5;  // Medium-large screens
-            if (screenWidth >= 1024) return 4;  // Medium screens
-            if (screenWidth >= 768) return 3;   // Small screens
+            if (screenWidth >= 1920) return 7;  // Very large screens
+            if (screenWidth >= 1400) return 6;  // Large screens
+            if (screenWidth >= 1024) return 5;  // Medium-large screens
+            if (screenWidth >= 768) return 4;   // Medium screens
+            if (screenWidth >= 480) return 3;   // Small screens
             return 2;  // Mobile
         } else {
             // Original layout - 4 images per row

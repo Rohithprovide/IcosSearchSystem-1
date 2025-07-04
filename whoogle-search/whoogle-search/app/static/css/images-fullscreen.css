@@ -103,31 +103,52 @@ body.images-tab .GpQGbf {
 }
 
 /* Adjust image cells to fill screen width better - responsive layout */
-body.images-tab .e3goi {
+body.images-tab .e3goi,
+body[data-images-fullscreen="true"] .e3goi {
     width: 16.66% !important;
     max-width: 16.66% !important;
-    padding: 4px !important;
+    padding: 2px !important;
     box-sizing: border-box !important;
+    margin: 0 !important;
 }
 
 /* Responsive image cell widths for different screen sizes */
-@media (max-width: 1919px) {
-    body.images-tab .e3goi {
-        width: 20% !important;
+@media (min-width: 1920px) {
+    body.images-tab .e3goi,
+    body[data-images-fullscreen="true"] .e3goi {
+        width: 14.28% !important; /* 7 images per row */
+        max-width: 14.28% !important;
+    }
+}
+
+@media (max-width: 1919px) and (min-width: 1400px) {
+    body.images-tab .e3goi,
+    body[data-images-fullscreen="true"] .e3goi {
+        width: 16.66% !important; /* 6 images per row */
+        max-width: 16.66% !important;
+    }
+}
+
+@media (max-width: 1399px) and (min-width: 1024px) {
+    body.images-tab .e3goi,
+    body[data-images-fullscreen="true"] .e3goi {
+        width: 20% !important; /* 5 images per row */
         max-width: 20% !important;
     }
 }
 
-@media (max-width: 1399px) {
-    body.images-tab .e3goi {
-        width: 25% !important;
+@media (max-width: 1023px) and (min-width: 768px) {
+    body.images-tab .e3goi,
+    body[data-images-fullscreen="true"] .e3goi {
+        width: 25% !important; /* 4 images per row */
         max-width: 25% !important;
     }
 }
 
-@media (max-width: 1023px) {
-    body.images-tab .e3goi {
-        width: 33.33% !important;
+@media (max-width: 767px) and (min-width: 480px) {
+    body.images-tab .e3goi,
+    body[data-images-fullscreen="true"] .e3goi {
+        width: 33.33% !important; /* 3 images per row */
         max-width: 33.33% !important;
     }
 }
