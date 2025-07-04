@@ -47,6 +47,7 @@
                                 <a class="header-tab-a" href="{{ tab_content['href'] }}">{{ tab_content['name'] }}</a>
                             {% endif %}
                         {% endfor %}
+                      <i class="fa-solid fa-microchip ai-toggle-icon" id="ai-toggle-mobile" onclick="toggleAISidebar()"></i>
                       <input id="adv-search-toggle" type="checkbox">
                         <div class="header-tab-div-end"></div>
                     </div>
@@ -114,6 +115,7 @@
                               <a class="header-tab-a" href="{{ tab_content['href'] }}">{{ tab_content['name'] }}</a>
                           {% endif %}
                       {% endfor %}
+                      <i class="fa-solid fa-microchip ai-toggle-icon" id="ai-toggle" onclick="toggleAISidebar()"></i>
                       <input id="adv-search-toggle" type="checkbox">
                       <div class="header-tab-div-end"></div>
                   </div>
@@ -194,6 +196,34 @@ document.addEventListener('DOMContentLoaded', function() {
                 clearIcon.style.display = 'block';
             }
         });
+    }
+});
+
+// AI Sidebar Toggle Functionality
+function toggleAISidebar() {
+    const aiSidebar = document.getElementById('ai-sidebar');
+    const aiToggleIcon = document.getElementById('ai-toggle') || document.getElementById('ai-toggle-mobile');
+    
+    if (aiSidebar) {
+        if (aiSidebar.style.display === 'none' || aiSidebar.style.display === '') {
+            aiSidebar.style.display = 'block';
+            if (aiToggleIcon) {
+                aiToggleIcon.classList.add('active');
+            }
+        } else {
+            aiSidebar.style.display = 'none';
+            if (aiToggleIcon) {
+                aiToggleIcon.classList.remove('active');
+            }
+        }
+    }
+}
+
+// Initialize AI sidebar as hidden when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    const aiSidebar = document.getElementById('ai-sidebar');
+    if (aiSidebar) {
+        aiSidebar.style.display = 'none';
     }
 });
 </script>
