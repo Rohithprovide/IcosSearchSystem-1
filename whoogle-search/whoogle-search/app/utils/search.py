@@ -152,13 +152,18 @@ class Search:
                       # and self.config.view_image
                       # and not g.user_request.mobile)
 
-        get_body = g.user_request.send(query=full_query,
-                                       force_mobile=self.config.view_image,
-                                       user_agent=self.user_agent)
+        # For image searches, fetch multiple pages to get 100 images
+        if 'tbm=isch' in full_query and 'start=' not in full_query:
+            combined_html = self._fetch_multiple_image_pages(full_query)
+            html_soup = bsoup(combined_html, 'html.parser')
+        else:
+            get_body = g.user_request.send(query=full_query,
+                                           force_mobile=self.config.view_image,
+                                           user_agent=self.user_agent)
 
-        # Produce cleanable html soup from response
-        get_body_safed = get_body.text.replace("&lt;","andlt;").replace("&gt;","andgt;")
-        html_soup = bsoup(get_body_safed, 'html.parser')
+            # Produce cleanable html soup from response
+            get_body_safed = get_body.text.replace("&lt;","andlt;").replace("&gt;","andgt;")
+            html_soup = bsoup(get_body_safed, 'html.parser')
 
         # Replace current soup if view_image is active
         # FIXME: Broken since the user agent changes as of 16 Jan 2025
@@ -190,4 +195,62 @@ class Search:
             link['href'] += param_str
 
         return str(formatted_results)
+
+    def _fetch_multiple_image_pages(self, base_query):
+        """Fetch multiple pages of image results and combine them"""
+        all_image_results = []
+        
+        # Fetch 5 pages (20 images each = 100 total)
+        for page in range(5):
+            start_index = page * 20
+            page_query = base_query + f"&start={start_index}"
+            
+            try:
+                page_response = g.user_request.send(query=page_query,
+                                                   force_mobile=self.config.view_image,
+                                                   user_agent=self.user_agent)
+                
+                # Clean the response
+                page_body_safed = page_response.text.replace("&lt;","andlt;").replace("&gt;","andgt;")
+                page_soup = bsoup(page_body_safed, 'html.parser')
+                
+                # Extract image results from this page
+                image_containers = page_soup.find_all('div', class_='isv-r')
+                all_image_results.extend(image_containers)
+                
+                # If we got fewer than 20 results, we've reached the end
+                if len(image_containers) < 20:
+                    break
+                    
+            except Exception as e:
+                # If a page fails, continue with what we have
+                break
+        
+        # Create a new soup with all combined results
+        if all_image_results:
+            # Get the base structure from the first page
+            first_page_response = g.user_request.send(query=base_query,
+                                                     force_mobile=self.config.view_image,
+                                                     user_agent=self.user_agent)
+            first_page_body = first_page_response.text.replace("&lt;","andlt;").replace("&gt;","andgt;")
+            combined_soup = bsoup(first_page_body, 'html.parser')
+            
+            # Find the main image results container
+            main_container = combined_soup.find('div', {'id': 'islmp'})
+            if main_container:
+                # Clear existing results
+                for existing in main_container.find_all('div', class_='isv-r'):
+                    existing.decompose()
+                
+                # Add all collected results
+                for result in all_image_results:
+                    main_container.append(result)
+            
+            return str(combined_soup)
+        else:
+            # Fallback to single page if something went wrong
+            response = g.user_request.send(query=base_query,
+                                          force_mobile=self.config.view_image,
+                                          user_agent=self.user_agent)
+            return response.text.replace("&lt;","andlt;").replace("&gt;","andgt;")
 
