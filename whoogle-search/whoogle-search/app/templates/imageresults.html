@@ -30,43 +30,103 @@
       max-width: 100% !important;
     }
     
-    /* Make image cells responsive */
-    body.images-tab .e3goi,
-    body[data-images-fullscreen="true"] .e3goi {
+    /* Replace table layout with flexible grid */
+    body.images-tab .GpQGbf,
+    body[data-images-fullscreen="true"] .GpQGbf {
+      display: block !important;
       width: 100% !important;
       max-width: 100% !important;
-      padding: 2px !important;
+      border-collapse: initial !important;
+      border-spacing: initial !important;
+    }
+    
+    /* Convert rows to flexible containers */
+    body.images-tab .GpQGbf tr,
+    body[data-images-fullscreen="true"] .GpQGbf tr {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      gap: 8px !important;
+      margin-bottom: 8px !important;
+    }
+    
+    /* Make image cells flexible without fixed width */
+    body.images-tab .e3goi,
+    body[data-images-fullscreen="true"] .e3goi {
+      flex: 0 0 auto !important;
+      width: auto !important;
+      max-width: none !important;
+      padding: 0 !important;
       box-sizing: border-box !important;
+      height: auto !important;
+      vertical-align: top !important;
     }
     
-    /* Responsive widths */
+    /* Preserve image aspect ratios */
+    body.images-tab .t0fcAb,
+    body[data-images-fullscreen="true"] .t0fcAb {
+      width: auto !important;
+      height: auto !important;
+      max-width: 200px !important;
+      max-height: 200px !important;
+      object-fit: contain !important;
+    }
+    
+    /* Adjust image containers */
+    body.images-tab .RAyV4b,
+    body[data-images-fullscreen="true"] .RAyV4b {
+      width: auto !important;
+      height: auto !important;
+      max-width: 200px !important;
+      max-height: 200px !important;
+      line-height: normal !important;
+      overflow: visible !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+    
+    /* Responsive image sizing */
     @media (min-width: 1920px) {
-      body.images-tab .e3goi, body[data-images-fullscreen="true"] .e3goi {
-        width: 14.28% !important; /* 7 images per row */
+      body.images-tab .t0fcAb, body[data-images-fullscreen="true"] .t0fcAb {
+        max-width: 250px !important;
+        max-height: 250px !important;
       }
-    }
-    
-    @media (max-width: 1399px) {
-      body.images-tab .e3goi, body[data-images-fullscreen="true"] .e3goi {
-        width: 20% !important; /* 5 images per row */
+      body.images-tab .RAyV4b, body[data-images-fullscreen="true"] .RAyV4b {
+        max-width: 250px !important;
+        max-height: 250px !important;
       }
     }
     
     @media (max-width: 1023px) {
-      body.images-tab .e3goi, body[data-images-fullscreen="true"] .e3goi {
-        width: 25% !important; /* 4 images per row */
+      body.images-tab .t0fcAb, body[data-images-fullscreen="true"] .t0fcAb {
+        max-width: 180px !important;
+        max-height: 180px !important;
+      }
+      body.images-tab .RAyV4b, body[data-images-fullscreen="true"] .RAyV4b {
+        max-width: 180px !important;
+        max-height: 180px !important;
       }
     }
     
     @media (max-width: 767px) {
-      body.images-tab .e3goi, body[data-images-fullscreen="true"] .e3goi {
-        width: 33.33% !important; /* 3 images per row */
+      body.images-tab .t0fcAb, body[data-images-fullscreen="true"] .t0fcAb {
+        max-width: 150px !important;
+        max-height: 150px !important;
+      }
+      body.images-tab .RAyV4b, body[data-images-fullscreen="true"] .RAyV4b {
+        max-width: 150px !important;
+        max-height: 150px !important;
       }
     }
     
     @media (max-width: 479px) {
-      body.images-tab .e3goi, body[data-images-fullscreen="true"] .e3goi {
-        width: 50% !important; /* 2 images per row */
+      body.images-tab .t0fcAb, body[data-images-fullscreen="true"] .t0fcAb {
+        max-width: 120px !important;
+        max-height: 120px !important;
+      }
+      body.images-tab .RAyV4b, body[data-images-fullscreen="true"] .RAyV4b {
+        max-width: 120px !important;
+        max-height: 120px !important;
       }
     }
     a {

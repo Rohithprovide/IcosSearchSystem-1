@@ -101,32 +101,78 @@ class ImagesFullscreenHandler {
         const imageCells = Array.from(imageTable.querySelectorAll('td.e3goi'));
         if (imageCells.length === 0) return;
         
-        // Calculate images per row based on screen size
-        const screenWidth = window.innerWidth;
-        let imagesPerRow;
-        if (screenWidth >= 1920) imagesPerRow = 7;
-        else if (screenWidth >= 1400) imagesPerRow = 6;
-        else if (screenWidth >= 1024) imagesPerRow = 5;
-        else if (screenWidth >= 768) imagesPerRow = 4;
-        else if (screenWidth >= 480) imagesPerRow = 3;
-        else imagesPerRow = 2;
+        console.log('ImagesFullscreenHandler: Optimizing', imageCells.length, 'images for quality and spacing');
         
-        // Clear existing table rows
+        // Optimize each image for quality preservation
+        imageCells.forEach(cell => {
+            const imageContainer = cell.querySelector('.RAyV4b');
+            const image = cell.querySelector('.t0fcAb');
+            
+            if (imageContainer && image) {
+                // Preserve original aspect ratio and reduce artificial sizing
+                image.style.width = 'auto';
+                image.style.height = 'auto';
+                image.style.maxWidth = this.getOptimalImageSize() + 'px';
+                image.style.maxHeight = this.getOptimalImageSize() + 'px';
+                image.style.objectFit = 'contain';
+                
+                imageContainer.style.width = 'auto';
+                imageContainer.style.height = 'auto';
+                imageContainer.style.maxWidth = this.getOptimalImageSize() + 'px';
+                imageContainer.style.maxHeight = this.getOptimalImageSize() + 'px';
+                imageContainer.style.lineHeight = 'normal';
+                imageContainer.style.overflow = 'visible';
+                
+                // Reduce spacing between images
+                cell.style.padding = '4px';
+                cell.style.margin = '0';
+                cell.style.width = 'auto';
+                cell.style.height = 'auto';
+            }
+        });
+        
+        // Create flexible layout instead of fixed table
         imageTable.innerHTML = '';
         
-        // Rebuild with proper number of columns
-        for (let i = 0; i < imageCells.length; i += imagesPerRow) {
-            const row = document.createElement('tr');
-            
-            for (let j = 0; j < imagesPerRow && (i + j) < imageCells.length; j++) {
-                const cell = imageCells[i + j].cloneNode(true);
-                row.appendChild(cell);
-            }
-            
-            imageTable.appendChild(row);
-        }
+        // Create a wrapper div for flexible layout
+        const flexWrapper = document.createElement('div');
+        flexWrapper.style.display = 'flex';
+        flexWrapper.style.flexWrap = 'wrap';
+        flexWrapper.style.gap = '8px';
+        flexWrapper.style.alignItems = 'flex-start';
+        flexWrapper.style.justifyContent = 'flex-start';
+        flexWrapper.style.width = '100%';
+        flexWrapper.style.padding = '0';
+        flexWrapper.style.margin = '0';
         
-        console.log('ImagesFullscreenHandler: Rebuilt image grid with', imagesPerRow, 'images per row');
+        // Add all images to the flexible container
+        imageCells.forEach(cell => {
+            cell.style.flex = '0 0 auto';
+            cell.style.display = 'block';
+            flexWrapper.appendChild(cell);
+        });
+        
+        // Wrap the flex container in table structure for compatibility
+        const row = document.createElement('tr');
+        const tableCell = document.createElement('td');
+        tableCell.style.width = '100%';
+        tableCell.style.padding = '0';
+        tableCell.style.margin = '0';
+        tableCell.appendChild(flexWrapper);
+        row.appendChild(tableCell);
+        imageTable.appendChild(row);
+        
+        console.log('ImagesFullscreenHandler: Optimized layout with preserved image quality and reduced spacing');
+    }
+    
+    getOptimalImageSize() {
+        const screenWidth = window.innerWidth;
+        if (screenWidth >= 1920) return 220;
+        if (screenWidth >= 1400) return 200;
+        if (screenWidth >= 1024) return 180;
+        if (screenWidth >= 768) return 160;
+        if (screenWidth >= 480) return 140;
+        return 120;
     }
 
     monitorTabChanges() {
