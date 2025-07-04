@@ -184,6 +184,8 @@ This repository contains a Whoogle Search deployment wrapper for Replit. Whoogle
   - Integrated with existing image grid layout (4 images per row)
   - Hidden pagination elements automatically when infinite scroll is active
   - Added loading threshold at 80% scroll position for optimal user experience
+  - Fixed grid layout issue where new images created gaps instead of filling rows continuously
+  - Enhanced appendImages function to properly fill incomplete rows before creating new ones
 
 ## User Preferences
 

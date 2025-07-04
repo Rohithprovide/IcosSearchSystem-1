@@ -204,15 +204,34 @@ class InfiniteScrollImages {
             return;
         }
 
-        // Create new rows for the images (4 images per row like current layout)
+        // Get all existing rows
+        const existingRows = imageTable.querySelectorAll('tr');
+        let lastRow = existingRows[existingRows.length - 1];
+        let currentRowCellCount = lastRow ? lastRow.querySelectorAll('td').length : 4;
+        
         const imagesPerRow = 4;
-        for (let i = 0; i < images.length; i += imagesPerRow) {
+        let imageIndex = 0;
+        
+        // If the last row is not complete, fill it first
+        if (currentRowCellCount < imagesPerRow && lastRow) {
+            while (currentRowCellCount < imagesPerRow && imageIndex < images.length) {
+                const image = images[imageIndex];
+                const cell = this.createImageCell(image);
+                lastRow.appendChild(cell);
+                currentRowCellCount++;
+                imageIndex++;
+            }
+        }
+        
+        // Create new complete rows for remaining images
+        while (imageIndex < images.length) {
             const row = document.createElement('tr');
             
-            for (let j = 0; j < imagesPerRow && (i + j) < images.length; j++) {
-                const image = images[i + j];
+            for (let j = 0; j < imagesPerRow && imageIndex < images.length; j++) {
+                const image = images[imageIndex];
                 const cell = this.createImageCell(image);
                 row.appendChild(cell);
+                imageIndex++;
             }
             
             imageTable.appendChild(row);
