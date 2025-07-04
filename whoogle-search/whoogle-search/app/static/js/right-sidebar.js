@@ -337,28 +337,40 @@ class RightSidebar {
             }
         });
         
-        // Method 4: For search results pages, check URL parameters on page load
-        if (window.location.search.includes('q=')) {
-            const urlParams = new URLSearchParams(window.location.search);
-            const query = urlParams.get('q');
-            if (query && query.trim()) {
-                // This handles cases where user navigates to search results directly
-                console.log('Search query found in URL:', query.trim());
-                self.handleSearchQuery(query.trim());
-            }
-        }
-        
-        // Method 5: Also check for query on page load with a slight delay to ensure sidebar is ready
+        // Method 4: For search results pages, try to get query from search input field
         setTimeout(() => {
-            if (window.location.search.includes('q=')) {
-                const urlParams = new URLSearchParams(window.location.search);
-                const query = urlParams.get('q');
-                if (query && query.trim()) {
-                    console.log('Delayed search query execution:', query.trim());
-                    self.handleSearchQuery(query.trim());
+            // Try to get the actual search query from visible input fields
+            const searchInputs = document.querySelectorAll('input[name="q"], input[type="search"], #search-bar, .search-bar-input');
+            let foundQuery = null;
+            
+            console.log('Searching for query in', searchInputs.length, 'input fields');
+            
+            for (const input of searchInputs) {
+                console.log('Checking input:', input.name || input.id || input.className, 'value:', input.value);
+                if (input.value && input.value.trim() && !input.value.startsWith('gAAAAA')) {
+                    foundQuery = input.value.trim();
+                    console.log('Found unencrypted query in input:', foundQuery);
+                    break;
                 }
             }
-        }, 500);
+            
+            // If no unencrypted query found in inputs, try URL (but decode if needed)
+            if (!foundQuery && window.location.search.includes('q=')) {
+                const urlParams = new URLSearchParams(window.location.search);
+                const query = urlParams.get('q');
+                if (query && query.trim() && !query.startsWith('gAAAAA')) {
+                    foundQuery = decodeURIComponent(query.trim());
+                    console.log('Found unencrypted query in URL:', foundQuery);
+                }
+            }
+            
+            // If we found a valid query, use it
+            if (foundQuery) {
+                self.handleSearchQuery(foundQuery);
+            } else {
+                console.log('No unencrypted search query found, sidebar will remain empty');
+            }
+        }, 1000);
     }
     
     async handleSearchQuery(query) {
