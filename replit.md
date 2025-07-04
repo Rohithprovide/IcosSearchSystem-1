@@ -199,6 +199,9 @@ This repository contains a Whoogle Search deployment wrapper for Replit. Whoogle
   - Modified array indexing calculations (i*4)+j to (i*6)+j for proper image rendering
   - Adjusted CSS image sizes from 110px to 95px for optimal 6-image layout
   - Updated responsive media queries for different screen sizes (110px, 95px, 90px, 75px, 60px)
+  - Fixed conflicting CSS in images-fullscreen.css that was forcing 5 images per row
+  - Set consistent 16.66% width (6 images per row) across all desktop screen sizes
+  - Optimized mobile responsive design with 3 images per row on tablets, 2 on phones
   - Maintained aspect ratios and proper spacing for cleaner grid appearance
 
 ## User Preferences
