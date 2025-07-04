@@ -669,10 +669,12 @@ def ai_query():
         api_key = os.getenv('GOOGLE_API_KEY')
         
         print(f"Using Google API key for Gemini")
+        print(f"API key exists: {api_key is not None}")
+        print(f"API key length: {len(api_key) if api_key else 0}")
         
         if not api_key:
             print("No API key available")
-            return jsonify({'error': 'API key not configured'}), 500
+            return jsonify({'response': 'API key not configured. Please set GOOGLE_API_KEY environment variable.'}), 200
             
         # Use the same API URL structure as your working code
         api_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"

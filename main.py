@@ -60,7 +60,8 @@ def run_whoogle():
         'WHOOGLE_CONFIG_SEARCH_LANGUAGE': 'lang_en',
         'WHOOGLE_CONFIG_SAFE_SEARCH': '0',
         'WHOOGLE_SHOW_FAVICONS': '1',
-        'WHOOGLE_CONFIG_STYLE': '.site-favicon { display: inline-block !important; }'
+        'WHOOGLE_CONFIG_STYLE': '.site-favicon { display: inline-block !important; }',
+        'GOOGLE_API_KEY': os.getenv('GOOGLE_API_KEY', '')
     })
     
     try:
