@@ -34,6 +34,33 @@ body:has(header) #main {
     padding: 0 20px;
 }
 
+/* Full width header for images tab only */
+body.images-tab .header-tab-div,
+body[data-images-fullscreen="true"] .header-tab-div {
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 20px !important;
+}
+
+/* Full width main content for images tab only */
+body.images-tab #main,
+body[data-images-fullscreen="true"] #main {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Override search results alignment for images tab */
+body.images-tab:has(.search-results-logo) #main,
+body.images-tab:has(header) #main,
+body[data-images-fullscreen="true"]:has(.search-results-logo) #main,
+body[data-images-fullscreen="true"]:has(header) #main {
+    margin: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
 .header-tab-div-2, .header-tab-div-3 {
     max-width: none;
 }
