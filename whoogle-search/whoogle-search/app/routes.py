@@ -665,14 +665,18 @@ def ai_query():
         # Use direct HTTP API approach (matching your working code)
         import requests
         
-        # Get API key from environment variable
+        # Get API key from environment variable or use provided key
         api_key = os.getenv('GOOGLE_API_KEY')
+        
+        # Fallback to provided API key if environment variable is empty
+        if not api_key or len(api_key.strip()) == 0:
+            api_key = "AIzaSyCsCSz2_Rpo4eDbw-iPlmg5aR4vhsA7KBQ"
         
         print(f"Using Google API key for Gemini")
         print(f"API key exists: {api_key is not None}")
         print(f"API key length: {len(api_key) if api_key else 0}")
         
-        if not api_key:
+        if not api_key or len(api_key.strip()) == 0:
             print("No API key available")
             return jsonify({'response': 'API key not configured. Please set GOOGLE_API_KEY environment variable.'}), 200
             
