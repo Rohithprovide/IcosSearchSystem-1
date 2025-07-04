@@ -403,7 +403,7 @@ function forceCreateSidebar() {
         width: ${sidebarWidth}px !important;
         height: 550px !important;
         background: white !important;
-        border: 2px solid #007acc !important;
+        border: 2px solid #ECEDEF !important;
         border-radius: 12px !important;
         padding: 20px !important;
         z-index: 9999 !important;
