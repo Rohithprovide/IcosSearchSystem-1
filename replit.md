@@ -223,6 +223,13 @@ This repository contains a Whoogle Search deployment wrapper for Replit. Whoogle
   - Applied consistent styling across all responsive breakpoints (1920px to 479px)
   - Enhanced both image containers (.t0fcAb) and image wrappers (.RAyV4b) with transitions
   - Maintained 6-column grid layout while improving visual hierarchy and user experience
+- July 4, 2025. Fixed pagination calculation errors affecting both All and Images tabs:
+  - Identified pagination logic was hardcoded to 10 results per page, causing incorrect page jumps
+  - Updated pagination.js to detect search type and use appropriate results per page (10 for All, 100 for Images)
+  - Fixed current page calculation to use dynamic results per page value
+  - Corrected start parameter generation for proper sequential page navigation
+  - Enhanced function signatures to pass results per page through pagination chain
+  - Pagination now works correctly: All tab (0→10→20) and Images tab (0→100→200)
 
 ## User Preferences
 

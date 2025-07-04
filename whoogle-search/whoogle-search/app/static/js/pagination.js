@@ -17,10 +17,13 @@ function transformPagination() {
     // Get current page number from URL or assume page 1
     const urlParams = new URLSearchParams(window.location.search);
     const currentStart = parseInt(urlParams.get('start')) || 0;
-    const currentPage = Math.floor(currentStart / 10) + 1;
+    // Check if we're on images tab (100 results per page) or regular tab (10 results per page)
+    const isImagesTab = urlParams.get('tbm') === 'isch';
+    const resultsPerPage = isImagesTab ? 100 : 10;
+    const currentPage = Math.floor(currentStart / resultsPerPage) + 1;
     
     // Create new pagination structure
-    const newPagination = createGoogleStylePagination(currentPage, paginationTable);
+    const newPagination = createGoogleStylePagination(currentPage, paginationTable, resultsPerPage);
     
     // Replace old pagination with new one
     if (newPagination) {
@@ -28,7 +31,7 @@ function transformPagination() {
     }
 }
 
-function createGoogleStylePagination(currentPage, originalTable) {
+function createGoogleStylePagination(currentPage, originalTable, resultsPerPage = 10) {
     // Extract links from original pagination
     const originalLinks = originalTable.querySelectorAll('a');
     const links = [];
@@ -65,7 +68,7 @@ function createGoogleStylePagination(currentPage, originalTable) {
     
     // Add page numbers
     for (let i = startPage; i <= endPage; i++) {
-        const pageElement = createPageElement(i, currentPage, links);
+        const pageElement = createPageElement(i, currentPage, links, resultsPerPage);
         if (pageElement) {
             paginationDiv.appendChild(pageElement);
         }
@@ -85,7 +88,7 @@ function createGoogleStylePagination(currentPage, originalTable) {
     return paginationDiv;
 }
 
-function createPageElement(pageNum, currentPage, links) {
+function createPageElement(pageNum, currentPage, links, resultsPerPage = 10) {
     const isCurrentPage = pageNum === currentPage;
     
     if (isCurrentPage) {
@@ -112,7 +115,7 @@ function createPageElement(pageNum, currentPage, links) {
         return span;
     } else {
         // Calculate the start parameter for this page
-        const start = (pageNum - 1) * 10;
+        const start = (pageNum - 1) * resultsPerPage;
         
         // Find a link that might work for this page or construct URL
         const currentUrl = new URL(window.location);
