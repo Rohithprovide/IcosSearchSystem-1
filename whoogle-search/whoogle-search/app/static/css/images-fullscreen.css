@@ -1,0 +1,141 @@
+/* Full screen images layout for Images tab */
+
+/* Override main container width constraints when on images tab */
+body.images-tab #main {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Remove left margin and width constraints on images tab */
+body.images-tab:has(.search-results-logo) #main,
+body.images-tab:has(header) #main {
+    margin: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
+/* Make header tab div full width on images tab */
+body.images-tab .header-tab-div {
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 20px !important;
+}
+
+/* Full width image container */
+body.images-tab .GpQGbf {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Adjust image cells to fill screen width better - responsive layout */
+body.images-tab .e3goi {
+    width: 16.66% !important;
+    max-width: 16.66% !important;
+    padding: 4px !important;
+    box-sizing: border-box !important;
+}
+
+/* Responsive image cell widths for different screen sizes */
+@media (max-width: 1919px) {
+    body.images-tab .e3goi {
+        width: 20% !important;
+        max-width: 20% !important;
+    }
+}
+
+@media (max-width: 1399px) {
+    body.images-tab .e3goi {
+        width: 25% !important;
+        max-width: 25% !important;
+    }
+}
+
+@media (max-width: 1023px) {
+    body.images-tab .e3goi {
+        width: 33.33% !important;
+        max-width: 33.33% !important;
+    }
+}
+
+/* Make images responsive and fill their containers */
+body.images-tab .t0fcAb {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 200px !important;
+    object-fit: cover !important;
+}
+
+/* Full width image table */
+body.images-tab table.GpQGbf {
+    width: 100% !important;
+    table-layout: fixed !important;
+    border-collapse: collapse !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Image result container adjustments */
+body.images-tab .svla5d {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+body.images-tab .lIMUZd {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+body.images-tab .TxbwNb {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+body.images-tab .RAyV4b {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+/* Remove any gaps between images */
+body.images-tab td {
+    border-collapse: collapse !important;
+    border-spacing: 0 !important;
+    vertical-align: top !important;
+}
+
+/* Responsive adjustments for mobile devices */
+@media (max-width: 768px) {
+    body.images-tab .e3goi {
+        width: 50% !important;
+        max-width: 50% !important;
+        padding: 2px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    body.images-tab .e3goi {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 2px !important;
+    }
+}
+
+/* Hide AI sidebar on images tab to free up space */
+body.images-tab .ai-sidebar {
+    display: none !important;
+}
+
+/* Adjust right sidebar positioning on images tab */
+body.images-tab .right-sidebar {
+    display: none !important;
+}

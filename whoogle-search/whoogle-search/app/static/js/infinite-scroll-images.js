@@ -190,6 +190,24 @@ class InfiniteScrollImages {
         }
     }
 
+    calculateImagesPerRow() {
+        // Check if fullscreen images layout is active
+        const isFullscreen = document.body.classList.contains('images-tab');
+        
+        if (isFullscreen) {
+            // In fullscreen mode, use more images per row based on screen size
+            const screenWidth = window.innerWidth;
+            if (screenWidth >= 1920) return 6;  // Large screens
+            if (screenWidth >= 1400) return 5;  // Medium-large screens
+            if (screenWidth >= 1024) return 4;  // Medium screens
+            if (screenWidth >= 768) return 3;   // Small screens
+            return 2;  // Mobile
+        } else {
+            // Original layout - 4 images per row
+            return 4;
+        }
+    }
+
     appendImages(images) {
         const container = this.getImagesContainer();
         if (!container) {
@@ -210,7 +228,8 @@ class InfiniteScrollImages {
         const allExistingCells = imageTable.querySelectorAll('td.e3goi');
         console.log('InfiniteScrollImages: Found', allExistingCells.length, 'existing image cells');
         
-        const imagesPerRow = 4;
+        // Calculate dynamic images per row based on screen size and whether fullscreen is enabled
+        const imagesPerRow = this.calculateImagesPerRow();
         const totalImages = allExistingCells.length + images.length;
         
         // Calculate how many complete rows we should have
@@ -263,7 +282,7 @@ class InfiniteScrollImages {
     }
     
     createCompleteRows(imageTable, images) {
-        const imagesPerRow = 4;
+        const imagesPerRow = this.calculateImagesPerRow();
         
         for (let i = 0; i < images.length; i += imagesPerRow) {
             const row = document.createElement('tr');
