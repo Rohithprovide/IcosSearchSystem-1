@@ -407,7 +407,7 @@ function forceCreateSidebar() {
         border-radius: 12px !important;
         padding: 20px !important;
         z-index: 9999 !important;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.3) !important;
+        box-shadow: none !important;
         overflow-y: auto !important;
     `;
     
