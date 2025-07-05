@@ -241,6 +241,15 @@ This repository contains a Whoogle Search deployment wrapper for Replit. Whoogle
   - Cleaned up AI sidebar references from images-fullscreen.css
   - Removed all AI-related code to restore pure search functionality without AI integration
   - Website now operates as a clean privacy-focused search engine without any AI features
+- July 5, 2025. Redesigned "People also ask" to extract real Google content:
+  - Modified people-also-ask.js to extract actual "People also ask" sections from Google search results
+  - Removed custom question generation in favor of using Google's authentic PAA content
+  - Added extractAndMovePeopleAlsoAsk() function to find and move Google PAA sections to right sidebar
+  - Implemented comprehensive selector search for various Google PAA container formats
+  - Created right-side PAA sidebar that clones and moves original Google PAA elements
+  - Added proper styling and positioning for extracted PAA content in sidebar format
+  - Hides original PAA elements in main results and displays them in dedicated right panel
+  - Enhanced with responsive design and proper z-index for overlay positioning
 
 ## User Preferences
 
