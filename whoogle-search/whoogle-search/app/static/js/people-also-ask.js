@@ -5,16 +5,146 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('People Also Ask: Initializing...');
-    initializePeopleAlsoAsk();
     
-    // Debug: Show all elements containing "people" or "ask"
-    const allElements = document.querySelectorAll('*');
-    allElements.forEach(el => {
-        if (el.textContent && (el.textContent.toLowerCase().includes('people') || el.textContent.toLowerCase().includes('ask'))) {
-            console.log('People Also Ask Debug: Found element with people/ask:', el.textContent.trim(), el);
-        }
-    });
+    // Check if we should generate PAA section
+    const urlParams = new URLSearchParams(window.location.search);
+    const query = urlParams.get('q');
+    
+    if (query && query.trim().length > 0) {
+        generatePeopleAlsoAskSection(query);
+    }
+    
+    initializePeopleAlsoAsk();
 });
+
+function generatePeopleAlsoAskSection(query) {
+    // Generate relevant questions based on the query
+    const questions = generateQuestions(query);
+    
+    if (questions.length === 0) {
+        return; // No questions to show
+    }
+    
+    // Find the best place to insert the PAA section
+    const insertionPoint = findInsertionPoint();
+    if (!insertionPoint) {
+        return; // No suitable place found
+    }
+    
+    // Create the PAA section
+    const paaSection = createPaaSection(questions);
+    
+    // Insert the section
+    insertionPoint.parentNode.insertBefore(paaSection, insertionPoint.nextSibling);
+    
+    console.log('People Also Ask: Generated section with', questions.length, 'questions');
+}
+
+function generateQuestions(query) {
+    const questions = [];
+    const cleanQuery = query.toLowerCase().trim();
+    
+    // Question generation patterns based on query type
+    const questionPatterns = {
+        what: [
+            `What does ${query} mean?`,
+            `What is ${query}?`,
+            `What are the benefits of ${query}?`,
+            `What is the purpose of ${query}?`
+        ],
+        how: [
+            `How to use ${query}?`,
+            `How does ${query} work?`,
+            `How to get ${query}?`,
+            `How to learn ${query}?`
+        ],
+        why: [
+            `Why is ${query} important?`,
+            `Why do people use ${query}?`,
+            `Why choose ${query}?`,
+            `Why does ${query} matter?`
+        ],
+        when: [
+            `When to use ${query}?`,
+            `When was ${query} created?`,
+            `When is the best time for ${query}?`,
+            `When should I start with ${query}?`
+        ],
+        where: [
+            `Where can I find ${query}?`,
+            `Where to learn ${query}?`,
+            `Where is ${query} used?`,
+            `Where to buy ${query}?`
+        ]
+    };
+    
+    // Generate questions based on query characteristics
+    if (cleanQuery.startsWith('what ')) {
+        questions.push(...questionPatterns.how.slice(0, 2));
+        questions.push(...questionPatterns.why.slice(0, 2));
+    } else if (cleanQuery.startsWith('how ')) {
+        questions.push(...questionPatterns.what.slice(0, 2));
+        questions.push(...questionPatterns.why.slice(0, 2));
+    } else if (cleanQuery.startsWith('why ')) {
+        questions.push(...questionPatterns.what.slice(0, 2));
+        questions.push(...questionPatterns.how.slice(0, 2));
+    } else {
+        // For general queries, provide a mix of question types
+        questions.push(...questionPatterns.what.slice(0, 1));
+        questions.push(...questionPatterns.how.slice(0, 1));
+        questions.push(...questionPatterns.why.slice(0, 1));
+        questions.push(...questionPatterns.when.slice(0, 1));
+    }
+    
+    // Limit to 4 questions max and ensure uniqueness
+    return [...new Set(questions)].slice(0, 4);
+}
+
+function findInsertionPoint() {
+    // Look for main results container
+    const main = document.getElementById('main');
+    if (!main) return null;
+    
+    // Find the first search result
+    const firstResult = main.querySelector('div[data-ved], .g, .result, [jscontroller]');
+    if (firstResult) {
+        return firstResult;
+    }
+    
+    // Fallback: insert after any div with significant content
+    const divs = main.querySelectorAll('div');
+    for (let div of divs) {
+        if (div.textContent && div.textContent.trim().length > 50) {
+            return div;
+        }
+    }
+    
+    return null;
+}
+
+function createPaaSection(questions) {
+    const section = document.createElement('div');
+    section.className = 'people-also-ask-container generated-paa';
+    section.innerHTML = `
+        <div class="people-also-ask-header">
+            <h2>People also ask</h2>
+        </div>
+        <div class="questions-container">
+            ${questions.map((question, index) => `
+                <div class="people-also-ask-question" data-question-index="${index}">
+                    <div class="question-text">
+                        ${question}
+                    </div>
+                    <div class="answer-content" style="display: none;">
+                        <p>Loading answer...</p>
+                    </div>
+                </div>
+            `).join('')}
+        </div>
+    `;
+    
+    return section;
+}
 
 function initializePeopleAlsoAsk() {
     // Find and enhance People also ask sections

@@ -156,6 +156,26 @@ class Filter:
     def clean(self, soup) -> BeautifulSoup:
         self.soup = soup
         self.main_divs = self.soup.find('div', {'id': 'main'})
+        
+        # Debug: Search for People also ask sections in the original soup
+        people_also_ask_divs = self.soup.find_all(text=lambda text: text and "People also ask" in text)
+        print(f"DEBUG: Found {len(people_also_ask_divs)} 'People also ask' text elements in original soup")
+        
+        # Also check for common Google selectors that might contain People also ask
+        paa_selectors = [
+            '[data-initq]',
+            '[role="group"]',
+            'div[jscontroller]',
+            'section',
+            'details'
+        ]
+        
+        for selector in paa_selectors:
+            elements = self.soup.select(selector)
+            for elem in elements:
+                if elem.get_text() and ('people also ask' in elem.get_text().lower() or 'related question' in elem.get_text().lower()):
+                    print(f"DEBUG: Found potential PAA element with selector {selector}: {elem.get_text()[:100]}")
+        
         self.remove_ads()
         self.remove_images_section()
         self.remove_block_titles()
@@ -477,9 +497,12 @@ class Filter:
                 continue
             
             # Never collapse "People also ask" sections - preserve them expanded
-            people_also_ask_found = any("People also ask" in str(s) or "people also ask" in str(s) for s in result_children)
+            people_also_ask_found = any("People also ask" in str(s) or "people also ask" in str(s) or "related questions" in str(s).lower() for s in result_children)
             if people_also_ask_found:
                 print(f"DEBUG: Found People also ask section, preserving it: {[str(s)[:100] for s in result_children]}")
+                # Add a class to make it easier to identify
+                result.attrs = result.attrs or {}
+                result.attrs['class'] = result.attrs.get('class', []) + ['people-also-ask-section']
                 continue
             
             if minimal_mode:

@@ -2,21 +2,27 @@
 
 /* Main container for People also ask section */
 .people-also-ask-container,
+.generated-paa,
 div[role="group"]:has(div[role="heading"]),
 .g .people-also-ask {
     font-family: Google Sans, arial, sans-serif !important;
-    margin: 20px 0 !important;
+    margin: 24px 0 !important;
+    max-width: 600px !important;
+    padding: 0 !important;
 }
 
 /* People also ask header */
 .people-also-ask-header,
+.people-also-ask-header h2,
 div[role="heading"][aria-level="2"],
 h2.people-also-ask-title {
     font-size: 20px !important;
     font-weight: 400 !important;
     color: #202124 !important;
-    margin: 16px 0 12px 0 !important;
+    margin: 0 0 16px 0 !important;
+    padding: 0 !important;
     font-family: Google Sans, arial, sans-serif !important;
+    line-height: 1.3 !important;
 }
 
 /* Question container styling */
