@@ -207,11 +207,3 @@ body.images-tab td {
 }
 
 /* Hide AI sidebar on images tab to free up space */
-body.images-tab .ai-sidebar {
-    display: none !important;
-}
-
-/* Adjust right sidebar positioning on images tab */
-body.images-tab .right-sidebar {
-    display: none !important;
-}

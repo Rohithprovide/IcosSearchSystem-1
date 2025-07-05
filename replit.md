@@ -230,19 +230,17 @@ This repository contains a Whoogle Search deployment wrapper for Replit. Whoogle
   - Corrected start parameter generation for proper sequential page navigation
   - Enhanced function signatures to pass results per page through pagination chain
   - Pagination now works correctly: All tab (0→10→20) and Images tab (0→100→200)
-- July 4, 2025. Added AI sidebar toggle functionality with microchip icon:
-  - Added microchip icon (fa-solid fa-microchip) to header navigation after News tab
-  - Created CSS styling for toggle icon with hover effects and active states
-  - Implemented JavaScript toggle functionality to show/hide AI sidebar dynamically
-  - AI sidebar starts hidden when page loads and only appears when icon is clicked
-  - Toggle function works with dynamically created sidebar using class selector (.right-sidebar)
-  - Added visual feedback with active state styling when sidebar is open
-  - Functionality works on both desktop and mobile versions of the interface
-  - Fixed CSS conflicts by removing forced display:block rules that prevented hiding
-  - Removed automatic sidebar initialization to ensure sidebar stays hidden until toggled
-  - Updated CSS to use 'visible' class for proper show/hide control via toggle button
-  - Restored Google-style AI Overview interface with proper header and Gemini logo
-  - Fixed sidebar content to show proper AI Overview layout instead of basic placeholder
+- July 5, 2025. Completely removed all AI functionality from the website:
+  - Removed microchip toggle icon from both desktop and mobile header navigation
+  - Deleted right-sidebar.js file completely (AI sidebar functionality)
+  - Deleted right-sidebar.css file completely (AI sidebar styling)
+  - Removed all CSS and JavaScript references from display.html template
+  - Removed /ai-query Flask route from routes.py (AI backend functionality)
+  - Removed toggleAISidebar() JavaScript function from header.html
+  - Removed all AI toggle icon CSS styling from header.css
+  - Cleaned up AI sidebar references from images-fullscreen.css
+  - Removed all AI-related code to restore pure search functionality without AI integration
+  - Website now operates as a clean privacy-focused search engine without any AI features
 
 ## User Preferences
 

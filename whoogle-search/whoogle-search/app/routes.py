@@ -651,78 +651,7 @@ def internal_error(e):
             params=g.user_config.to_params(keys=['preferences'])), 500
 
 
-@app.route('/ai-query', methods=['POST'])
-def ai_query():
-    """Handle AI queries from the chat interface"""
-    try:
-        data = request.get_json()
-        if not data or 'query' not in data:
-            return jsonify({'error': 'No query provided'}), 400
-        
-        query = data['query']
-        print(f"AI Query received: '{query}'")
-        
-        # Use direct HTTP API approach (matching your working code)
-        import requests
-        
-        # Get API key from environment variable or use provided key
-        api_key = os.getenv('GOOGLE_API_KEY')
-        
-        # Fallback to provided API key if environment variable is empty
-        if not api_key or len(api_key.strip()) == 0:
-            api_key = "AIzaSyCsCSz2_Rpo4eDbw-iPlmg5aR4vhsA7KBQ"
-        
-        print(f"Using Google API key for Gemini")
-        print(f"API key exists: {api_key is not None}")
-        print(f"API key length: {len(api_key) if api_key else 0}")
-        
-        if not api_key or len(api_key.strip()) == 0:
-            print("No API key available")
-            return jsonify({'response': 'API key not configured. Please set GOOGLE_API_KEY environment variable.'}), 200
-            
-        # Use the same API URL structure as your working code
-        api_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
-        
-        # Create request payload matching your working format
-        payload = {
-            "contents": [{
-                "role": "user",
-                "parts": [{"text": f"You are an AI assistant integrated into a search engine. Provide a helpful, accurate, and concise answer specifically about: '{query}'. Focus only on answering this exact search query. Do not mention Google Drive, file links, or unrelated topics."}]
-            }]
-        }
-        
-        # Make the API request
-        response = requests.post(
-            api_url,
-            headers={"Content-Type": "application/json"},
-            json=payload,
-            timeout=30
-        )
-        
-        if not response.ok:
-            raise Exception(f"API request failed: {response.text}")
-            
-        data = response.json()
-        
-        # Extract response text using the same structure as your code
-        ai_response = data["candidates"][0]["content"]["parts"][0]["text"]
-        
-        # Clean up the response (remove markdown formatting)
-        ai_response = ai_response.replace("**", "").strip()
-        
-        return jsonify({'response': ai_response})
-        
-    except Exception as e:
-        error_str = str(e)
-        print(f"AI query error: {e}")
-        
-        # Handle quota exceeded errors specifically
-        if "429" in error_str or "RESOURCE_EXHAUSTED" in error_str or "quota" in error_str.lower():
-            return jsonify({'response': 'AI service temporarily unavailable due to rate limits. Please try again in a few minutes.'}), 200
-        elif "401" in error_str or "403" in error_str:
-            return jsonify({'response': 'API authentication issue. Please check your API key configuration.'}), 200
-        else:
-            return jsonify({'response': 'AI service temporarily unavailable. Please try again later.'}), 200
+
 
 
 def run_app() -> None:
