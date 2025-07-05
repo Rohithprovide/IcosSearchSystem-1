@@ -4,17 +4,27 @@
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('People Also Ask: Initializing...');
+    console.log('People Also Ask: Script loaded and initializing...');
     
-    // Check if we should generate PAA section
-    const urlParams = new URLSearchParams(window.location.search);
-    const query = urlParams.get('q');
-    
-    if (query && query.trim().length > 0) {
-        generatePeopleAlsoAskSection(query);
-    }
-    
-    initializePeopleAlsoAsk();
+    // Delay execution to ensure page is fully loaded
+    setTimeout(function() {
+        console.log('People Also Ask: Delayed initialization starting...');
+        
+        // Check if we should generate PAA section
+        const urlParams = new URLSearchParams(window.location.search);
+        const query = urlParams.get('q');
+        
+        console.log('People Also Ask: Query detected:', query);
+        
+        if (query && query.trim().length > 0) {
+            console.log('People Also Ask: Generating section...');
+            generatePeopleAlsoAskSection(query);
+        } else {
+            console.log('People Also Ask: No query found, skipping generation');
+        }
+        
+        initializePeopleAlsoAsk();
+    }, 1000); // Wait 1 second for page to fully load
 });
 
 function generatePeopleAlsoAskSection(query) {
@@ -34,8 +44,8 @@ function generatePeopleAlsoAskSection(query) {
     // Create the PAA section
     const paaSection = createPaaSection(questions);
     
-    // Insert the section
-    insertionPoint.parentNode.insertBefore(paaSection, insertionPoint.nextSibling);
+    // Insert the section into the right container
+    insertionPoint.appendChild(paaSection);
     
     console.log('People Also Ask: Generated section with', questions.length, 'questions');
 }
@@ -101,25 +111,45 @@ function generateQuestions(query) {
 }
 
 function findInsertionPoint() {
-    // Look for main results container
-    const main = document.getElementById('main');
-    if (!main) return null;
+    // Create a right-side container for PAA instead of inserting in main results
+    const body = document.body;
     
-    // Find the first search result
-    const firstResult = main.querySelector('div[data-ved], .g, .result, [jscontroller]');
-    if (firstResult) {
-        return firstResult;
+    // Check if right-side container already exists
+    let rightContainer = document.getElementById('paa-right-container');
+    if (rightContainer) {
+        return rightContainer;
     }
     
-    // Fallback: insert after any div with significant content
-    const divs = main.querySelectorAll('div');
-    for (let div of divs) {
-        if (div.textContent && div.textContent.trim().length > 50) {
-            return div;
-        }
-    }
+    // Create right-side container
+    rightContainer = document.createElement('div');
+    rightContainer.id = 'paa-right-container';
+    // Check if dark theme is active
+    const isDarkTheme = document.body.classList.contains('dark') || 
+                       document.documentElement.classList.contains('dark') ||
+                       document.querySelector('meta[name="theme"]')?.content === 'dark';
     
-    return null;
+    // Responsive design - hide on mobile/tablet
+    const isMobile = window.innerWidth <= 1200;
+    
+    rightContainer.style.cssText = `
+        position: fixed;
+        top: 150px;
+        right: 20px;
+        width: 350px;
+        max-height: calc(100vh - 200px);
+        overflow-y: auto;
+        z-index: 1000;
+        background: ${isDarkTheme ? '#303134' : 'white'};
+        border: 1px solid ${isDarkTheme ? '#5f6368' : '#dadce0'};
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,${isDarkTheme ? '0.3' : '0.1'});
+        padding: 16px;
+        display: ${isMobile ? 'none' : 'block'};
+        color: ${isDarkTheme ? '#e8eaed' : '#202124'};
+    `;
+    
+    body.appendChild(rightContainer);
+    return rightContainer;
 }
 
 function createPaaSection(questions) {
