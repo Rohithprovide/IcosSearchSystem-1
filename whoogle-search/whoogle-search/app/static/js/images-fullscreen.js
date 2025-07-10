@@ -43,16 +43,8 @@ class ImagesFullscreenHandler {
     }
     
     forceLayoutUpdate() {
-        // Force direct style overrides for full screen layout
+        // Simplified layout update without expensive reflow operations
         this.applyDirectStyles();
-        
-        // Force a layout recalculation
-        const main = document.getElementById('main') || document.querySelector('body > div');
-        if (main) {
-            main.style.display = 'none';
-            main.offsetHeight; // Trigger reflow
-            main.style.display = '';
-        }
     }
     
     applyDirectStyles() {

@@ -304,7 +304,7 @@
         <link rel="stylesheet" href="{{ cb_url(('dark' if config.dark else 'light') + '-theme.css') }}"/>
     {% endif %}
     <style>{{ config.style }}</style>
-    <title>{{ clean_query(query) }} - icos</title>
+    <title>{{ clean_query(query) }} - icos search</title>
 </head>
 <body>
 {{ search_header|safe }}
@@ -326,58 +326,11 @@
 <script src="{{ cb_url('voice-search.js') }}"></script>
 <script src="{{ cb_url('search-clear.js') }}"></script>
 <script src="{{ cb_url('pagination.js') }}"></script>
-<script src="{{ cb_url('people-also-ask.js') }}"></script>
-<script src="{{ cb_url('related-searches.js') }}"></script>
+<script defer src="{{ cb_url('people-also-ask.js') }}"></script>
+<script defer src="{{ cb_url('related-searches.js') }}"></script>
 
+<script defer src="static/js/favicons.js"></script>
+<script defer src="static/js/images-fullscreen.js"></script>
 
-<script src="static/js/favicons.js"></script>
-
-<script src="static/js/images-fullscreen.js"></script>
-
-<script>
-// Immediate images tab detection and full-screen layout application
-(function() {
-    // Check if we're on images tab by URL parameters
-    const urlParams = new URLSearchParams(window.location.search);
-    const isImagesTab = urlParams.get('tbm') === 'isch';
-    
-    // Also check for Images tab in navigation
-    const imagesTabActive = document.querySelector('.EY24We') && 
-                           document.querySelector('.EY24We').textContent.includes('Images');
-    
-    if (isImagesTab || imagesTabActive) {
-        console.log('Images tab detected - applying full-screen layout');
-        document.body.classList.add('images-tab');
-        document.body.setAttribute('data-images-fullscreen', 'true');
-        
-        // Force immediate style application
-        const style = document.createElement('style');
-        style.textContent = `
-            body.images-tab,
-            body[data-images-fullscreen="true"] {
-                max-width: 100% !important;
-                padding: 0 !important;
-            }
-            
-            body.images-tab .header-tab-div,
-            body[data-images-fullscreen="true"] .header-tab-div {
-                max-width: 100% !important;
-                margin: 0 !important;
-                padding: 0 20px !important;
-            }
-            
-            body.images-tab #main,
-            body[data-images-fullscreen="true"] #main {
-                max-width: 100% !important;
-                width: 100% !important;
-                margin: 0 !important;
-                padding: 0 !important;
-            }
-            
-
-        `;
-        document.head.appendChild(style);
-    }
-})();
-</script>
+<!-- Removed inline script to improve page loading performance -->
 </html>

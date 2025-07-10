@@ -4,126 +4,13 @@
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('People Also Ask: Script loaded and initializing...');
-    
-    // Delay execution to ensure page is fully loaded
+    // Simplified and faster PAA initialization
     setTimeout(function() {
-        console.log('People Also Ask: Starting extraction...');
-        extractAndMovePeopleAlsoAsk();
         initializePeopleAlsoAsk();
-    }, 1500); // Wait for page to fully load
+    }, 500); // Reduced delay for faster loading
 });
 
-function extractAndMovePeopleAlsoAsk() {
-    console.log('Extracting Google PAA sections...');
-    
-    // Look for existing PAA sections using multiple possible selectors
-    const paaSelectors = [
-        '[jsname="yEVEwb"]', // Google's PAA container
-        '[data-hveid*="CAs"]', // PAA with hveid
-        '[data-md="50"]', // PAA section
-        '.related-question-pair', // PAA question pairs
-        '.g[data-ved*="QkQ"]', // PAA results container
-        'div[jsname]', // Generic jsname containers
-        '.xpc .g', // PAA in knowledge panel area
-        '.kp-blk .g' // PAA in knowledge block
-    ];
-    
-    let foundPAA = [];
-    
-    // Search for PAA sections
-    paaSelectors.forEach(selector => {
-        const elements = document.querySelectorAll(selector);
-        elements.forEach(element => {
-            // Check if this element contains PAA content
-            const text = element.textContent;
-            if (text && (
-                text.includes('People also ask') ||
-                text.includes('Related questions') ||
-                element.querySelector('[role="button"]') // PAA questions are buttons
-            )) {
-                console.log('Found PAA element:', element);
-                foundPAA.push(element);
-            }
-        });
-    });
-    
-    // Also look for individual PAA questions
-    const questionElements = document.querySelectorAll('div[data-ved*="QkQ"], [jsaction*="click"]');
-    questionElements.forEach(element => {
-        const text = element.textContent;
-        if (text && text.includes('?') && text.length > 10 && text.length < 200) {
-            console.log('Found potential PAA question:', element);
-            foundPAA.push(element);
-        }
-    });
-    
-    if (foundPAA.length > 0) {
-        console.log(`Found ${foundPAA.length} PAA elements, moving to sidebar...`);
-        createPAASidebar(foundPAA);
-    } else {
-        console.log('No PAA sections found in search results');
-    }
-}
-
-function createPAASidebar(paaElements) {
-    // Remove existing sidebar if any
-    const existing = document.getElementById('paa-sidebar');
-    if (existing) {
-        existing.remove();
-    }
-    
-    // Create the sidebar container
-    const sidebar = document.createElement('div');
-    sidebar.id = 'paa-sidebar';
-    sidebar.style.cssText = `
-        position: fixed;
-        top: 120px;
-        right: 20px;
-        width: 350px;
-        max-height: calc(100vh - 150px);
-        overflow-y: auto;
-        background: white;
-        border: 1px solid #dadce0;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        padding: 16px;
-        z-index: 1000;
-        font-family: arial, sans-serif;
-    `;
-    
-    // Create header
-    const header = document.createElement('div');
-    header.innerHTML = '<h2 style="font-size: 20px; font-weight: 400; color: #202124; margin: 0 0 16px 0;">People also ask</h2>';
-    sidebar.appendChild(header);
-    
-    // Move PAA elements to sidebar
-    paaElements.forEach((element, index) => {
-        if (index < 4) { // Limit to 4 questions
-            const clonedElement = element.cloneNode(true);
-            
-            // Hide original element
-            element.style.display = 'none';
-            
-            // Style the cloned element for sidebar
-            clonedElement.style.cssText = `
-                border: 1px solid #dadce0;
-                border-radius: 8px;
-                margin: 8px 0;
-                background: white;
-                overflow: hidden;
-                cursor: pointer;
-            `;
-            
-            sidebar.appendChild(clonedElement);
-        }
-    });
-    
-    // Add to page
-    document.body.appendChild(sidebar);
-    
-    console.log('PAA sidebar created with', paaElements.length, 'elements');
-}
+// Removed complex DOM scanning functions that were causing performance issues
 
 function generatePeopleAlsoAskSection(query) {
     // Generate relevant questions based on the query
